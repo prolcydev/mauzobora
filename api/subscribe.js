@@ -13,7 +13,11 @@ const NOT_FOUND_GRACE_MS = 120000;
 
 function addMonths(timestamp, months) {
   const date = new Date(timestamp);
+  const day = date.getDate();
+  date.setDate(1);
   date.setMonth(date.getMonth() + months);
+  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  date.setDate(Math.min(day, lastDay));
   return date.getTime();
 }
 
@@ -97,6 +101,9 @@ async function checkSubscriptionOrder(reference, uid) {
   }
   if (order.status === "FAILED") {
     return { found: true, payment_status: "FAILED", detail: order.failureStatus || "failed" };
+  }
+  if (order.status === "FLAGGED") {
+    return { found: true, payment_status: "PENDING", detail: "under_review" };
   }
   if (order.lastCheckedAtMs && Date.now() - order.lastCheckedAtMs < 3000) {
     return { found: true, payment_status: "PENDING" };
@@ -225,7 +232,7 @@ export default async function handler(req, res) {
         result = await initiateMobileMoney({
           amount, reference, phone,
           customerName: displayName,
-          customerEmail: email || "customer@mauzobora.app"
+          customerEmail: email
         });
       } catch (error) {
         if (error instanceof SplashPayConfigError) {
@@ -275,6 +282,9 @@ export default async function handler(req, res) {
 
     return res.status(400).json({ success: false, message: "Action haijulikani." });
   } catch (error) {
+    if (error instanceof SplashPayConfigError) {
+      return res.status(503).json({ success: false, message: "Malipo hayapatikani kwa sasa. Wasiliana na msimamizi." });
+    }
     if (error.code === "STATUS_UNAVAILABLE") {
       return res.status(200).json({ success: true, payment_status: "PENDING", message: "Bado tunathibitisha malipo." });
     }
