@@ -303,7 +303,7 @@ onAuthStateChanged(auth,async u=>{showLoad();
 if(!u){uid=null;cache={};a('#app').hidden=true;a('#auth').hidden=false;busy(false);a('#ap').value='';st('');hideLoad();return}
 const justRegistered=!!pend,chosenPlan=pendingPlan;
 uid=u.uid;
-try{const d=await load(u);a('#auth').hidden=true;a('#app').hidden=false;window.boot(d,u);st('');
+try{const d=await load(u);a('#auth').hidden=true;a('#app').hidden=false;await window.boot(d,u);st('');
 if(justRegistered){pend='';pendingPlan='basic';window.openPlanCheckout&&window.openPlanCheckout(chosenPlan)}}
 catch(e){console.error(e);a('#auth').hidden=false;err(e.code=='permission-denied'?'Ufikiaji wa hifadhidata umekataliwa. Sasisha Firestore rules kwenye Firebase.':'Imeshindwa kupakia data yako. Angalia mtandao wako.');signOut(auth)}
 hideLoad()});
@@ -391,7 +391,7 @@ const eff=()=>{const n=Date.now();if(SUB&&SUB.expiresAtMs>n){const p=({duka:'bas
 const trial=()=>!!SUB&&!(SUB.expiresAtMs>Date.now())&&SUB.trialEndsAtMs>Date.now();
 const daysLeft=()=>Math.max(0,Math.ceil(((trial()?SUB.trialEndsAtMs:SUB&&SUB.expiresAtMs||0)-Date.now())/864e5));
 async function api(b){const t=await FB.token(),r=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify(b)});let j={};try{j=await r.json()}catch(e){}if(!r.ok&&!j.message)j.message='Hitilafu. Jaribu tena.';return j}
-async function loadSub(){try{const j=await api({action:'me'});if(j.sub)SUB=j.sub}catch(e){try{SUB=await FB.sub()}catch(_){}}render()}
+async function loadSub(){try{const j=await api({action:'me'});SUB=j.sub||null}catch(e){try{SUB=await FB.sub()}catch(_){SUB=null}}render()}
 function subBar(){if(!SUB)return'';const p=eff();
 if(trial())return`<div class="card sbn"><b>Majaribio ya bure: siku ${daysLeft()} zimebaki</b><span>Unatumia vipengele vyote vya Premium.</span><button class="btn p s" data-a="plans">Chagua mpango</button></div>`;
 if(p==='bure')return`<div class="card sbn w"><b>Mpango wa Bure</b><span>Umewekewa bidhaa 30, wateja 20 na ripoti za siku 7.</span><button class="btn p s" data-a="plans">Chagua mpango wa kulipia</button></div>`;
@@ -612,6 +612,6 @@ else if(t.matches('[data-p]')){pay=t.value;$('#cart').innerHTML=cartHtml()}else 
 else if(t.matches('[data-r]')){window.RP=t.value;render()}});
 function render(){$('#nav').innerHTML=NAV.map(n=>`<a class="${n[0]==V?'on':''}" data-a="go" data-i="${n[0]}" role="button" tabindex="0"><svg viewBox="0 0 24 24">${IC[n[0]]}</svg>${n[1]}</a>`).join('');$('#bn').textContent='Mauzobora';const pb=$('#pbadge');if(pb)pb.textContent=SUB?(trial()?'Majaribio: siku '+daysLeft():'Mpango: '+PLANS[eff()].n):'';$('#main').innerHTML=subBar()+VW[V]();document.title=D.set.name+' | Mauzobora'}
 document.addEventListener('keydown',e=>{if(e.key=='Escape')close();if(e.key=='Enter'&&V=='pos'&&e.target.matches('[data-s]')){const p=D.products.find(p=>p.stock>0&&(cat=='Zote'||p.cat==cat)&&p.name.toLowerCase().includes(q.toLowerCase()));if(p)ACT.add(p.id)}if((e.key=='Enter'||e.key==' ')&&e.target.matches('nav a')){e.preventDefault();e.target.click()}});
-window.boot=(d,u)=>{D=d;cart={};V='dash';AG.msgs=[];agOpen(false);$('#who').textContent=u.email||'';render();loadSub()};
+window.boot=(d,u)=>{D=d;SUB=null;cart={};V='dash';AG.msgs=[];agOpen(false);$('#who').textContent=u.email||'';render();return loadSub()};
 window.openPlanCheckout=(plan)=>{V='plan';render();if(PLANS[plan]&&plan!=='bure')payForm(plan)};
 </script></body></html>
