@@ -181,10 +181,31 @@ export default async function handler(req, res) {
         });
       }
 
+      const email = String(user.email || "").trim();
+      if (!email) {
+        return res.status(400).json({ success: false, message: "Akaunti yako haina barua pepe ya malipo." });
+      }
+
+      // Reuse a recent pending request for the same account, plan and phone
+      // instead of sending duplicate mobile-money prompts.
+      const recentOrders = await adminDb.collection("subscriptionOrders")
+        .where("uid", "==", user.uid).get();
+      const now = Date.now();
+      for (const pending of recentOrders.docs) {
+        const old = pending.data();
+        if (
+          old.status === "PENDING" &&
+          old.plan === body.plan &&
+          old.phone === phone &&
+          now - (old.createdAtMs || 0) < 120000
+        ) {
+          return res.json({ success: true, reference: pending.id, reused: true });
+        }
+      }
+
       const reference = newReference();
       const amount = plan.amount;
       const displayName = String(body.name || user.name || "Mteja Mauzobora").trim().slice(0, 100);
-      const email = String(user.email || "").trim();
 
       await adminDb.doc("subscriptionOrders/" + reference).set({
         uid: user.uid,
