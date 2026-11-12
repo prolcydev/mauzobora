@@ -242,6 +242,7 @@ nav a.hl{animation:hl 1s ease}
 <section class="af"><form class="afc" id="af" novalidate><h1 id="at">Karibu tena</h1><p class="sub" id="as" style="margin:0">Ingia kusimamia biashara yako.</p>
 <div class="tabs"><button type="button" data-m="in" class="on">Ingia</button><button type="button" data-m="up">Fungua akaunti</button></div>
 <div class="fg"><div class="fl" id="nm" hidden><input id="an" autocomplete="organization" placeholder=" "><label for="an">Jina la biashara</label></div>
+<div id="signupChoice" hidden><label for="signupPlan">Chagua mpango wa kuanza</label><select id="signupPlan"><option value="basic">Basic — TSh 40,000 / mwezi</option><option value="premium">Premium — TSh 60,000 / mwezi</option><option value="ultra">Ultra — TSh 600,000 / mwaka</option></select><small style="display:block;color:var(--mut);margin-top:5px">Baada ya kufungua akaunti, utatumiwa ombi la malipo kwenye simu yako.</small></div>
 <div class="fl"><input id="ae" type="email" autocomplete="email" placeholder=" "><label for="ae">Barua pepe</label></div>
 <div class="fl"><input id="ap" type="password" autocomplete="current-password" placeholder=" " style="padding-right:74px"><label for="ap">Nenosiri</label><button type="button" class="pe" id="pe">Onyesha</button></div>
 <div id="pm" data-s="0" hidden><i></i><i></i><i></i><i></i></div>
@@ -259,15 +260,17 @@ import{getFirestore,initializeFirestore,persistentLocalCache,persistentMultipleT
 const app=initializeApp({apiKey:"AIzaSyDtQdHIWjX9xI_IjyAtcWllGo7c2F0cjpo",authDomain:"mauzobora-a1684.firebaseapp.com",projectId:"mauzobora-a1684",storageBucket:"mauzobora-a1684.firebasestorage.app",messagingSenderId:"852679949307",appId:"1:852679949307:web:0d6593f4261cd864ba295e",measurementId:"G-H53R2Z5WVS"});
 try{getAnalytics(app)}catch(e){}
 const auth=getAuth(app),a=s=>document.querySelector(s);let db;try{db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){db=getFirestore(app)}
-let mode='in',uid=null,pend='';
+let mode='in',uid=null,pend='',pendingPlan='basic';
 a('#alogo').innerHTML=document.querySelector('.brand svg').outerHTML+'Mauzobora';
 const MSG={'auth/invalid-credential':'Barua pepe au nenosiri si sahihi.','auth/user-not-found':'Hakuna akaunti yenye barua pepe hiyo.','auth/wrong-password':'Barua pepe au nenosiri si sahihi.','auth/email-already-in-use':'Barua pepe hiyo ina akaunti tayari. Jaribu kuingia.','auth/weak-password':'Tumia nenosiri la angalau herufi 6.','auth/invalid-email':'Weka barua pepe sahihi.','auth/too-many-requests':'Majaribio mengi. Subiri kidogo kisha ujaribu tena.','auth/popup-closed-by-user':'Umefunga dirisha la Google kabla ya kumaliza.','auth/network-request-failed':'Hakuna mtandao. Angalia intaneti yako kisha ujaribu tena.','auth/operation-not-allowed':'Njia hii ya kuingia haijawashwa kwenye Firebase.','auth/unauthorized-domain':'Ongeza tovuti hii kwenye Authorized domains ndani ya Firebase Authentication.'};
 const err=e=>{a('#ar').textContent=typeof e=='string'?e:(MSG[e.code]||'Kuna hitilafu. Tafadhali jaribu tena.')};
-function setMode(m){mode=m;document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.m==m));a('#nm').hidden=m!='up';a('#fp').hidden=m!='in';a('#pm').hidden=m!='up';a('#sb').textContent=m=='in'?'Ingia':'Fungua akaunti';a('#at').textContent=m=='in'?'Karibu tena':'Fungua duka lako';a('#as').textContent=m=='in'?'Ingia kusimamia biashara yako.':'Fungua akaunti yako bure kwa dakika moja.';a('#ap').autocomplete=m=='in'?'current-password':'new-password';err('')}
+function setMode(m){mode=m;document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.m==m));a('#nm').hidden=m!='up';a('#signupChoice').hidden=m!='up';a('#fp').hidden=m!='in';a('#pm').hidden=m!='up';a('#sb').textContent=m=='in'?'Ingia':'Fungua akaunti';a('#at').textContent=m=='in'?'Karibu tena':'Fungua duka lako';a('#as').textContent=m=='in'?'Ingia kusimamia biashara yako.':'Fungua akaunti yako bure kwa dakika moja.';a('#ap').autocomplete=m=='in'?'current-password':'new-password';err('')}
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
 const busy=v=>{a('#sb').disabled=a('#gg').disabled=v;a('#sb').classList.toggle('ld',v)};
 a('#af').onsubmit=async ev=>{ev.preventDefault();const em=a('#ae').value.trim(),pw=a('#ap').value;if(!em||!pw)return err('Weka barua pepe na nenosiri.');
-if(mode=='up'&&!a('#an').value.trim())return err('Weka jina la biashara.');err('');busy(true);
+if(mode=='up'&&!a('#an').value.trim())return err('Weka jina la biashara.');
+if(mode=='up')pendingPlan=a('#signupPlan').value||'basic';
+err('');busy(true);
 try{if(mode=='in')await signInWithEmailAndPassword(auth,em,pw);else{pend=a('#an').value.trim();const c=await createUserWithEmailAndPassword(auth,em,pw);await updateProfile(c.user,{displayName:pend}).catch(()=>{})}}catch(e){err(e);busy(false)}};
 a('#gg').onclick=async()=>{err('');busy(true);try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){err(e);busy(false)}};
 a('#fp').onclick=async()=>{const em=a('#ae').value.trim();if(!em)return err('Andika barua pepe yako juu, kisha bonyeza Umesahau nenosiri.');try{await sendPasswordResetEmail(auth,em);err('');alert('Barua ya kubadili nenosiri imetumwa kwa '+em+'.')}catch(e){err(e)}};
@@ -298,8 +301,10 @@ const showLoad=()=>{const l=a('#load');l.hidden=false;l.classList.remove('out')}
 const hideLoad=()=>setTimeout(()=>{const l=a('#load');l.classList.add('out');setTimeout(()=>{l.hidden=true},750)},Math.max(0,MINL-(performance.now()-T0L)));
 onAuthStateChanged(auth,async u=>{showLoad();
 if(!u){uid=null;cache={};a('#app').hidden=true;a('#auth').hidden=false;busy(false);a('#ap').value='';st('');hideLoad();return}
+const justRegistered=!!pend,chosenPlan=pendingPlan;
 uid=u.uid;
-try{const d=await load(u);a('#auth').hidden=true;a('#app').hidden=false;window.boot(d,u);st('')}
+try{const d=await load(u);a('#auth').hidden=true;a('#app').hidden=false;window.boot(d,u);st('');
+if(justRegistered){pend='';pendingPlan='basic';window.openPlanCheckout&&window.openPlanCheckout(chosenPlan)}}
 catch(e){console.error(e);a('#auth').hidden=false;err(e.code=='permission-denied'?'Ufikiaji wa hifadhidata umekataliwa. Sasisha Firestore rules kwenye Firebase.':'Imeshindwa kupakia data yako. Angalia mtandao wako.');signOut(auth)}
 hideLoad()});
 </script>
@@ -377,26 +382,26 @@ function custList(){const l=D.customers.filter(c=>c.name.toLowerCase().includes(
 function receipt(s){const c=C(s.cust);return`<div class="ov"><div class="mod rc"><h3 style="text-align:center;margin:0">${esc(D.set.name)}</h3><p style="text-align:center;color:var(--mut);margin:2px 0 12px">${esc(D.set.phone)} ${esc(D.set.addr)}<br>Risiti #${String(s.no).padStart(4,'0')} - ${new Date(s.date).toLocaleString('en-GB')}</p>${s.items.map(i=>`<div class="tot"><span>${i.qty} x ${esc(i.name)}</span><span>${money(i.qty*i.price)}</span></div>`).join('')}<hr style="border:0;border-top:1px dashed var(--line)"><div class="tot"><span>Jumla ndogo</span><span>${money(s.sub)}</span></div>${s.disc?`<div class="tot"><span>Punguzo</span><span>-${money(s.disc)}</span></div>`:''}${s.tax?`<div class="tot"><span>VAT</span><span>${money(s.tax)}</span></div>`:''}<div class="tot b"><span>Jumla</span><span>${money(s.total)}</span></div>${s.cash?`<div class="tot"><span>Pesa iliyopokelewa</span><span>${money(s.cash)}</span></div><div class="tot"><span>Chenji</span><span>${money(s.cash-s.total)}</span></div>`:''}<p style="text-align:center;color:var(--mut)">${s.status=='Paid'?'Imelipwa kwa '+pm(s.pay):'Imerudishwa'}${c?' - '+esc(c.name):''}<br>Asante, karibu tena!</p><div class="row"><button class="btn" data-a="close">Funga</button><button class="btn p" data-a="print">Chapisha</button></div></div></div>`}
 /* ---------- mpango / subscription ---------- */
 const PLANS={
-bure:{n:'Bure',t:'Anza bila gharama',pr:{m:0,y:0},lim:{p:30,c:20},rep:7,exp:0,f:['Bidhaa hadi 30','Wateja hadi 20','Mauzo na risiti bila kikomo','Ripoti za siku 7']},
-duka:{n:'Duka',t:'Kwa duka linalokua',pr:{m:10000,y:100000},lim:{p:300,c:300},rep:90,exp:1,f:['Bidhaa hadi 300','Wateja hadi 300','Ripoti za siku 90','Pakua CSV (mauzo, bidhaa, matumizi)']},
-biashara:{n:'Biashara',t:'Bila kikomo kabisa',pr:{m:25000,y:250000},lim:{p:1e9,c:1e9},rep:0,exp:1,f:['Bidhaa na wateja bila kikomo','Ripoti za muda wote','Pakua CSV','Kipaumbele cha msaada']}};
-let SUB=null,per='m',payRef=null;
+bure:{n:'Bure',t:'Anza bila gharama',price:0,period:'m',lim:{p:30,c:20},rep:7,exp:0,f:['Bidhaa hadi 30','Wateja hadi 20','Mauzo na risiti bila kikomo','Ripoti za siku 7']},
+basic:{n:'Basic',t:'Kwa duka linalokua',price:40000,period:'m',lim:{p:300,c:300},rep:90,exp:1,f:['Bidhaa hadi 300','Wateja hadi 300','Ripoti za siku 90','Pakua CSV (mauzo, bidhaa, matumizi)']},
+premium:{n:'Premium',t:'Kwa biashara inayokua kwa kasi',price:60000,period:'m',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['Bidhaa na wateja bila kikomo','Ripoti za muda wote','Pakua CSV','Uchambuzi wa biashara']},
+ultra:{n:'Ultra',t:'Nguvu kamili ya Mauzobora kwa mwaka mzima',price:600000,period:'y',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['Vipengele vyote vya Premium','Matumizi ya mwaka mzima','Bidhaa na wateja bila kikomo','Kipaumbele cha msaada']}};let SUB=null,per='m',payRef=null;
 const T0=n=>'TSh '+n.toLocaleString('en-US');
-const eff=()=>{const n=Date.now();if(SUB&&SUB.expiresAtMs>n)return SUB.plan;if(SUB&&SUB.trialEndsAtMs>n)return'biashara';return'bure'};
+const eff=()=>{const n=Date.now();if(SUB&&SUB.expiresAtMs>n){const p=({duka:'basic',biashara:'premium'})[SUB.plan]||SUB.plan;return PLANS[p]?p:'bure'}if(SUB&&SUB.trialEndsAtMs>n)return'premium';return'bure'};
 const trial=()=>!!SUB&&!(SUB.expiresAtMs>Date.now())&&SUB.trialEndsAtMs>Date.now();
 const daysLeft=()=>Math.max(0,Math.ceil(((trial()?SUB.trialEndsAtMs:SUB&&SUB.expiresAtMs||0)-Date.now())/864e5));
 async function api(b){const t=await FB.token(),r=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify(b)});let j={};try{j=await r.json()}catch(e){}if(!r.ok&&!j.message)j.message='Hitilafu. Jaribu tena.';return j}
 async function loadSub(){try{const j=await api({action:'me'});if(j.sub)SUB=j.sub}catch(e){try{SUB=await FB.sub()}catch(_){}}render()}
 function subBar(){if(!SUB)return'';const p=eff();
-if(trial())return`<div class="card sbn"><b>Majaribio ya bure: siku ${daysLeft()} zimebaki</b><span>Unatumia vipengele vyote vya Biashara.</span><button class="btn p s" data-a="plans">Chagua mpango</button></div>`;
-if(p==='bure')return`<div class="card sbn w"><b>Mpango wa Bure</b><span>Umewekewa bidhaa 30, wateja 20 na ripoti za siku 7.</span><button class="btn p s" data-a="plans">Pandisha mpango</button></div>`;
+if(trial())return`<div class="card sbn"><b>Majaribio ya bure: siku ${daysLeft()} zimebaki</b><span>Unatumia vipengele vyote vya Premium.</span><button class="btn p s" data-a="plans">Chagua mpango</button></div>`;
+if(p==='bure')return`<div class="card sbn w"><b>Mpango wa Bure</b><span>Umewekewa bidhaa 30, wateja 20 na ripoti za siku 7.</span><button class="btn p s" data-a="plans">Chagua mpango wa kulipia</button></div>`;
 if(daysLeft()<=5)return`<div class="card sbn w"><b>Mpango wa ${PLANS[p].n} unaisha baada ya siku ${daysLeft()}</b><span>Lipia sasa usipoteze vipengele.</span><button class="btn p s" data-a="plans">Lipia</button></div>`;return''}
-function cards(cur){return Object.entries(PLANS).map(([k,x])=>`<div class="pc ${k==cur?'cur':''} ${k=='duka'?'pop':''}">${k=='duka'?'<em>Maarufu</em>':''}<h4>${x.n}</h4><small>${x.t}</small><div class="pp">${x.pr[per]?T0(x.pr[per]):'Bure'}<small>${x.pr[per]?(per=='m'?' /mwezi':' /mwaka'):''}</small></div><ul>${x.f.map(f=>`<li>${f}</li>`).join('')}</ul>${k=='bure'?`<button class="btn" disabled>${k==cur?'Mpango wako':'Mpango wa msingi'}</button>`:`<button class="btn p" data-a="buy" data-i="${k}">${k==cur&&!trial()?'Ongeza muda':'Chagua '+x.n}</button>`}</div>`).join('')}
-VW.plan=()=>{const p=eff();return`<div class="top"><div><h1>Mpango wako</h1><p class="sub">${!SUB?'Inapakia...':trial()?'Majaribio ya bure, siku '+daysLeft()+' zimebaki.':p==='bure'?'Uko kwenye mpango wa Bure.':'Mpango wa '+PLANS[p].n+' unaisha '+new Date(SUB.expiresAtMs).toLocaleDateString('sw-TZ')+'.'}</p></div><div class="tabs" style="width:250px;margin:0"><button data-a="per" data-i="m" class="${per=='m'?'on':''}">Kila mwezi</button><button data-a="per" data-i="y" class="${per=='y'?'on':''}">Mwaka (miezi 2 bure)</button></div></div><div class="pcs">${cards(p)}</div><p class="nt">Lipa kwa M-Pesa, Tigo Pesa, Airtel Money, HaloPesa au Mixx by Yas. Malipo yanathibitishwa kiotomatiki.</p>`};
+function cards(cur){return Object.entries(PLANS).map(([k,x])=>`<div class="pc ${k==cur?'cur':''} ${k=='premium'?'pop':''}">${k=='premium'?'<em>Maarufu</em>':''}<h4>${x.n}</h4><small>${x.t}</small><div class="pp">${x.price?T0(x.price):'Bure'}<small>${x.price?(x.period=='m'?' /mwezi':' /mwaka'):''}</small></div><ul>${x.f.map(f=>`<li>${f}</li>`).join('')}</ul>${k=='bure'?`<button class="btn" disabled>${k==cur?'Mpango wako':'Mpango wa bure'}</button>`:`<button class="btn p" data-a="buy" data-i="${k}">${k==cur&&!trial()?'Ongeza muda':'Chagua '+x.n}</button>`}</div>`).join('')}
+VW.plan=()=>{const p=eff();return`<div class="top"><div><h1>Mpango wako</h1><p class="sub">${!SUB?'Inapakia...':trial()?'Majaribio ya bure, siku '+daysLeft()+' zimebaki.':p==='bure'?'Uko kwenye mpango wa Bure.':'Mpango wa '+PLANS[p].n+' unaisha '+new Date(SUB.expiresAtMs).toLocaleDateString('sw-TZ')+'.'}</p></div></div><div class="pcs">${cards(p)}</div><p class="nt">Lipa kwa M-Pesa, Tigo Pesa, Airtel Money, HaloPesa au Mixx by Yas. Malipo yanathibitishwa kiotomatiki kupitia SplashPay.</p>`};
 function paywall(msg){$('#modal').innerHTML=`<div class="ov"><div class="mod" style="width:min(860px,100%)"><h3>${esc(msg)}</h3><p class="sub">Chagua mpango upate vipengele zaidi.</p><div class="pcs">${cards(eff())}</div><div class="row" style="margin-top:14px"><button class="btn" data-a="close">Baadaye</button></div></div></div>`}
-function payForm(k){const x=PLANS[k];form('Lipia mpango wa '+x.n+' ('+T0(x.pr[per])+')',[{k:'phone',l:'Namba ya simu ya malipo',t:'tel'}],{},async o=>{
+function payForm(k){const x=PLANS[k];per=x.period;form('Lipia mpango wa '+x.n+' ('+T0(x.price)+(x.period=='m'?' kwa mwezi':' kwa mwaka')+')',[{k:'phone',l:'Namba ya simu ya malipo',t:'tel'}],{},async o=>{
 if(!o.phone)return toast('Weka namba ya simu');const m=$('#modal .mod');m.innerHTML=`<h3>Angalia simu yako</h3><p class="sub" id="ps">Tunatuma ombi la malipo... Ingiza PIN yako ukiombwa.</p><div class="pr"><i style="width:40%"></i></div>`;
-const j=await api({action:'init',plan:k,period:per,phone:o.phone,name:D.set.name});
+const j=await api({action:'init',plan:k,period:x.period,phone:o.phone,name:D.set.name});
 if(!j.success){m.innerHTML=`<h3>Imeshindwa</h3><p class="sub">${esc(j.message||'Jaribu tena.')}</p><div class="row"><button class="btn" data-a="close">Funga</button></div>`;return}
 payRef=j.reference;const end=Date.now()+18e4;
 while(Date.now()<end&&payRef===j.reference){await new Promise(r=>setTimeout(r,4000));const s=await api({action:'status',reference:j.reference});
@@ -608,4 +613,5 @@ else if(t.matches('[data-r]')){window.RP=t.value;render()}});
 function render(){$('#nav').innerHTML=NAV.map(n=>`<a class="${n[0]==V?'on':''}" data-a="go" data-i="${n[0]}" role="button" tabindex="0"><svg viewBox="0 0 24 24">${IC[n[0]]}</svg>${n[1]}</a>`).join('');$('#bn').textContent='Mauzobora';const pb=$('#pbadge');if(pb)pb.textContent=SUB?(trial()?'Majaribio: siku '+daysLeft():'Mpango: '+PLANS[eff()].n):'';$('#main').innerHTML=subBar()+VW[V]();document.title=D.set.name+' | Mauzobora'}
 document.addEventListener('keydown',e=>{if(e.key=='Escape')close();if(e.key=='Enter'&&V=='pos'&&e.target.matches('[data-s]')){const p=D.products.find(p=>p.stock>0&&(cat=='Zote'||p.cat==cat)&&p.name.toLowerCase().includes(q.toLowerCase()));if(p)ACT.add(p.id)}if((e.key=='Enter'||e.key==' ')&&e.target.matches('nav a')){e.preventDefault();e.target.click()}});
 window.boot=(d,u)=>{D=d;cart={};V='dash';AG.msgs=[];agOpen(false);$('#who').textContent=u.email||'';render();loadSub()};
+window.openPlanCheckout=(plan)=>{V='plan';render();if(PLANS[plan]&&plan!=='bure')payForm(plan)};
 </script></body></html>
