@@ -2,7 +2,8 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mauzobora</title>
-<meta name="theme-color" content="#123C35"><meta name="description" content="Mauzobora - sales, inventory and profit management for your shop"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#123C35"><meta name="description" content="Mauzobora - sales, inventory and profit management for your shop"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--g9:#123C35;--g7:#0F9F78;--g5:#18B889;--ink:#17352D;--bg:#F8FBF9;--card:#FFFFFF;--mut:#64736E;--line:#E1EAE5;--hi:#E8F5EF;--bad:#B45332;--warn:#FFF2E9;--nav:56px;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -990,7 +991,7 @@ document.addEventListener('change',e=>{const t=e.target;
 if(t.matches('[data-c]')){cat=t.value;$('#list').innerHTML=posList()}
 else if(t.matches('[data-p]')){pay=t.value;$('#cart').innerHTML=cartHtml()}else if(t.matches('[data-cu]'))cid=t.value;
 else if(t.matches('[data-r]')){window.RP=t.value;render()}});
-function render(){const unlocked=hasPaidAccess();$('#app').classList.toggle('locked',false);$('#nav').innerHTML=NAV.map(n=>`<a class="${n[0]==V?'on':''}" data-a="go" data-i="${n[0]}" role="button" tabindex="0"><svg viewBox="0 0 24 24">${IC[n[0]]}</svg>${n[1]}</a>`).join('');$('#bn').textContent='Mauzobora';const pb=$('#pbadge');if(pb)pb.textContent=unlocked?'Plan: '+PLANS[eff()].n:'Plan: Not activated';$('#main').innerHTML=subBar()+VW[V];document.title=D.set.name+' | Mauzobora'}
+function render(){const unlocked=hasPaidAccess();$('#app').classList.toggle('locked',false);$('#nav').innerHTML=NAV.map(n=>`<a class="${n[0]==V?'on':''}" data-a="go" data-i="${n[0]}" role="button" tabindex="0"><svg viewBox="0 0 24 24">${IC[n[0]]}</svg>${n[1]}</a>`).join('');$('#bn').textContent='Mauzobora';const pb=$('#pbadge');if(pb)pb.textContent=unlocked?'Plan: '+PLANS[eff()].n:'Plan: Not activated';$('#main').innerHTML=subBar()+VW[V]();document.title=D.set.name+' | Mauzobora'}
 document.addEventListener('keydown',e=>{if(e.key=='Escape')close();if(e.key=='Enter'&&V=='pos'&&e.target.matches('[data-s]')){const p=D.products.find(p=>p.stock>0&&(cat=='All'||p.cat==cat)&&p.name.toLowerCase().includes(q.toLowerCase()));if(p)ACT.add(p.id)}if((e.key=='Enter'||e.key==' ')&&e.target.matches('nav a')){e.preventDefault();e.target.click()}});
 window.boot=(d,u)=>{D=d;SUB=null;cart={};V='dash';AG.msgs=[];agOpen(false);$('#who').textContent=u.email||'';render();return loadSub()};
 window.openPlanCheckout=(plan)=>{V='plan';render();if(PLANS[plan]&&plan!=='bure')payForm(plan)};
