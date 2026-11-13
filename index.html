@@ -455,140 +455,6 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
 #legalConsent{width:16px;height:16px;margin:1px 0 0;accent-color:var(--g7)}
 @media(max-width:700px){#supportDock{left:10px;right:10px;bottom:calc(76px + env(safe-area-inset-bottom,0px));max-width:none;justify-content:center;gap:8px;padding:8px 10px;font-size:11px}#supportDock .sd-contact{gap:5px}#supportDock .sd-links{gap:9px}}
 @media print{#supportDock{display:none!important}}
-
-/* ---------- Shopify-inspired workspace refinement ---------- */
-:root{--page-max:1680px;--shopify-ink:#202b27;--shopify-muted:#68756f;--shopify-line:#e4e9e6;--shopify-green:#008060}
-body{background:#f6f7f6;color:var(--shopify-ink)}
-.app{grid-template-columns:252px minmax(0,1fr)}
-aside{width:252px;background:#fff;color:#27352f;border-right:1px solid #e6ebe8;box-shadow:none;padding:24px 14px}
-.brand{color:#183c31;padding:7px 10px 30px;letter-spacing:.13em}
-.brand small{color:#77837d;opacity:1}
-nav{display:grid;gap:4px}
-nav a{color:#53625b;font-size:13px;font-weight:600;min-height:44px;padding:10px 13px;border-radius:9px}
-nav a:hover{background:#f3f7f4;color:#183c31}
-nav a.on{background:#eaf5ef;color:#075c43;box-shadow:inset 3px 0 #008060}
-nav svg{width:18px;height:18px}
-.foot{border-top:1px solid #edf0ee;padding:16px 9px 4px;color:#52625a}
-.foot .btn{color:#52625a;border-color:#dfe6e2}
-main{max-width:1680px;padding:34px clamp(20px,3vw,52px) 84px}
-h1{color:#202b27;font-size:clamp(28px,2.5vw,36px);font-weight:700;letter-spacing:-.045em}
-.sub{color:#718078}
-.card{background:#fff;border:1px solid #e6ebe8;border-radius:14px;box-shadow:0 1px 2px rgba(20,40,30,.025)}
-.kpi{min-height:132px;display:flex;flex-direction:column;justify-content:center;gap:5px}
-.kpi span{color:#68766f;font-size:12px;font-weight:600}
-.kpi b{font-size:clamp(22px,2vw,30px);color:#202b27}
-.kpi small{color:#87928c;font-size:11px}
-.kpi.hero{background:#123c35;border:0}
-.kpi.hero b{color:#fff}
-.kpi.hero span,.kpi.hero small{color:#c1d9ce}
-.positive{color:#008060!important}.negative{color:#b54736!important}
-.dash-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 24px}
-.dash-head h1{margin:4px 0 5px}
-.dash-head .sub{margin:0}
-.eyebrow{font-size:10px;font-weight:800;letter-spacing:.15em;color:#008060}
-.dash-actions{display:flex;gap:9px;flex-wrap:wrap}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:25px 0 12px}
-.section-head h2{font-size:16px;line-height:1.3;margin:0;font-weight:700;letter-spacing:-.02em}
-.section-head p{margin:4px 0 0;color:#87928c;font-size:12px}
-.card-title{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.card-title h3{margin:0}
-.muted-line{display:block;color:#87928c;font-size:11px;margin-top:3px}
-.chart-card .bars{height:210px;margin-top:12px}
-.bars i{background:linear-gradient(180deg,#36b58b,#08785c);border-radius:6px 6px 2px 2px}
-.btn{border-radius:9px;font-weight:650}
-.btn.p{background:#008060;border-color:#008060;box-shadow:none}
-.btn.p:hover{background:#006e52;border-color:#006e52}
-.btn:not(.p):not(.d){background:#fff;border-color:#dce4df;color:#34453c}
-.btn:not(.p):not(.d):hover{background:#f5f8f6;border-color:#b9c9c0;color:#183c31}
-.btn.s{border-width:1px}
-.tools input,.tools select{background:#fff;border:1px solid #dfe6e2;border-radius:9px}
-.pos{grid-template-columns:minmax(0,1fr) minmax(330px,390px);gap:18px}
-.catalogue{min-width:0}
-.catalogue-head{display:flex;align-items:center;justify-content:space-between;margin:0 0 12px}
-.catalogue-head h3{font-size:15px;margin:0}
-.catalogue-head p{font-size:12px;color:#87928c;margin:4px 0 0}
-.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr));gap:11px}
-.pt{background:#fff;border:1px solid #e3e9e5;border-radius:12px;min-height:112px;box-shadow:none}
-.pt:hover{border-color:#83bea6;box-shadow:0 5px 18px rgba(15,90,60,.08)}
-.pt em{color:#08785c;font-size:15px;font-weight:700;margin-top:5px}
-.pt small{font-size:11px;color:#87928c}
-.cart.card{background:#fff;border:1px solid #dfe8e2;border-radius:14px;box-shadow:0 8px 28px rgba(24,60,42,.055)}
-.cart h3{font-size:16px}
-.cart .tot.b{font-size:25px}
-.ln{border-bottom:1px solid #edf0ee}
-.q button{background:#f7f9f7;border-color:#e0e7e2;color:#263b31}
-.tw{border:1px solid #e6ebe8;border-radius:13px;overflow-x:auto}
-table{background:#fff}
-th{background:#f7f9f7;color:#68766f}
-td{color:#34443b}
-.tag{background:#eaf5ef;color:#08785c}
-.sbn{border-radius:12px}
-@media(max-width:1100px){.app{grid-template-columns:76px minmax(0,1fr)}aside{width:76px}.pos{grid-template-columns:minmax(0,1fr) 320px}}
-@media(max-width:1000px){aside{background:#fff;border-top:1px solid #e6ebe8;box-shadow:0 -6px 22px rgba(20,40,30,.07)}nav a{color:#64716a}nav a.on{background:#eaf5ef;color:#075c43;box-shadow:inset 0 2px #008060}.foot{display:none}}
-@media(max-width:700px){main{padding:22px 14px calc(112px + env(safe-area-inset-bottom,0px))}.dash-head{align-items:flex-start;flex-direction:column;margin-bottom:18px}.dash-actions{width:100%}.dash-actions .btn{flex:1}.section-head{margin-top:21px}.kpi{min-height:112px}.kpi small{font-size:10px}.pos{display:flex;flex-direction:column}.catalogue,.cart{width:100%}.pos-summary{display:flex;gap:8px;flex-wrap:wrap}.pos-summary span{background:#edf5f0;color:#32614b;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:700}.catalogue-head{margin-bottom:8px}.cart.card{box-shadow:0 4px 18px rgba(24,60,42,.06)}}
-
-
-/* ---------- Mauzobora original forest-green brand palette ---------- */
-:root{
-  color-scheme:light;
-  --g9:#123C35;--g7:#0F9F78;--g5:#18B889;
-  --ink:#17352D;--bg:#F8FBF9;--card:#FFFFFF;
-  --mut:#64736E;--line:#E1EAE5;--hi:#E8F5EF;
-  --bad:#B45332;--warn:#FFF2E9;
-  --shadow-soft:0 8px 28px rgba(18,60,53,.08);
-  --shadow-card:0 1px 2px rgba(18,60,53,.04),0 8px 24px rgba(18,60,53,.04);
-}
-html{color-scheme:light;background:var(--bg)}
-body{background:var(--bg);color:var(--ink)}
-.app{background:var(--bg)}
-aside{background:#123C35!important;color:#fff!important;border-right:0!important;box-shadow:none!important}
-.brand,aside .brand{color:#fff!important}
-.brand small{color:#C1D9CE!important}
-nav a{color:#D5E0DA!important}
-nav a:hover{background:rgba(255,255,255,.09)!important;color:#fff!important}
-nav a.on{background:#E8F5EF!important;color:#123C35!important;box-shadow:none!important}
-.foot,.foot #who{color:#D5E0DA!important}
-.foot .btn{color:#fff!important;border-color:rgba(255,255,255,.25)!important;background:transparent!important}
-main{background:var(--bg);color:var(--ink)}
-h1,h2,h3,h4,h5,h6,strong,b,td{color:inherit}
-.sub,.muted-line,.empty,.kpi span,.kpi small,
-.card p,.card small,.mod p,.mod small{color:var(--mut)}
-.card,.mod,.pc,.pt,.cart.card,.tw{background:#fff;color:var(--ink);border-color:var(--line)}
-.kpi b{color:var(--ink)}
-.kpi.hero{background:linear-gradient(135deg,#123C35,#176653)!important;border-color:transparent}
-.kpi.hero b{color:#fff!important}
-.kpi.hero span,.kpi.hero small{color:#C1D9CE!important}
-.eyebrow,.positive{color:#0F8065!important}
-.negative{color:#B45332!important}
-.btn.p{background:#0F9F78!important;border-color:#0F9F78!important;color:#fff!important}
-.btn.p:hover{background:#0B8062!important;border-color:#0B8062!important}
-.btn:not(.p):not(.d){background:#fff;color:#17352D;border-color:#D6E3DC}
-.btn:not(.p):not(.d):hover{background:#E8F5EF;color:#123C35;border-color:#B8D4C5}
-input,select,textarea{background:#fff!important;color:#17352D!important;border:1px solid #D6E3DC}
-input::placeholder,textarea::placeholder{color:#75847D!important;opacity:1}
-input:focus,select:focus,textarea:focus{border-color:#0F9F78;box-shadow:0 0 0 3px rgba(15,159,120,.13)}
-label{color:#435B50}
-th{background:#F0F6F2;color:#52675D}
-td{background:#fff;color:#344A3E}
-.tag{background:#E8F5EF;color:#08785C}
-.tag.w{background:#FFF2E9;color:#A3442E}
-.tag.g{background:#EEF3EF;color:#52675D}
-.pt em{color:#0F8065}
-.pt small{color:#64736E}
-.q button{background:#F3F8F4;color:#263B31;border-color:#DCE8E0}
-.sbn{color:#344A3E}
-.sbn span{color:#52675D}
-#supportDock{background:#fff;color:#17352D;border-color:#DCE8E0}
-#supportDock .sd-wa{color:#128C4A}
-@media(max-width:1000px){
-  aside{background:#123C35!important;border-top:1px solid rgba(255,255,255,.12)!important}
-  nav a{color:#D5E0DA!important}
-  nav a.on{background:#E8F5EF!important;color:#123C35!important}
-}
-@media(prefers-color-scheme:dark){
-  :root{color-scheme:light;--ink:#17352D;--bg:#F8FBF9;--card:#FFFFFF;--mut:#64736E;--line:#E1EAE5;--hi:#E8F5EF;--bad:#B45332;--warn:#FFF2E9;--g9:#123C35;--g7:#0F9F78}
-}
-
 </style></head>
 <body>
 <div class="app" id="app" hidden>
@@ -721,23 +587,18 @@ const ONB=`<div class="card" style="margin-bottom:16px;background:var(--hi)"><h3
 /* ---------- views ---------- */
 const VW={
 dash(){const t=dk(new Date()),pd=paid(),ts=pd.filter(s=>dk(s.date)==t),m=t.slice(0,7),ms=pd.filter(s=>s.date.slice(0,7)==m);
-const rev=sum(ms,s=>s.total),prof=rev-sum(ms,cost)-sum(D.expenses.filter(e=>e.date.slice(0,7)==m),e=>e.amt),balances=sum(D.customers,c=>c.bal),inv=sum(D.products,p=>p.stock*p.cost);
+const rev=sum(ms,s=>s.total),prof=rev-sum(ms,cost)-sum(D.expenses.filter(e=>e.date.slice(0,7)==m),e=>e.amt);
 const days=[...Array(7)].map((_,i)=>{const d=dk(ago(6-i));return{l:new Date(d).toLocaleDateString('en-TZ',{weekday:'short'}),v:sum(pd.filter(s=>dk(s.date)==d),s=>s.total)}}),mx=Math.max(...days.map(d=>d.v),1);
-return`<div class="dash-head"><div><span class="eyebrow">BUSINESS OVERVIEW</span><h1>Good ${new Date().getHours()<12?'morning':new Date().getHours()<17?'afternoon':'evening'}, ${esc(D.set.name)}.</h1><p class="sub">Here is your shop's performance at a glance.</p></div><div class="dash-actions"><button class="btn" data-a="addp">Add product</button><button class="btn p" data-a="go" data-i="pos">New sale</button></div></div>${D.products.length?'':ONB}
-<div class="section-head"><div><h2>Today at a glance</h2><p>${new Date().toLocaleDateString('en-TZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</p></div></div>
-<div class="kpis"><div class="card kpi hero"><span>Sales today</span><b>${money(sum(ts,s=>s.total))}</b><small>${ts.length} completed receipts</small></div>
-<div class="card kpi"><span>Revenue this month</span><b>${money(rev)}</b><small>Paid sales this month</small></div>
-<div class="card kpi"><span>Net profit this month</span><b class="${prof<0?'negative':'positive'}">${money(prof)}</b><small>After recorded expenses</small></div>
-<div class="card kpi"><span>Outstanding balances</span><b>${money(balances)}</b><small>Amounts owed by customers</small></div>
-<div class="card kpi"><span>Inventory at cost</span><b>${money(inv)}</b><small>${D.products.length} products in your catalogue</small></div>
-<div class="card kpi"><span>Low-stock items</span><b>${low().length}</b><small>Products at or below alert level</small></div></div>
-<div class="section-head"><div><h2>Sales activity</h2><p>Daily sales for the last seven days</p></div><button class="btn s" data-a="go" data-i="rep">View reports</button></div>
-<div class="cols"><div class="card chart-card"><div class="card-title"><h3>Sales trend</h3><span class="tag g">Last 7 days</span></div><div class="bars">${days.map(d=>`<div><span>${d.v?Math.round(d.v/1000)+'k':''}</span><i style="height:${d.v/mx*100*.8}%"></i>${d.l}</div>`).join('')}</div></div>
-<div class="card"><div class="card-title"><h3>Stock to watch</h3><button class="lk" data-a="go" data-i="stock">View products</button></div>${low().length?low().slice(0,6).map(p=>`<div class="ln"><div><b>${esc(p.name)}</b><small class="muted-line">Reorder level: ${p.min}</small></div><span class="tag w">${p.stock} left</span></div>`).join(''):'<div class="empty">Your stock levels look healthy.</div>'}</div></div>
-<div class="section-head"><div><h2>Recent sales</h2><p>Your latest completed transactions</p></div><button class="btn s" data-a="go" data-i="sales">View all sales</button></div>
-${salesTable(pd.slice(-6).reverse(),0)}`},
+return`<div class="top"><div><h1>Hello, welcome back</h1><p class="sub">Here is how ${esc(D.set.name)} is doing.</p></div><button class="btn p" data-a="go" data-i="pos">Point of Sale</button></div>${D.products.length?'':ONB}
+<div class="kpis"><div class="card kpi hero"><span>Today’s sales</span><b>${money(sum(ts,s=>s.total))}</b><span>Receipts ${ts.length}</span></div>
+<div class="card kpi"><span>Revenue this month</span><b>${money(rev)}</b></div>
+<div class="card kpi"><span>Net profit this month</span><b style="color:${prof<0?'var(--bad)':'var(--g7)'}">${money(prof)}</b></div>
+<div class="card kpi"><span>Customer balances</span><b>${money(sum(D.customers,c=>c.bal))}</b></div></div>
+<div class="cols"><div class="card"><h3>Last 7 days</h3><div class="bars">${days.map(d=>`<div><span>${d.v?Math.round(d.v/1000)+'k':''}</span><i style="height:${d.v/mx*100*.8}%"></i>${d.l}</div>`).join('')}</div></div>
+<div class="card"><h3>Running low (${low().length})</h3>${low().length?low().slice(0,6).map(p=>`<div class="ln"><div>${esc(p.name)}</div><span class="tag w">${p.stock} remaining</span></div>`).join(''):'<div class="empty">All products are sufficiently stocked.</div>'}</div></div>
+<div class="card"><h3>Recent sales</h3>${salesTable(pd.slice(-6).reverse(),0)}</div>`},
 pos(){const cats=['All',...new Set(D.products.map(p=>p.cat))];
-return`<div class="dash-head page-head"><div><span class="eyebrow">CHECKOUT</span><h1>Point of Sale</h1><p class="sub">Search your catalogue, add items and complete the sale.</p></div><div class="pos-summary"><span>${D.products.length} products</span><span>${cats.length-1} categories</span></div></div><div class="pos"><div class="catalogue"><div class="catalogue-head"><div><h3>Product catalogue</h3><p>Choose a product to add it to the current sale.</p></div></div><div class="tools"><input data-s aria-label="Search products" placeholder="Search by product name…" value="${esc(q)}"><select data-c aria-label="Filter by category">${cats.map(c=>`<option ${c==cat?'selected':''}>${esc(c)}</option>`).join('')}</select></div><div class="grid" id="list">${posList()}</div></div><div class="card cart" id="cart">${cartHtml()}</div></div>`},
+return`<div class="top"><div><h1>Point of Sale</h1><p class="sub">Tap a product to add it to the sale.</p></div></div><div class="pos"><div><div class="tools"><input data-s placeholder="Search products" value="${esc(q)}"><select data-c>${cats.map(c=>`<option ${c==cat?'selected':''}>${esc(c)}</option>`).join('')}</select></div><div class="grid" id="list">${posList()}</div></div><div class="card cart" id="cart">${cartHtml()}</div></div>`},
 stock(){return`<div class="top"><div><h1>Products</h1><p class="sub">${D.products.length} products, inventory value ${money(sum(D.products,p=>p.stock*p.cost))} at cost price.</p></div><div class="row"><button class="btn" data-a="xp">Export CSV</button><button class="btn p" data-a="addp">Add product</button></div></div><div class="tools"><input data-s placeholder="Search products" value="${esc(q)}"></div><div class="card tw" id="list">${stockList()}</div>`},
 cust(){return`<div class="top"><div><h1>Customers</h1><p class="sub">Track your customers and outstanding balances.</p></div><button class="btn p" data-a="addc">Add customer</button></div><div class="tools"><input data-s placeholder="Search customers" value="${esc(q)}"></div><div class="card tw" id="list">${custList()}</div>`},
 sales(){return`<div class="top"><div><h1>Sales</h1><p class="sub">Receipts, newest first.</p></div><button class="btn" data-a="xs">Export CSV</button></div><div class="card tw">${salesTable([...D.sales].reverse().slice(0,150),1)}</div>`},
@@ -765,7 +626,7 @@ const PLANS={
 bure:{n:'Free',t:'Get started for free',price:0,period:'m',lim:{p:30,c:20},rep:7,exp:0,f:['Up to 30 products','Up to 20 customers','Unlimited sales and receipts','7 days of reports']},
 basic:{n:'Basic',t:'For a growing shop',price:40000,period:'m',lim:{p:300,c:300},rep:90,exp:1,f:['Up to 300 products','Up to 300 customers','90 days of reports','Export CSV (sales, products, expenses)']},
 premium:{n:'Premium',t:'For a fast-growing business',price:60000,period:'m',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['Unlimited products and customers','All-time reports','Export CSV','Business analytics']},
-ultra:{n:'Ultra',t:'The full power of Mauzobora for a full year',price:600000,period:'y',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['All Premium features','One full year of access','Unlimited products and customers','Priority support']}};let SUB=null,per='m',payRef=null;
+ultra:{n:'Ultra',t:'The full power of Mauzobora for a full year',price:600000,period:'y',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['All Premium featurestures','One full year of access','Unlimited products and customers','Priority support']}};let SUB=null,per='m',payRef=null;
 const T0=n=>'TSh '+n.toLocaleString('en-US');
 const eff=()=>{const n=Date.now();if(SUB&&SUB.expiresAtMs>n){const p=({duka:'basic',biashara:'premium'})[SUB.plan]||SUB.plan;return PLANS[p]?p:'bure'}if(SUB&&SUB.trialEndsAtMs>n)return'premium';return'bure'};
 const trial=()=>!!SUB&&!(SUB.expiresAtMs>Date.now())&&SUB.trialEndsAtMs>Date.now();
