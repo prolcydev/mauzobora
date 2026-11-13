@@ -587,7 +587,18 @@ const justRegistered=!!pend,chosenPlan=pendingPlan;
 uid=u.uid;
 try{const d=await load(u);a('#auth').hidden=true;a('#app').hidden=false;await window.boot(d,u);st('');
 if(justRegistered){pend='';pendingPlan='basic';window.openPlanCheckout&&window.openPlanCheckout(chosenPlan)}}
-catch(e){console.error(e);a('#auth').hidden=false;err(e.code=='permission-denied'?'Database access was denied. Update your Firestore rules in Firebase.':'Could not load your data. Check your internet connection.');signOut(auth)}
+catch(e){
+console.error(e);
+if(e.code==='permission-denied'){
+const sub=await window.FB.sub().catch(()=>null);
+const paid=!!sub&&sub.status==='active'&&Number(sub.expiresAtMs)>Date.now()&&['basic','premium','ultra','duka','biashara'].includes(sub.plan);
+if(!paid){
+const empty={set:{name:pend||u.displayName||'My Shop',phone:'',addr:'',tax:0},next:1,products:[],customers:[],sales:[],expenses:[]};
+a('#auth').hidden=true;a('#app').hidden=false;await window.boot(empty,u);st('');
+if(justRegistered){pend='';pendingPlan='basic';window.openPlanCheckout&&window.openPlanCheckout(chosenPlan)}
+}else{a('#auth').hidden=false;err('Your plan is active, but access to your shop data was denied. Check your Firestore rules.');await signOut(auth)}
+}else{a('#auth').hidden=false;err('Could not load your data. Check your internet connection.');await signOut(auth)}
+}
 hideLoad()});
 </script>
 <script>
@@ -689,7 +700,7 @@ const j=await api({action:'init',plan:k,period:x.period,phone:o.phone,name:D.set
 if(!j.success){m.innerHTML=`<h3>Failed</h3><p class="sub">${esc(j.message||'Please try again.')}</p><div class="row"><button class="btn" data-a="close">Close</button></div>`;return}
 payRef=j.reference;const end=Date.now()+18e4;
 while(Date.now()<end&&payRef===j.reference){await new Promise(r=>setTimeout(r,4000));const s=await api({action:'status',reference:j.reference});
-if(s.payment_status==='COMPLETED'){SUB=s.sub||SUB;payRef=null;V='dash';close();render();toast('Payment received. Thank you!');return}
+if(s.payment_status==='COMPLETED'){SUB=s.sub||SUB;payRef=null;close();toast('Payment received. Loading your shop...');window.location.reload();return}
 if(s.payment_status==='FAILED'){payRef=null;m.innerHTML=`<h3>Payment was not completed</h3><p class="sub">${s.detail==='cancelled'?'You declined the payment.':s.detail==='expired'?'The payment request expired.':'Payment failed. You have not been charged.'}</p><div class="row"><button class="btn" data-a="close">Close</button></div>`;return}}
 const ps=$('#ps');if(ps)ps.textContent='We are still waiting for confirmation. Your plan will activate automatically once payment is confirmed.'})}
 /* ---------- actions ---------- */
