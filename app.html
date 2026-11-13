@@ -195,6 +195,18 @@ main{padding-top:26px;padding-bottom:110px}
 }
 
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+/* Compact desktop sales table: prevent columns from stretching across the full card. */
+.sales-list table{width:auto;min-width:0;max-width:100%;table-layout:auto;border-collapse:collapse}
+.sales-list th,.sales-list td{padding:9px 10px;white-space:nowrap}
+.sales-list .sale-products{max-width:180px;overflow:hidden;text-overflow:ellipsis}
+.sales-list .sale-customer{display:inline-block;max-width:145px;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}
+.sales-list th:nth-child(1),.sales-list td:nth-child(1){min-width:74px}
+.sales-list th:nth-child(2),.sales-list td:nth-child(2){min-width:92px}
+.sales-list th:nth-child(4),.sales-list td:nth-child(4){text-align:center}
+.sales-list th:nth-child(7),.sales-list td:nth-child(7){text-align:right}
+@media(max-width:1000px){
+ .sales-list table{min-width:720px;width:100%}
+}
 /* ---------- clean application loader ---------- */
 #load{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:120;color:var(--ink);opacity:1;visibility:visible;transition:opacity .22s ease,visibility .22s ease}
 #load.out{opacity:0;visibility:hidden;pointer-events:none}
