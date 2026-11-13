@@ -146,35 +146,14 @@ main{padding-top:26px;padding-bottom:110px}
 }
 @media print{aside,.tools,.btn,.top button{display:none!important}.app{display:block}main{padding:0}body{background:#fff}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
-/* ---------- loader: Mauzobora mark ---------- */
-#load{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:120;color:var(--ink);transition:opacity .8s cubic-bezier(.4,0,.2,1),visibility .8s}
+/* ---------- clean application loader ---------- */
+#load{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:120;color:var(--ink);opacity:1;visibility:visible;transition:opacity .22s ease,visibility .22s ease}
 #load.out{opacity:0;visibility:hidden;pointer-events:none}
-#load.out .lw{transform:scale(1.08);transition:transform .8s cubic-bezier(.4,0,.2,1)}
-.lg{width:clamp(110px,26vw,150px);height:auto;overflow:visible;animation:lg-in .8s cubic-bezier(.16,1,.3,1) both}
-.lg *{transform-box:fill-box}
-@keyframes lg-in{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
-.bo{fill:none;stroke:currentColor;stroke-width:2.2;stroke-dasharray:1;stroke-dashoffset:1;animation:lg-draw 1.1s cubic-bezier(.65,0,.35,1) .1s forwards}
-@keyframes lg-draw{to{stroke-dashoffset:0}}
-.bf{fill:currentColor;opacity:0;animation:lg-fade .6s ease .9s forwards}
-.sc{fill:var(--bg);opacity:0;animation:lg-sc .5s ease 1s forwards}
-@keyframes lg-sc{to{opacity:.16}}
-.sl{fill:currentColor;opacity:0;animation:lg-fade .4s ease 1s forwards}
-@keyframes lg-fade{to{opacity:1}}
-.bar{transform-origin:50% 100%;transform:scaleY(0);animation:lg-bar .7s cubic-bezier(.22,1,.36,1) forwards}
-@keyframes lg-bar{to{transform:scaleY(1)}}
-.ky{fill:var(--bg);opacity:0;transform:scale(.4);animation:lg-key .45s cubic-bezier(.34,1.4,.64,1) forwards}
-@keyframes lg-key{to{opacity:1;transform:scale(1)}}
-.rc{transform:translateY(-66px);animation:lg-print 1s cubic-bezier(.22,1,.36,1) 1.6s forwards}
-@keyframes lg-print{to{transform:translateY(0)}}
-.rl{transform-origin:0 50%;transform:scaleX(0);animation:lg-bar-x .5s ease forwards}
-@keyframes lg-bar-x{to{transform:scaleX(1)}}
-.ck{fill:none;stroke:#0F9F78;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:lg-draw .5s ease 2.55s forwards}
-.lw{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 16px}
-.lt{margin-top:30px;margin-right:-.36em;font-size:clamp(20px,5.6vw,30px);font-weight:600;text-transform:uppercase;letter-spacing:.36em;white-space:nowrap;opacity:0;animation:lt-in 1.3s cubic-bezier(.16,1,.3,1) 2.1s forwards}
-@keyframes lt-in{from{opacity:0;letter-spacing:.8em;filter:blur(8px);transform:translateY(8px)}to{opacity:1;letter-spacing:.36em;filter:blur(0);transform:none}}
-.ls{margin-top:10px;font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);opacity:0;animation:lg-fade .9s ease 2.8s forwards}
-.ls:before{content:"";display:block;width:36px;height:2px;margin:0 auto 12px;background:#0F9F78;border-radius:2px;transform:scaleX(0);animation:lg-bar-x .8s cubic-bezier(.22,1,.36,1) 2.6s forwards}
-@media(prefers-reduced-motion:reduce){.lt,.ls,.ls:before,.lg,.bo,.bf,.sc,.sl,.bar,.ky,.rc,.rl,.ck{animation:none!important;transition:none!important}.bo{stroke-dashoffset:0}.bf,.sl,.ky,.lt,.ls{opacity:1}.lt{filter:none;transform:none;letter-spacing:.36em}.ls:before{transform:none}.sc{opacity:.16}.bar,.rl{transform:none}.rc{transform:none}.ky{transform:none}.ck{stroke-dashoffset:0}}
+.load-simple{display:flex;flex-direction:column;align-items:center;gap:14px;padding:24px;text-align:center}
+.load-ring{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--g7);border-radius:50%;animation:load-spin .75s linear infinite}
+.load-simple strong{font-size:18px;font-weight:600;letter-spacing:-.025em}
+@keyframes load-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.load-ring{animation:none;border-top-color:var(--g7)}}
 /* ---------- voice button ---------- */
 .mic{position:fixed;right:20px;bottom:calc(24px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;border:0;background:var(--g7);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 24px rgba(62,106,225,.45);z-index:35;transition:transform .15s}
 .mic:hover{transform:scale(1.06)}
@@ -516,7 +495,7 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
 <form class="agi" id="agf" autocomplete="off"><button type="button" class="agb" id="agmic" data-a="agmic" aria-label="Sema"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></button><input id="agin" placeholder="Type or speak..." aria-label="Ujumbe"><button type="submit" class="agb p" aria-label="Tuma"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></form></div>
 </div>
 <div id="supportDock" aria-label="Mauzobora customer support and legal links"><div class="sd-contact"><span>Support:</span><a href="tel:+255621658007">+255 621 658 007</a></div><a class="sd-wa" href="https://wa.me/255621658007?text=Hello%20Mauzobora%20Support" target="_blank" rel="noopener" aria-label="Chat with Mauzobora on WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.02 3C8.85 3 3.02 8.82 3.02 15.99c0 2.29.6 4.52 1.74 6.48L3 29l6.7-1.72a13 13 0 0 0 6.31 1.62h.01c7.17 0 13-5.83 13-13S23.19 3 16.02 3Zm0 23.7h-.01a10.7 10.7 0 0 1-5.45-1.49l-.39-.23-3.98 1.02 1.06-3.88-.25-.4a10.68 10.68 0 1 1 9.02 4.98Zm5.87-8.01c-.32-.16-1.88-.93-2.17-1.04-.29-.1-.5-.16-.71.16-.21.32-.82 1.04-1.01 1.25-.18.21-.37.24-.69.08-.32-.16-1.34-.49-2.55-1.57-.94-.84-1.57-1.88-1.75-2.2-.18-.32-.02-.49.14-.65.14-.14.32-.37.48-.55.16-.18.21-.32.32-.53.1-.21.05-.4-.03-.56-.08-.16-.71-1.71-.98-2.34-.26-.61-.52-.53-.71-.54h-.61c-.21 0-.55.08-.84.4-.29.32-1.1 1.07-1.1 2.61s1.13 3.03 1.29 3.24c.16.21 2.22 3.39 5.38 4.75.75.32 1.33.51 1.78.65.75.24 1.43.21 1.97.13.6-.09 1.88-.77 2.15-1.52.26-.75.26-1.39.18-1.52-.08-.13-.29-.21-.61-.37Z"/></svg><span>WhatsApp</span></a><div class="sd-links"><a href="/privacy">Privacy Policy</a><a href="/terms">Terms &amp; Conditions</a></div></div>
-<div id="load" role="status" aria-label="Loading"><div class="load-simple"><span class="load-mark">M</span><strong>Mauzobora</strong><small>Business manager</small></div></div>
+<div id="load" role="status" aria-label="Loading Mauzobora"><div class="load-simple"><span class="load-ring" aria-hidden="true"></span><strong>Mauzobora</strong></div></div>
 <div id="auth" hidden>
 <section class="ah"><div id="alogo"></div>
 <div class="auth-spacer" aria-hidden="true"></div>
@@ -579,7 +558,7 @@ COLS.forEach(c=>d[c]=d[c]||[]);d.next=d.next||1}
 d.sales.sort((x,y)=>x.no-y.no);d.products.sort((x,y)=>x.name.localeCompare(y.name));d.customers.sort((x,y)=>x.name.localeCompare(y.name));
 if(m.exists()){cache.meta=JSON.stringify({set:d.set,next:d.next});COLS.forEach(c=>d[c].forEach(x=>cache[c+'/'+x.id]=JSON.stringify(x)))}else {/* New accounts start with an empty dashboard; first save happens after plan activation. */}
 return d}
-const T0L=performance.now(),MINL=4000;
+const T0L=performance.now(),MINL=250;
 const showLoad=()=>{const l=a('#load');l.hidden=false;l.classList.remove('out')};
 const hideLoad=()=>setTimeout(()=>{const l=a('#load');l.classList.add('out');setTimeout(()=>{l.hidden=true},750)},Math.max(0,MINL-(performance.now()-T0L)));
 onAuthStateChanged(auth,async u=>{showLoad();
@@ -637,7 +616,7 @@ const close=()=>{$('#modal').innerHTML='';okFn=null};
 function setStat(t){$('#sv').textContent=t}
 function ask(msg,fn,lbl='Confirm'){$('#modal').innerHTML=`<div class="ov"><div class="mod"><h3>${esc(msg)}</h3><div class="row" style="margin-top:18px"><button class="btn" data-a="close">Cancel</button><button class="btn p" data-a="ok">${lbl}</button></div></div></div>`;okFn=()=>{close();fn()}}
 function csv(n,h,r){const t=[h,...r].map(l=>l.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');const u=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv'})),x=document.createElement('a');x.href=u;x.download='mauzobora-'+n+'-'+dk(new Date())+'.csv';x.click();setTimeout(()=>URL.revokeObjectURL(u),1500)}
-const ONB=`<div class="card" style="margin-bottom:16px;background:var(--hi)"><h3>Let’s set up your shop</h3><p class="sub" style="margin-bottom:12px">Add your first products, then start making sales. It only takes two minutes.</p><div class="row" style="justify-content:flex-start"><button class="btn p" data-a="addp">Add your first product</button><button class="btn" data-a="reset">Try sample data</button></div></div>`;
+const ONB=`<div class="card" style="margin-bottom:16px;background:var(--hi)"><h3>Let’s set up your shop</h3><p class="sub" style="margin-bottom:12px">Add your first products, then start making sales. It only takes two minutes.</p><div class="row" style="justify-content:flex-start"><button class="btn p" data-a="addp">Add your first product</button><button class="btn" data-a="reset"></div></div>`;
 /* ---------- views ---------- */
 const VW={
 dash(){
@@ -730,7 +709,7 @@ return`<div class="top"><div><h1>Reports</h1><p class="sub">Profit and loss, bes
 <div class="kpis"><div class="card kpi"><span>Revenue</span><b>${money(rev)}</b></div><div class="card kpi"><span>Gross profit</span><b>${money(rev-cg)}</b><span>Margin ${rev?Math.round((rev-cg)/rev*100):0}%</span></div><div class="card kpi"><span>Expenses</span><b>${money(ex)}</b></div><div class="card kpi hero"><span>Net profit</span><b>${money(rev-cg-ex)}</b></div></div>
 <div class="cols"><div class="card"><h3>Top-selling products</h3>${top.length?top.map(t=>`<div style="margin-bottom:12px"><div class="tot" style="color:var(--ink)"><span>${esc(t[0])} <small style="color:var(--mut)">x${t[1].q}</small></span><b>${money(t[1].r)}</b></div><div class="pr"><i style="width:${t[1].r/mp*100}%"></i></div></div>`).join(''):'<div class="empty">No sales in this period.</div>'}</div>
 <div class="card"><h3>Payment methods</h3>${Object.entries(pmx).map(p=>`<div class="tot" style="color:var(--ink)"><span>${pm(p[0])}</span><b>${money(p[1])}</b></div>`).join('')||'<div class="empty">No data available.</div>'}</div></div>`},
-set(){const s=D.set;return`<div class="top"><div><h1>Settings</h1><p class="sub">Business details displayed on receipts.</p></div></div><div class="card" style="max-width:520px"><div class="fg"><label>Business name<input id="s1" value="${esc(s.name)}"></label><label>Phone<input id="s2" value="${esc(s.phone)}"></label><label>Address<input id="s3" value="${esc(s.addr)}"></label><label>VAT (%)<input id="s4" type="number" min="0" step="any" value="${s.tax}"></label></div><div class="row"><button class="btn" data-a="out">Sign out</button><button class="btn d" data-a="wipe">Delete all data</button><button class="btn d" data-a="reset">Load sample data</button><button class="btn p" data-a="saveset">Save settings</button></div></div>`}};
+set(){const s=D.set;return`<div class="top"><div><h1>Settings</h1><p class="sub">Business details displayed on receipts.</p></div></div><div class="card" style="max-width:520px"><div class="fg"><label>Business name<input id="s1" value="${esc(s.name)}"></label><label>Phone<input id="s2" value="${esc(s.phone)}"></label><label>Address<input id="s3" value="${esc(s.addr)}"></label><label>VAT (%)<input id="s4" type="number" min="0" step="any" value="${s.tax}"></label></div><div class="row"><button class="btn" data-a="out">Sign out</button><button class="btn d" data-a="wipe">Delete all data</button><button class="btn p" data-a="saveset">Save settings</button></div></div>`}};
 function salesTable(a,act){return a.length?`<div class="tw"><table><tr><th>Receipt</th><th>Date</th><th>Customer</th><th>Payment</th><th class="r">Total</th><th></th></tr>${a.map(s=>`<tr><td>#${String(s.no).padStart(4,'0')}</td><td>${new Date(s.date).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${esc(C(s.cust)?.name||'Walk-in customer')}</td><td><span class="tag ${s.status=='Paid'?'':'g'}">${s.status=='Paid'?pm(s.pay):'Refunded'}</span></td><td class="r">${money(s.total)}</td><td class="r"><button class="btn s" data-a="rcpt" data-i="${s.id}">View</button>${act&&s.status=='Paid'?` <button class="btn s d" data-a="refund" data-i="${s.id}">Refund</button>`:''}</td></tr>`).join('')}</table></div>`:'<div class="empty">No sales yet. Make your first sale on the Point of Sale page.</div>'}
 function posList(){const l=D.products.filter(p=>(cat=='All'||p.cat==cat)&&p.name.toLowerCase().includes(q.toLowerCase()));return l.map(p=>`<button class="pt" data-a="add" data-i="${p.id}" ${p.stock<1?'disabled':''}><b>${esc(p.name)}</b><em>${money(p.price)}</em><small>${p.stock<1?'Out of stock':p.stock+' in stock'}</small></button>`).join('')||'<div class="empty">No matching products found.</div>'}
 function totals(){const sub=sum(Object.entries(cart),([id,n])=>n*P(id).price),d=Math.min(disc,sub),tax=Math.round((sub-d)*D.set.tax/100);return{sub,d,tax,total:sub-d+tax}}
@@ -797,7 +776,7 @@ cpay:i=>{const c=C(i);form('Payment from '+esc(c.name),[{k:'n',l:'Amount receive
 adde:()=>form('Add expense',[{k:'title',l:'What is this expense for?'},{k:'cat',l:'Category',o:['Rent','Utilities','Salaries','Transport','Supplies','Other']},{k:'amt',l:'Amount (TZS)',t:'number'},{k:'date',l:'Date',t:'date'}],{date:dk(new Date()),cat:'Other'},o=>{if(!o.title||!o.amt)return toast('Enter a description and amount');D.expenses.push({id:uid(),...o});save();close();render()}),
 dele:i=>{D.expenses=D.expenses.filter(e=>e.id!=i);save();render()},
 saveset:()=>{D.set={name:$('#s1').value.trim()||'My Shop',phone:$('#s2').value,addr:$('#s3').value,tax:+$('#s4').value||0};save();render();toast('Settings imehifadhiwa')},
-reset:()=>ask('Replace all your data with sample data?',()=>{const nm=D.set.name;D=seed();D.set.name=nm;cart={};save();render()},'Replace'),
+
 plans:()=>{V='plan';render()},per:i=>{per=i;render()},buy:k=>payForm(k)};
 const wrap=(k,chk)=>{const f=ACT[k];ACT[k]=(...a)=>chk()||f(...a)};
 wrap('addp',()=>D.products.length>=PLANS[eff()].lim.p&&(paywall('You have reached the product limit of '+PLANS[eff()].lim.p),1));
