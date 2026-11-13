@@ -67,6 +67,7 @@ async function activateSubscription(reference, providerData) {
       status: "active",
       startedAtMs: now,
       expiresAtMs,
+      expiresAt: new Date(expiresAtMs),
       trialEndsAtMs: 0,
       lastPaymentReference: reference,
       lastPaymentAmount: order.amount,
@@ -199,6 +200,17 @@ export default async function handler(req, res) {
           status: "free",
           trialEndsAtMs: 0,
           expiresAtMs: 0,
+          updatedAt: FieldValue.serverTimestamp()
+        }, { merge: true });
+        snap = await subRef.get();
+      } else if (
+        snap.exists &&
+        Number(snap.data().expiresAtMs) > Date.now() &&
+        !snap.data().expiresAt
+      ) {
+        // Add a Firestore Timestamp for rules to compare safely with request.time.
+        await subRef.set({
+          expiresAt: new Date(Number(snap.data().expiresAtMs)),
           updatedAt: FieldValue.serverTimestamp()
         }, { merge: true });
         snap = await subRef.get();
