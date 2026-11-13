@@ -24,13 +24,13 @@ function addMonths(timestamp, months) {
 async function verifiedUser(req, res) {
   const token = String(req.headers.authorization || "").replace(/^Bearer\s+/i, "");
   if (!token) {
-    res.status(401).json({ success: false, message: "Tafadhali ingia tena." });
+    res.status(401).json({ success: false, message: "Please sign in again." });
     return null;
   }
   try {
     return await adminAuth.verifyIdToken(token);
   } catch {
-    res.status(401).json({ success: false, message: "Kikao kimeisha. Ingia tena." });
+    res.status(401).json({ success: false, message: "Your session has expired. Please sign in again." });
     return null;
   }
 }
@@ -170,27 +170,47 @@ export default async function handler(req, res) {
     const action = body.action;
 
     if (action === "me") {
-      const snap = await adminDb.doc("subscriptions/" + user.uid).get();
+      const subRef = adminDb.doc("subscriptions/" + user.uid);
+      let snap = await subRef.get();
+      if (!snap.exists) {
+        const account = await adminAuth.getUser(user.uid);
+        const createdAtMs = Date.parse(account.metadata.creationTime || "") || Date.now();
+        const trialEndsAtMs = createdAtMs + 24 * 60 * 60 * 1000;
+        const now = Date.now();
+        const initialSub = {
+          plan: trialEndsAtMs > now ? "trial" : "bure",
+          status: trialEndsAtMs > now ? "trial" : "free",
+          startedAtMs: createdAtMs,
+          trialEndsAtMs,
+          expiresAtMs: 0,
+          currency: "TZS",
+          updatedAt: FieldValue.serverTimestamp()
+        };
+        await subRef.create(initialSub).catch(async error => {
+          if (error.code !== 6 && error.code !== "already-exists") throw error;
+        });
+        snap = await subRef.get();
+      }
       return res.json({ success: true, sub: snap.exists ? snap.data() : null });
     }
 
     if (action === "init") {
       const plan = PLANS[body.plan];
       if (!plan || body.period !== plan.period) {
-        return res.status(400).json({ success: false, message: "Chagua mpango na muda sahihi wa malipo." });
+        return res.status(400).json({ success: false, message: "Choose a valid plan and billing period." });
       }
 
       const phone = normalizeTanzaniaPhone(body.phone);
       if (!phone) {
         return res.status(400).json({
           success: false,
-          message: "Namba si sahihi. Tumia 07XXXXXXXX, 06XXXXXXXX au +255XXXXXXXXX."
+          message: "Invalid phone number. Use 07XXXXXXXX, 06XXXXXXXX or +255XXXXXXXXX."
         });
       }
 
       const email = String(user.email || "").trim();
       if (!email) {
-        return res.status(400).json({ success: false, message: "Akaunti yako haina barua pepe ya malipo." });
+        return res.status(400).json({ success: false, message: "Your account does not have a billing email address." });
       }
 
       // Reuse a recent pending request for the same account, plan and phone
@@ -237,7 +257,7 @@ export default async function handler(req, res) {
       } catch (error) {
         if (error instanceof SplashPayConfigError) {
           await adminDb.doc("subscriptionOrders/" + reference).update({ status: "FAILED", failureStatus: "configuration" });
-          return res.status(503).json({ success: false, message: "Malipo hayajasanidiwa bado. Wasiliana na msimamizi." });
+          return res.status(503).json({ success: false, message: "Payments are not configured yet. Please contact the administrator." });
         }
         return res.status(202).json({
           success: true, reference,
@@ -253,7 +273,7 @@ export default async function handler(req, res) {
         });
         return res.status(result.httpStatus >= 500 ? 502 : 400).json({
           success: false,
-          message: response.message || "Imeshindikana kuanzisha malipo. Hakiki namba kisha ujaribu tena."
+          message: response.message || "Could not start the payment. Check the phone number and try again."
         });
       }
 
@@ -268,10 +288,10 @@ export default async function handler(req, res) {
     if (action === "status") {
       const reference = String(body.reference || "");
       if (!reference || reference.includes("/")) {
-        return res.status(400).json({ success: false, message: "Reference ya malipo inahitajika." });
+        return res.status(400).json({ success: false, message: "A payment reference is required." });
       }
       const result = await checkSubscriptionOrder(reference, user.uid);
-      if (!result.found) return res.status(404).json({ success: false, message: "Malipo hayajapatikana." });
+      if (!result.found) return res.status(404).json({ success: false, message: "Payment was not found." });
       return res.json({
         success: true,
         payment_status: result.payment_status,
@@ -280,15 +300,15 @@ export default async function handler(req, res) {
       });
     }
 
-    return res.status(400).json({ success: false, message: "Action haijulikani." });
+    return res.status(400).json({ success: false, message: "Unknown action." });
   } catch (error) {
     if (error instanceof SplashPayConfigError) {
-      return res.status(503).json({ success: false, message: "Malipo hayapatikani kwa sasa. Wasiliana na msimamizi." });
+      return res.status(503).json({ success: false, message: "Payments are currently unavailable. Please contact the administrator." });
     }
     if (error.code === "STATUS_UNAVAILABLE") {
-      return res.status(200).json({ success: true, payment_status: "PENDING", message: "Bado tunathibitisha malipo." });
+      return res.status(200).json({ success: true, payment_status: "PENDING", message: "We are still verifying your payment." });
     }
     console.error("MauzoBora subscription API error:", error);
-    return res.status(500).json({ success: false, message: "Hitilafu ya seva. Jaribu tena baadaye." });
+    return res.status(500).json({ success: false, message: "A server error occurred. Please try again later." });
   }
 }
