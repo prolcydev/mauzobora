@@ -639,17 +639,82 @@ function csv(n,h,r){const t=[h,...r].map(l=>l.map(v=>'"'+String(v??'').replace(/
 const ONB=`<div class="card" style="margin-bottom:16px;background:var(--hi)"><h3>Let’s set up your shop</h3><p class="sub" style="margin-bottom:12px">Add your first products, then start making sales. It only takes two minutes.</p><div class="row" style="justify-content:flex-start"><button class="btn p" data-a="addp">Add your first product</button><button class="btn" data-a="reset">Try sample data</button></div></div>`;
 /* ---------- views ---------- */
 const VW={
-dash(){const t=dk(new Date()),pd=paid(),ts=pd.filter(s=>dk(s.date)==t),m=t.slice(0,7),ms=pd.filter(s=>s.date.slice(0,7)==m);
-const rev=sum(ms,s=>s.total),prof=rev-sum(ms,cost)-sum(D.expenses.filter(e=>e.date.slice(0,7)==m),e=>e.amt);
-const days=[...Array(7)].map((_,i)=>{const d=dk(ago(6-i));return{l:new Date(d).toLocaleDateString('en-TZ',{weekday:'short'}),v:sum(pd.filter(s=>dk(s.date)==d),s=>s.total)}}),mx=Math.max(...days.map(d=>d.v),1);
-return`<div class="top"><div><h1>Hello, welcome back</h1><p class="sub">Here is how ${esc(D.set.name)} is doing.</p></div><button class="btn p" data-a="go" data-i="pos">Point of Sale</button></div>${D.products.length?'':ONB}
-<div class="kpis"><div class="card kpi hero"><span>Today’s sales</span><b>${money(sum(ts,s=>s.total))}</b><span>Receipts ${ts.length}</span></div>
-<div class="card kpi"><span>Revenue this month</span><b>${money(rev)}</b></div>
-<div class="card kpi"><span>Net profit this month</span><b style="color:${prof<0?'var(--bad)':'var(--g7)'}">${money(prof)}</b></div>
-<div class="card kpi"><span>Customer balances</span><b>${money(sum(D.customers,c=>c.bal))}</b></div></div>
-<div class="cols"><div class="card"><h3>Last 7 days</h3><div class="bars">${days.map(d=>`<div><span>${d.v?Math.round(d.v/1000)+'k':''}</span><i style="height:${d.v/mx*100*.8}%"></i>${d.l}</div>`).join('')}</div></div>
-<div class="card"><h3>Running low (${low().length})</h3>${low().length?low().slice(0,6).map(p=>`<div class="ln"><div>${esc(p.name)}</div><span class="tag w">${p.stock} remaining</span></div>`).join(''):'<div class="empty">All products are sufficiently stocked.</div>'}</div></div>
-<div class="card"><h3>Recent sales</h3>${salesTable(pd.slice(-6).reverse(),0)}</div>`},
+dash(){
+  const today=dk(new Date());
+  const month=today.slice(0,7);
+  const paidSales=paid();
+  const todaySales=paidSales.filter(s=>dk(s.date)===today);
+  const monthSales=paidSales.filter(s=>String(s.date||'').slice(0,7)===month);
+  const revenue=sum(monthSales,s=>Number(s.total)||0);
+  const expenses=sum(D.expenses.filter(e=>String(e.date||'').slice(0,7)===month),e=>Number(e.amt)||0);
+  const profit=revenue-sum(monthSales,cost)-expenses;
+  const customerBalances=sum(D.customers,c=>Number(c.bal)||0);
+  const lastSevenDays=Array.from({length:7},(_,i)=>{
+    const date=dk(ago(6-i));
+    return {
+      label:new Date(date+'T12:00:00').toLocaleDateString('en-TZ',{weekday:'short'}),
+      value:sum(paidSales.filter(s=>dk(s.date)===date),s=>Number(s.total)||0)
+    };
+  });
+  const maxDailySales=Math.max(1,...lastSevenDays.map(day=>day.value));
+  const lowStock=low();
+  return `
+    <div class="top">
+      <div>
+        <h1>Hello, welcome back</h1>
+        <p class="sub">Here is how ${esc(D.set.name)} is doing.</p>
+      </div>
+      <button class="btn p" data-a="go" data-i="pos">Open Point of Sale</button>
+    </div>
+    ${D.products.length?'':ONB}
+    <div class="kpis">
+      <div class="card kpi hero">
+        <span>Today's sales</span>
+        <b>${money(sum(todaySales,s=>Number(s.total)||0))}</b>
+        <span>${todaySales.length} receipt${todaySales.length===1?'':'s'}</span>
+      </div>
+      <div class="card kpi">
+        <span>Revenue this month</span>
+        <b>${money(revenue)}</b>
+      </div>
+      <div class="card kpi">
+        <span>Net profit this month</span>
+        <b style="color:${profit<0?'var(--bad)':'var(--g7)'}">${money(profit)}</b>
+      </div>
+      <div class="card kpi">
+        <span>Customer balances</span>
+        <b>${money(customerBalances)}</b>
+      </div>
+    </div>
+    <div class="cols">
+      <section class="card">
+        <h3>Sales over the last 7 days</h3>
+        <div class="bars">
+          ${lastSevenDays.map(day=>`
+            <div>
+              <span>${day.value?Math.round(day.value/1000)+'k':''}</span>
+              <i title="${money(day.value)}" style="height:${Math.max(day.value?3:0,day.value/maxDailySales*80)}%"></i>
+              ${day.label}
+            </div>
+          `).join('')}
+        </div>
+      </section>
+      <section class="card">
+        <h3>Low-stock products (${lowStock.length})</h3>
+        ${lowStock.length?lowStock.slice(0,6).map(product=>`
+          <div class="ln">
+            <div>${esc(product.name)}</div>
+            <span class="tag w">${Number(product.stock)||0} remaining</span>
+          </div>
+        `).join(''):'<div class="empty">All products are sufficiently stocked.</div>'}
+      </section>
+    </div>
+    <section class="card">
+      <h3>Recent sales</h3>
+      ${salesTable(paidSales.slice(-6).reverse(),0)}
+    </section>
+  `;
+},
 pos(){const cats=['All',...new Set(D.products.map(p=>p.cat))];
 return`<div class="top"><div><h1>Point of Sale</h1><p class="sub">Tap a product to add it to the sale.</p></div></div><div class="pos"><div><div class="tools"><input data-s placeholder="Search products" value="${esc(q)}"><select data-c>${cats.map(c=>`<option ${c==cat?'selected':''}>${esc(c)}</option>`).join('')}</select></div><div class="grid" id="list">${posList()}</div></div><div class="card cart" id="cart">${cartHtml()}</div></div>`},
 stock(){return`<div class="top"><div><h1>Products</h1><p class="sub">${D.products.length} products, inventory value ${money(sum(D.products,p=>p.stock*p.cost))} at cost price.</p></div><div class="row"><button class="btn" data-a="xp">Export CSV</button><button class="btn p" data-a="addp">Add product</button></div></div><div class="tools"><input data-s placeholder="Search products" value="${esc(q)}"></div><div class="card tw" id="list">${stockList()}</div>`},
