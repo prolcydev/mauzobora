@@ -914,7 +914,7 @@ r.onend=fin_;
 try{r.start()}catch(_){fin_()}}
 Object.assign(ACT,{mic:()=>agOpen(true),agx:()=>agOpen(false),agmic:()=>rec?stopVoice():listen(),
 agchip:i=>agentIn(CHIPS[i]),
-agdo:i=>{const[id,j]=i.split('.'),m=AG.msgs.find(x=>x.id==id);if(!m||m.done)return;m.done=true;const a=m.acts[j];agAdd({r:'u',t:a.l});a.fn()}});
+agdo:i=>{if(!hasPaidAccess()){paywall('Activate any paid plan to use the Mauzobora assistant.');return}const[id,j]=i.split('.'),m=AG.msgs.find(x=>x.id==id);if(!m||m.done)return;m.done=true;const a=m.acts[j];agAdd({r:'u',t:a.l});a.fn()}});
 document.addEventListener('submit',e=>{if(e.target.id=='agf'){e.preventDefault();const i=$('#agin');const v=i.value;i.value='';agentIn(v)}});
 document.addEventListener('click',e=>{const a=e.target.closest('[data-a]');if(a&&ACT[a.dataset.a])ACT[a.dataset.a](a.dataset.i)});
 document.addEventListener('input',e=>{const t=e.target;
