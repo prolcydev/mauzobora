@@ -523,6 +523,22 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
  #auth .auth-form-note{font-size:12px}
  #auth #gg{min-height:50px}
 }
+
+/* ---------- subscription choice contrast and spacing ---------- */
+#auth #signupChoice{margin:2px 0 16px;padding:15px;background:#F4F8F5;border:1px solid #DCE8E1;border-radius:11px;min-width:0}
+#auth #signupChoice[hidden]{display:none!important}
+#auth #signupChoice>label{display:block;margin:0 0 8px;color:#24483A;font-size:13px;font-weight:700;line-height:1.4}
+#auth #signupChoice select{display:block;width:100%;min-width:0;min-height:48px;padding:11px 38px 11px 13px;border:1px solid #BFCFC5;border-radius:9px;background:#FFFFFF;color:#17352D;font:600 14px/1.4 inherit;box-sizing:border-box;outline:none}
+#auth #signupChoice select:focus{border-color:#0F8B68;box-shadow:0 0 0 3px rgba(15,139,104,.13)}
+#auth #signupChoice select option{background:#FFFFFF;color:#17352D}
+#auth #signupChoice small{display:block!important;margin-top:9px!important;color:#53685D!important;font-size:12px;line-height:1.55}
+#auth #legalConsentWrap{color:#40584D!important}
+#auth #legalConsentWrap a{color:#087653;font-weight:650;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:520px){
+ #auth #signupChoice{padding:13px;margin-bottom:13px}
+ #auth #signupChoice select{min-height:47px;font-size:13px}
+}
+
 </style></head>
 <body>
 <div class="app" id="app" hidden>
