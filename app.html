@@ -207,6 +207,21 @@ main{padding-top:26px;padding-bottom:110px}
 @media(max-width:1000px){
  .sales-list table{min-width:720px;width:100%}
 }
+/* Recent sales: compact horizontal summary on phones only. */
+@media(max-width:640px){
+ .recent-sales-card .sales-list{overflow-x:hidden!important}
+ .recent-sales-card .sales-list table{width:100%;min-width:0;table-layout:fixed}
+ .recent-sales-card .sales-list th,.recent-sales-card .sales-list td{padding:8px 5px;font-size:11px}
+ .recent-sales-card .sales-list th:nth-child(2),.recent-sales-card .sales-list td:nth-child(2),
+ .recent-sales-card .sales-list th:nth-child(5),.recent-sales-card .sales-list td:nth-child(5),
+ .recent-sales-card .sales-list th:nth-child(6),.recent-sales-card .sales-list td:nth-child(6){display:none}
+ .recent-sales-card .sales-list th:nth-child(1),.recent-sales-card .sales-list td:nth-child(1){width:58px}
+ .recent-sales-card .sales-list th:nth-child(3),.recent-sales-card .sales-list td:nth-child(3){width:auto}
+ .recent-sales-card .sales-list th:nth-child(4),.recent-sales-card .sales-list td:nth-child(4){width:34px;text-align:center}
+ .recent-sales-card .sales-list th:nth-child(7),.recent-sales-card .sales-list td:nth-child(7){width:105px;text-align:right}
+ .recent-sales-card .sales-list .sale-products{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .recent-sales-card .sales-list .sale-total{font-size:11px;font-weight:650}
+}
 /* ---------- clean application loader ---------- */
 #load{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:120;color:var(--ink);opacity:1;visibility:visible;transition:opacity .22s ease,visibility .22s ease}
 #load.out{opacity:0;visibility:hidden;pointer-events:none}
@@ -797,7 +812,7 @@ dash(){
         `).join(''):'<div class="empty">All products are sufficiently stocked.</div>'}
       </section>
     </div>
-    <section class="card">
+    <section class="card recent-sales-card">
       <h3>Recent sales</h3>
       ${salesTable(paidSales.slice(-6).reverse(),0)}
     </section>
