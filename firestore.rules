@@ -11,7 +11,8 @@ service cloud.firestore {
         && exists(subscriptionPath)
         && get(subscriptionPath).data.status == "active"
         && get(subscriptionPath).data.plan in ["basic", "premium", "ultra", "duka", "biashara"]
-        && get(subscriptionPath).data.expiresAtMs > request.time.toMillis();
+        && get(subscriptionPath).data.expiresAt is timestamp
+        && get(subscriptionPath).data.expiresAt > request.time;
     }
 
     // Users can view their own subscription status, but only the trusted
