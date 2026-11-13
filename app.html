@@ -145,6 +145,56 @@ main{padding-top:26px;padding-bottom:110px}
 .cols,.pos{grid-template-columns:1fr}.cart{position:static}
 }
 @media print{aside,.tools,.btn,.top button{display:none!important}.app{display:block}main{padding:0}body{background:#fff}}
+
+/* Mobile dashboard and navigation refinement */
+@media(max-width:1000px){
+ #nav a[data-i="stock"],#nav a[data-i="cust"],#nav a[data-i="exp"],#nav a[data-i="rep"],#nav a[data-i="plan"],#nav a[data-i="set"]{display:none}
+ #nav a[data-i="dash"],#nav a[data-i="pos"],#nav a[data-i="sales"]{display:flex;min-width:0}
+ .mobile-menu-trigger{display:flex;flex:1;min-width:58px;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 8px;border:0;background:transparent;color:#D5E0DA;font:500 10.5px Inter,Arial,sans-serif;cursor:pointer}
+ .mobile-menu-trigger svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+ #mobileMenu:not([hidden]){display:grid;position:fixed;z-index:60;right:10px;bottom:calc(72px + env(safe-area-inset-bottom,0px));width:min(250px,calc(100vw - 20px));padding:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 36px rgba(0,0,0,.2);gap:3px}
+ #mobileMenu a{display:flex;align-items:center;gap:12px;padding:12px;border-radius:8px;color:var(--ink);font-size:14px;text-decoration:none}
+ #mobileMenu a.on{background:var(--hi);color:var(--g9);font-weight:650}
+ #mobileMenu svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+ main{padding:20px 14px calc(94px + env(safe-area-inset-bottom,0px));}
+ .top{gap:12px;align-items:flex-start;flex-wrap:wrap}
+ .top>div{min-width:0;flex:1}
+ .top>.btn{white-space:nowrap}
+ .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .kpi{min-width:0;padding:14px}
+ .kpi b{font-size:clamp(18px,4vw,25px);overflow-wrap:anywhere}
+ .cols{grid-template-columns:minmax(0,1fr);gap:12px}
+ .cols>.card{min-width:0}
+ .bars{gap:5px}
+ .bars>div{min-width:0;font-size:11px}
+}
+@media(max-width:640px){
+ .sales-list{overflow:visible}
+ .sales-list table{width:100%;min-width:0;border-collapse:separate;border-spacing:0 9px}
+ .sales-list thead{display:none}
+ .sales-list tbody{display:grid;gap:9px}
+ .sales-list tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 12px;padding:13px;background:var(--bg);border:1px solid var(--line);border-radius:10px}
+ .sales-list td{display:block;padding:0;border:0;min-width:0;text-align:left!important;overflow-wrap:anywhere}
+ .sales-list td:before{content:attr(data-label);display:block;margin-bottom:3px;color:var(--mut);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.045em}
+ .sales-list td[data-label="Receipt"]{grid-column:1;grid-row:1}
+ .sales-list td[data-label="Date"]{grid-column:2;grid-row:1;text-align:right!important;font-size:11px;color:var(--mut)}
+ .sales-list td[data-label="Customer"]{grid-column:1;grid-row:2}
+ .sales-list td[data-label="Payment"]{grid-column:2;grid-row:2;justify-self:end}
+ .sales-list td[data-label="Total"]{grid-column:1;grid-row:3;font-size:16px}
+ .sales-list td[data-label="Actions"]{grid-column:2;grid-row:3;align-self:end;justify-self:end;white-space:nowrap}
+ .sales-list td[data-label="Actions"]:before{display:none}
+ .sales-list .btn{padding:7px 9px;font-size:11px}
+ .card{min-width:0}
+ .top h1{font-size:26px}
+ .kpis{gap:8px}
+ .kpi{padding:12px}
+ .kpi>span{font-size:11px}
+ .kpi b{font-size:18px}
+ .bars{min-height:130px}
+ .bars>div{font-size:10px}
+ .mobile-menu-trigger{min-width:52px}
+}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 /* ---------- clean application loader ---------- */
 #load{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);z-index:120;color:var(--ink);opacity:1;visibility:visible;transition:opacity .22s ease,visibility .22s ease}
@@ -544,7 +594,7 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
 <div class="app" id="app" hidden>
 <aside><div class="brand"><div class="brand-mark">M</div><div><span id="bn">Mauzobora</span><small>Shop management</small></div></div>
 <nav id="nav"></nav><div class="foot"><span class="pb" id="pbadge"></span><div id="who" style="word-break:break-all"></div><button class="btn s" data-a="out" style="margin-top:8px">Sign out</button></div></aside>
-<main id="main"></main><div class="sv" id="sv" role="status"></div>
+<div id="mobileMenu" hidden aria-label="More navigation"></div><main id="main"></main><div class="sv" id="sv" role="status"></div>
 <div id="ag" hidden role="dialog" aria-label="Mauzobora assistant"><div class="agh"><div><span class="agd"></span><b>Assistant</b><small>Mauzobora AI</small></div><button class="agx" data-a="agx" aria-label="Close">&times;</button></div>
 <div class="agm" id="agm" role="log" aria-live="polite"></div><div class="agc" id="agc"></div>
 <form class="agi" id="agf" autocomplete="off"><button type="button" class="agb" id="agmic" data-a="agmic" aria-label="Sema"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></button><input id="agin" placeholder="Type or speak..." aria-label="Ujumbe"><button type="submit" class="agb p" aria-label="Tuma"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></form></div>
@@ -757,7 +807,7 @@ return`<div class="top"><div><h1>Reports</h1><p class="sub">Profit and loss, bes
 <div class="cols"><div class="card"><h3>Top-selling products</h3>${top.length?top.map(t=>`<div style="margin-bottom:12px"><div class="tot" style="color:var(--ink)"><span>${esc(t[0])} <small style="color:var(--mut)">x${t[1].q}</small></span><b>${money(t[1].r)}</b></div><div class="pr"><i style="width:${t[1].r/mp*100}%"></i></div></div>`).join(''):'<div class="empty">No sales in this period.</div>'}</div>
 <div class="card"><h3>Payment methods</h3>${Object.entries(pmx).map(p=>`<div class="tot" style="color:var(--ink)"><span>${pm(p[0])}</span><b>${money(p[1])}</b></div>`).join('')||'<div class="empty">No data available.</div>'}</div></div>`},
 set(){const s=D.set;return`<div class="top"><div><h1>Settings</h1><p class="sub">Business details displayed on receipts.</p></div></div><div class="card" style="max-width:520px"><div class="fg"><label>Business name<input id="s1" value="${esc(s.name)}"></label><label>Phone<input id="s2" value="${esc(s.phone)}"></label><label>Address<input id="s3" value="${esc(s.addr)}"></label><label>VAT (%)<input id="s4" type="number" min="0" step="any" value="${s.tax}"></label></div><div class="row"><button class="btn" data-a="out">Sign out</button><button class="btn d" data-a="wipe">Delete all data</button><button class="btn p" data-a="saveset">Save settings</button></div></div>`}};
-function salesTable(a,act){return a.length?`<div class="tw"><table><tr><th>Receipt</th><th>Date</th><th>Customer</th><th>Payment</th><th class="r">Total</th><th></th></tr>${a.map(s=>`<tr><td>#${String(s.no).padStart(4,'0')}</td><td>${new Date(s.date).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${esc(C(s.cust)?.name||'Walk-in customer')}</td><td><span class="tag ${s.status=='Paid'?'':'g'}">${s.status=='Paid'?pm(s.pay):'Refunded'}</span></td><td class="r">${money(s.total)}</td><td class="r"><button class="btn s" data-a="rcpt" data-i="${s.id}">View</button>${act&&s.status=='Paid'?` <button class="btn s d" data-a="refund" data-i="${s.id}">Refund</button>`:''}</td></tr>`).join('')}</table></div>`:'<div class="empty">No sales yet. Make your first sale on the Point of Sale page.</div>'}
+function salesTable(a,act){return a.length?`<div class="tw sales-list"><table><thead><tr><th>Receipt</th><th>Date</th><th>Customer</th><th>Payment</th><th class="r">Total</th><th>Actions</th></tr></thead><tbody>${a.map(s=>{const date=new Date(s.date).toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});return `<tr><td data-label="Receipt"><strong class="receipt-no">#${String(s.no).padStart(4,'0')}</strong></td><td data-label="Date">${date}</td><td data-label="Customer"><span class="sale-customer">${esc(C(s.cust)?.name||'Walk-in customer')}</span></td><td data-label="Payment"><span class="tag ${s.status=='Paid'?'':'g'}">${s.status=='Paid'?pm(s.pay):'Refunded'}</span></td><td data-label="Total" class="r sale-total">${money(s.total)}</td><td data-label="Actions" class="sale-actions"><button class="btn s" data-a="rcpt" data-i="${s.id}">View receipt</button>${act&&s.status=='Paid'?` <button class="btn s d" data-a="refund" data-i="${s.id}">Refund</button>`:''}</td></tr>`}).join('')}</tbody></table></div>`:'<div class="empty">No sales yet. Make your first sale on the Point of Sale page.</div>'}
 function posList(){const l=D.products.filter(p=>(cat=='All'||p.cat==cat)&&p.name.toLowerCase().includes(q.toLowerCase()));return l.map(p=>`<button class="pt" data-a="add" data-i="${p.id}" ${p.stock<1?'disabled':''}><b>${esc(p.name)}</b><em>${money(p.price)}</em><small>${p.stock<1?'Out of stock':p.stock+' in stock'}</small></button>`).join('')||'<div class="empty">No matching products found.</div>'}
 function totals(){const sub=sum(Object.entries(cart),([id,n])=>n*P(id).price),d=Math.min(disc,sub),tax=Math.round((sub-d)*D.set.tax/100);return{sub,d,tax,total:sub-d+tax}}
 function cartHtml(){const ids=Object.keys(cart),t=totals();return`<h3>Current sale</h3>${ids.length?ids.map(id=>{const p=P(id);return`<div class="ln"><div><b>${esc(p.name)}</b><br><small style="color:var(--mut)">${money(p.price)}</small></div><div class="q"><button data-a="dec" data-i="${id}">-</button><b>${cart[id]}</b><button data-a="add" data-i="${id}">+</button></div></div>`}).join(''):'<div class="empty">No items added yet.</div>'}
@@ -800,7 +850,7 @@ const ps=$('#ps');if(ps)ps.textContent='We are still waiting for confirmation. Y
 const PF=[{k:'name',l:'Product name'},{k:'cat',l:'Category'},{k:'cost',l:'Purchase price (TZS)',t:'number'},{k:'price',l:'Selling price (TZS)',t:'number'},{k:'stock',l:'Stock quantity',t:'number'},{k:'min',l:'Low-stock alert at',t:'number'}];
 const CF=[{k:'name',l:'Full name'},{k:'phone',l:'Phone'}];
 const ACT={
-go:i=>{V=i;q='';render()},out:()=>FB.out(),close,ok:()=>okFn&&okFn(),print:()=>{document.body.classList.toggle('prr',!!$('#modal .rc'));window.print();setTimeout(()=>document.body.classList.remove('prr'),600)},
+go:i=>{V=i;q='';$('#mobileMenu').hidden=true;render()},menutoggle:()=>{const m=$('#mobileMenu');m.hidden=!m.hidden},out:()=>FB.out(),close,ok:()=>okFn&&okFn(),print:()=>{document.body.classList.toggle('prr',!!$('#modal .rc'));window.print();setTimeout(()=>document.body.classList.remove('prr'),600)},
 xs:()=>csv('mauzo',['Receipt','Date','Customer','Payment','Status','Total'],D.sales.map(s=>[s.no,s.date,C(s.cust)?.name||'Walk-in customer',pm(s.pay),s.status,s.total])),
 xp:()=>csv('bidhaa',['Name','Category','Cost','Price','In stock'],D.products.map(p=>[p.name,p.cat,p.cost,p.price,p.stock])),
 xe:()=>csv('matumizi',['Date','Description','Category','Amount'],D.expenses.map(e=>[e.date,e.title,e.cat,e.amt])),
@@ -1017,7 +1067,7 @@ document.addEventListener('change',e=>{const t=e.target;
 if(t.matches('[data-c]')){cat=t.value;$('#list').innerHTML=posList()}
 else if(t.matches('[data-p]')){pay=t.value;$('#cart').innerHTML=cartHtml()}else if(t.matches('[data-cu]'))cid=t.value;
 else if(t.matches('[data-r]')){window.RP=t.value;render()}});
-function render(){const unlocked=hasPaidAccess();$('#app').classList.toggle('locked',false);$('#nav').innerHTML=NAV.map(n=>`<a class="${n[0]==V?'on':''}" data-a="go" data-i="${n[0]}" role="button" tabindex="0"><svg viewBox="0 0 24 24">${IC[n[0]]}</svg>${n[1]}</a>`).join('');$('#bn').textContent='Mauzobora';const pb=$('#pbadge');if(pb)pb.textContent=unlocked?'Plan: '+PLANS[eff()].n:'Plan: Not activated';$('#main').innerHTML=subBar()+VW[V]();document.title=D.set.name+' | Mauzobora'}
+function render(){const unlocked=hasPaidAccess();$('#app').classList.toggle('locked',false);const link=n=>`<a class="${n[0]==V?'on':''}" data-a="go" data-i="${n[0]}" role="button" tabindex="0"><svg viewBox="0 0 24 24">${IC[n[0]]}</svg><span>${n[1]}</span></a>`;$('#nav').innerHTML=NAV.map(link).join('')+`<button type="button" class="mobile-menu-trigger" data-a="menutoggle" aria-label="More sections" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>More</span></button>`;$('#mobileMenu').innerHTML=NAV.filter(n=>!['dash','pos','sales'].includes(n[0])).map(link).join('');$('#mobileMenu').hidden=true;$('#bn').textContent='Mauzobora';const pb=$('#pbadge');if(pb)pb.textContent=unlocked?'Plan: '+PLANS[eff()].n:'Plan: Not activated';$('#main').innerHTML=subBar()+VW[V]();document.title=D.set.name+' | Mauzobora'}
 document.addEventListener('keydown',e=>{if(e.key=='Escape')close();if(e.key=='Enter'&&V=='pos'&&e.target.matches('[data-s]')){const p=D.products.find(p=>p.stock>0&&(cat=='All'||p.cat==cat)&&p.name.toLowerCase().includes(q.toLowerCase()));if(p)ACT.add(p.id)}if((e.key=='Enter'||e.key==' ')&&e.target.matches('nav a')){e.preventDefault();e.target.click()}});
 window.boot=(d,u)=>{D=d;SUB=null;cart={};V='dash';AG.msgs=[];agOpen(false);$('#who').textContent=u.email||'';render();return loadSub()};
 window.openPlanCheckout=(plan)=>{V='plan';render();if(PLANS[plan]&&plan!=='bure')payForm(plan)};
