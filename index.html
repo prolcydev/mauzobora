@@ -543,20 +543,20 @@ $('#modal').innerHTML=`<div class="ov"><div class="mod"><h3>${title}</h3><div cl
 okFn=()=>{const o={};for(const f of fields){const v=$(`#modal [name="${f.k}"]`).value;o[f.k]=f.t=='number'?(+v||0):v.trim()}ok(o)}}
 const close=()=>{$('#modal').innerHTML='';okFn=null};
 function setStat(t){$('#sv').textContent=t}
-function ask(msg,fn,lbl='Thibitisha'){$('#modal').innerHTML=`<div class="ov"><div class="mod"><h3>${esc(msg)}</h3><div class="row" style="margin-top:18px"><button class="btn" data-a="close">Cancel</button><button class="btn p" data-a="ok">${lbl}</button></div></div></div>`;okFn=()=>{close();fn()}}
+function ask(msg,fn,lbl='Confirm'){$('#modal').innerHTML=`<div class="ov"><div class="mod"><h3>${esc(msg)}</h3><div class="row" style="margin-top:18px"><button class="btn" data-a="close">Cancel</button><button class="btn p" data-a="ok">${lbl}</button></div></div></div>`;okFn=()=>{close();fn()}}
 function csv(n,h,r){const t=[h,...r].map(l=>l.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');const u=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv'})),x=document.createElement('a');x.href=u;x.download='mauzobora-'+n+'-'+dk(new Date())+'.csv';x.click();setTimeout(()=>URL.revokeObjectURL(u),1500)}
 const ONB=`<div class="card" style="margin-bottom:16px;background:var(--hi)"><h3>Let’s set up your shop</h3><p class="sub" style="margin-bottom:12px">Add your first products, then start making sales. It only takes two minutes.</p><div class="row" style="justify-content:flex-start"><button class="btn p" data-a="addp">Add your first product</button><button class="btn" data-a="reset">Try sample data</button></div></div>`;
 /* ---------- views ---------- */
 const VW={
 dash(){const t=dk(new Date()),pd=paid(),ts=pd.filter(s=>dk(s.date)==t),m=t.slice(0,7),ms=pd.filter(s=>s.date.slice(0,7)==m);
 const rev=sum(ms,s=>s.total),prof=rev-sum(ms,cost)-sum(D.expenses.filter(e=>e.date.slice(0,7)==m),e=>e.amt);
-const days=[...Array(7)].map((_,i)=>{const d=dk(ago(6-i));return{l:new Date(d).toLocaleDateString('sw-TZ',{weekday:'short'}),v:sum(pd.filter(s=>dk(s.date)==d),s=>s.total)}}),mx=Math.max(...days.map(d=>d.v),1);
+const days=[...Array(7)].map((_,i)=>{const d=dk(ago(6-i));return{l:new Date(d).toLocaleDateString('en-TZ',{weekday:'short'}),v:sum(pd.filter(s=>dk(s.date)==d),s=>s.total)}}),mx=Math.max(...days.map(d=>d.v),1);
 return`<div class="top"><div><h1>Hello, welcome back</h1><p class="sub">Here is how ${esc(D.set.name)} is doing.</p></div><button class="btn p" data-a="go" data-i="pos">Point of Sale</button></div>${D.products.length?'':ONB}
 <div class="kpis"><div class="card kpi hero"><span>Today’s sales</span><b>${money(sum(ts,s=>s.total))}</b><span>Receipts ${ts.length}</span></div>
 <div class="card kpi"><span>Revenue this month</span><b>${money(rev)}</b></div>
 <div class="card kpi"><span>Net profit this month</span><b style="color:${prof<0?'var(--bad)':'var(--g7)'}">${money(prof)}</b></div>
 <div class="card kpi"><span>Customer balances</span><b>${money(sum(D.customers,c=>c.bal))}</b></div></div>
-<div class="cols"><div class="card"><h3>7 days zilizopita</h3><div class="bars">${days.map(d=>`<div><span>${d.v?Math.round(d.v/1000)+'k':''}</span><i style="height:${d.v/mx*100*.8}%"></i>${d.l}</div>`).join('')}</div></div>
+<div class="cols"><div class="card"><h3>Last 7 days</h3><div class="bars">${days.map(d=>`<div><span>${d.v?Math.round(d.v/1000)+'k':''}</span><i style="height:${d.v/mx*100*.8}%"></i>${d.l}</div>`).join('')}</div></div>
 <div class="card"><h3>Running low (${low().length})</h3>${low().length?low().slice(0,6).map(p=>`<div class="ln"><div>${esc(p.name)}</div><span class="tag w">${p.stock} remaining</span></div>`).join(''):'<div class="empty">All products are sufficiently stocked.</div>'}</div></div>
 <div class="card"><h3>Recent sales</h3>${salesTable(pd.slice(-6).reverse(),0)}</div>`},
 pos(){const cats=['All',...new Set(D.products.map(p=>p.cat))];
@@ -574,21 +574,21 @@ return`<div class="top"><div><h1>Reports</h1><p class="sub">Profit and loss, bes
 <div class="cols"><div class="card"><h3>Top-selling products</h3>${top.length?top.map(t=>`<div style="margin-bottom:12px"><div class="tot" style="color:var(--ink)"><span>${esc(t[0])} <small style="color:var(--mut)">x${t[1].q}</small></span><b>${money(t[1].r)}</b></div><div class="pr"><i style="width:${t[1].r/mp*100}%"></i></div></div>`).join(''):'<div class="empty">No sales in this period.</div>'}</div>
 <div class="card"><h3>Payment methods</h3>${Object.entries(pmx).map(p=>`<div class="tot" style="color:var(--ink)"><span>${pm(p[0])}</span><b>${money(p[1])}</b></div>`).join('')||'<div class="empty">No data available.</div>'}</div></div>`},
 set(){const s=D.set;return`<div class="top"><div><h1>Settings</h1><p class="sub">Business details displayed on receipts.</p></div></div><div class="card" style="max-width:520px"><div class="fg"><label>Business name<input id="s1" value="${esc(s.name)}"></label><label>Phone<input id="s2" value="${esc(s.phone)}"></label><label>Address<input id="s3" value="${esc(s.addr)}"></label><label>VAT (%)<input id="s4" type="number" min="0" step="any" value="${s.tax}"></label></div><div class="row"><button class="btn" data-a="out">Sign out</button><button class="btn d" data-a="wipe">Delete all data</button><button class="btn d" data-a="reset">Load sample data</button><button class="btn p" data-a="saveset">Save settings</button></div></div>`}};
-function salesTable(a,act){return a.length?`<div class="tw"><table><tr><th>Receipt</th><th>Date</th><th>Customer</th><th>Payment</th><th class="r">Total</th><th></th></tr>${a.map(s=>`<tr><td>#${String(s.no).padStart(4,'0')}</td><td>${new Date(s.date).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${esc(C(s.cust)?.name||'Walk-in customer')}</td><td><span class="tag ${s.status=='Paid'?'':'g'}">${s.status=='Paid'?pm(s.pay):'Refunded'}</span></td><td class="r">${money(s.total)}</td><td class="r"><button class="btn s" data-a="rcpt" data-i="${s.id}">View</button>${act&&s.status=='Paid'?` <button class="btn s d" data-a="refund" data-i="${s.id}">Refund</button>`:''}</td></tr>`).join('')}</table></div>`:'<div class="empty">Hakuna mauzo bado. Fanya mauzo yako ya kwanza kwenye ukurasa wa Point of Sale.</div>'}
+function salesTable(a,act){return a.length?`<div class="tw"><table><tr><th>Receipt</th><th>Date</th><th>Customer</th><th>Payment</th><th class="r">Total</th><th></th></tr>${a.map(s=>`<tr><td>#${String(s.no).padStart(4,'0')}</td><td>${new Date(s.date).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${esc(C(s.cust)?.name||'Walk-in customer')}</td><td><span class="tag ${s.status=='Paid'?'':'g'}">${s.status=='Paid'?pm(s.pay):'Refunded'}</span></td><td class="r">${money(s.total)}</td><td class="r"><button class="btn s" data-a="rcpt" data-i="${s.id}">View</button>${act&&s.status=='Paid'?` <button class="btn s d" data-a="refund" data-i="${s.id}">Refund</button>`:''}</td></tr>`).join('')}</table></div>`:'<div class="empty">No sales yet. Make your first sale on the Point of Sale page.</div>'}
 function posList(){const l=D.products.filter(p=>(cat=='All'||p.cat==cat)&&p.name.toLowerCase().includes(q.toLowerCase()));return l.map(p=>`<button class="pt" data-a="add" data-i="${p.id}" ${p.stock<1?'disabled':''}><b>${esc(p.name)}</b><em>${money(p.price)}</em><small>${p.stock<1?'Out of stock':p.stock+' in stock'}</small></button>`).join('')||'<div class="empty">No matching products found.</div>'}
 function totals(){const sub=sum(Object.entries(cart),([id,n])=>n*P(id).price),d=Math.min(disc,sub),tax=Math.round((sub-d)*D.set.tax/100);return{sub,d,tax,total:sub-d+tax}}
 function cartHtml(){const ids=Object.keys(cart),t=totals();return`<h3>Current sale</h3>${ids.length?ids.map(id=>{const p=P(id);return`<div class="ln"><div><b>${esc(p.name)}</b><br><small style="color:var(--mut)">${money(p.price)}</small></div><div class="q"><button data-a="dec" data-i="${id}">-</button><b>${cart[id]}</b><button data-a="add" data-i="${id}">+</button></div></div>`}).join(''):'<div class="empty">No items added yet.</div>'}
 <div style="margin:12px 0"><div class="tot"><span>Subtotal</span><span>${money(t.sub)}</span></div><div class="tot"><span>Discount</span><input data-d type="number" min="0" value="${disc||''}" placeholder="0" style="width:110px;text-align:right"></div>${D.set.tax?`<div class="tot"><span>VAT ${D.set.tax}%</span><span>${money(t.tax)}</span></div>`:''}<div class="tot b"><span>Total</span><span>${money(t.total)}</span></div></div>
 <div class="fg"><label>Payment<select data-p>${Object.keys(PM).map(o=>`<option value="${o}" ${o==pay?'selected':''}>${PM[o]}</option>`).join('')}</select></label><label>Customer<select data-cu><option value="">Walk-in customer</option>${D.customers.map(c=>`<option value="${c.id}" ${c.id==cid?'selected':''}>${esc(c.name)}</option>`).join('')}</select></label></div>${pay=='Cash'?`<div class="fg"><label>Amount received<input data-cash type="number" min="0" value="${cash||''}" placeholder="Optional"></label><div id="chg" style="font-weight:700;color:var(--g7)">${cash?(cash>=t.total?'Change '+money(cash-t.total):'Short by '+money(t.total-cash)):''}</div></div>`:''}<button class="btn p" style="width:100%;padding:12px" data-a="charge" ${ids.length?'':'disabled'}>Charge ${money(t.total)}</button>`}
-function stockList(){const l=D.products.filter(p=>p.name.toLowerCase().includes(q.toLowerCase()));return l.length?`<table><tr><th>Products</th><th>Category</th><th class="r">Cost</th><th class="r">Price</th><th class="r">In stock</th><th></th></tr>${l.map(p=>`<tr><td><b>${esc(p.name)}</b></td><td>${esc(p.cat)}</td><td class="r">${money(p.cost)}</td><td class="r">${money(p.price)}</td><td class="r"><span class="tag ${p.stock<=p.min?'w':''}">${p.stock}</span></td><td class="r"><button class="btn s" data-a="restock" data-i="${p.id}">Restock</button> <button class="btn s" data-a="editp" data-i="${p.id}">Edit</button> <button class="btn s d" data-a="delp" data-i="${p.id}">Delete</button></td></tr>`).join('')}</table>`:'<div class="empty">Hakuna bidhaa. Add product yako ya kwanza uanze kuuza.</div>'}
-function custList(){const l=D.customers.filter(c=>c.name.toLowerCase().includes(q.toLowerCase()));return l.length?`<table><tr><th>Jina</th><th>Phone</th><th class="r">Total alionunua</th><th class="r">Balance due</th><th></th></tr>${l.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${esc(c.phone)}</td><td class="r">${money(sum(paid().filter(s=>s.cust==c.id),s=>s.total))}</td><td class="r">${c.bal?`<span class="tag w">${money(c.bal)}</span>`:'-'}</td><td class="r">${c.bal?`<button class="btn s" data-a="cpay" data-i="${c.id}">Receive payment</button> `:''}<button class="btn s" data-a="editc" data-i="${c.id}">Edit</button> <button class="btn s d" data-a="delc" data-i="${c.id}">Delete</button></td></tr>`).join('')}</table>`:'<div class="empty">No customers yet.</div>'}
+function stockList(){const l=D.products.filter(p=>p.name.toLowerCase().includes(q.toLowerCase()));return l.length?`<table><tr><th>Products</th><th>Category</th><th class="r">Cost</th><th class="r">Price</th><th class="r">In stock</th><th></th></tr>${l.map(p=>`<tr><td><b>${esc(p.name)}</b></td><td>${esc(p.cat)}</td><td class="r">${money(p.cost)}</td><td class="r">${money(p.price)}</td><td class="r"><span class="tag ${p.stock<=p.min?'w':''}">${p.stock}</span></td><td class="r"><button class="btn s" data-a="restock" data-i="${p.id}">Restock</button> <button class="btn s" data-a="editp" data-i="${p.id}">Edit</button> <button class="btn s d" data-a="delp" data-i="${p.id}">Delete</button></td></tr>`).join('')}</table>`:'<div class="empty">No products yet. Add your first product to start selling.</div>'}
+function custList(){const l=D.customers.filter(c=>c.name.toLowerCase().includes(q.toLowerCase()));return l.length?`<table><tr><th>Name</th><th>Phone</th><th class="r">Total purchased</th><th class="r">Balance due</th><th></th></tr>${l.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${esc(c.phone)}</td><td class="r">${money(sum(paid().filter(s=>s.cust==c.id),s=>s.total))}</td><td class="r">${c.bal?`<span class="tag w">${money(c.bal)}</span>`:'-'}</td><td class="r">${c.bal?`<button class="btn s" data-a="cpay" data-i="${c.id}">Receive payment</button> `:''}<button class="btn s" data-a="editc" data-i="${c.id}">Edit</button> <button class="btn s d" data-a="delc" data-i="${c.id}">Delete</button></td></tr>`).join('')}</table>`:'<div class="empty">No customers yet.</div>'}
 function receipt(s){const c=C(s.cust);return`<div class="ov"><div class="mod rc"><h3 style="text-align:center;margin:0">${esc(D.set.name)}</h3><p style="text-align:center;color:var(--mut);margin:2px 0 12px">${esc(D.set.phone)} ${esc(D.set.addr)}<br>Receipts #${String(s.no).padStart(4,'0')} - ${new Date(s.date).toLocaleString('en-GB')}</p>${s.items.map(i=>`<div class="tot"><span>${i.qty} x ${esc(i.name)}</span><span>${money(i.qty*i.price)}</span></div>`).join('')}<hr style="border:0;border-top:1px dashed var(--line)"><div class="tot"><span>Subtotal</span><span>${money(s.sub)}</span></div>${s.disc?`<div class="tot"><span>Discount</span><span>-${money(s.disc)}</span></div>`:''}${s.tax?`<div class="tot"><span>VAT</span><span>${money(s.tax)}</span></div>`:''}<div class="tot b"><span>Total</span><span>${money(s.total)}</span></div>${s.cash?`<div class="tot"><span>Amount received</span><span>${money(s.cash)}</span></div><div class="tot"><span>Change</span><span>${money(s.cash-s.total)}</span></div>`:''}<p style="text-align:center;color:var(--mut)">${s.status=='Paid'?'Imelipwa kwa '+pm(s.pay):'Refunded'}${c?' - '+esc(c.name):''}<br>Thank you. Come again!</p><div class="row"><button class="btn" data-a="close">Close</button><button class="btn p" data-a="print">Print</button></div></div></div>`}
 /* ---------- mpango / subscription ---------- */
 const PLANS={
 bure:{n:'Free',t:'Get started for free',price:0,period:'m',lim:{p:30,c:20},rep:7,exp:0,f:['Up to 30 products','Up to 20 customers','Unlimited sales and receipts','7 days of reports']},
-basic:{n:'Basic',t:'For a growing shop',price:40000,period:'m',lim:{p:300,c:300},rep:90,exp:1,f:['Up to 30 products0','Up to 300 customers','90 days of reports','Export CSV (sales, products, expenses)']},
+basic:{n:'Basic',t:'For a growing shop',price:40000,period:'m',lim:{p:300,c:300},rep:90,exp:1,f:['Up to 300 products','Up to 300 customers','90 days of reports','Export CSV (sales, products, expenses)']},
 premium:{n:'Premium',t:'For a fast-growing business',price:60000,period:'m',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['Unlimited products and customers','All-time reports','Export CSV','Business analytics']},
-ultra:{n:'Ultra',t:'Nguvu kamili ya Mauzobora per year mzima',price:600000,period:'y',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['All Premium features','One full year of access','Unlimited products and customers','Priority support']}};let SUB=null,per='m',payRef=null;
+ultra:{n:'Ultra',t:'The full power of Mauzobora for a full year',price:600000,period:'y',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['All Premium featurestures','One full year of access','Unlimited products and customers','Priority support']}};let SUB=null,per='m',payRef=null;
 const T0=n=>'TSh '+n.toLocaleString('en-US');
 const eff=()=>{const n=Date.now();if(SUB&&SUB.expiresAtMs>n){const p=({duka:'basic',biashara:'premium'})[SUB.plan]||SUB.plan;return PLANS[p]?p:'bure'}if(SUB&&SUB.trialEndsAtMs>n)return'premium';return'bure'};
 const trial=()=>!!SUB&&!(SUB.expiresAtMs>Date.now())&&SUB.trialEndsAtMs>Date.now();
@@ -617,7 +617,7 @@ const CF=[{k:'name',l:'Full name'},{k:'phone',l:'Phone'}];
 const ACT={
 go:i=>{V=i;q='';render()},out:()=>FB.out(),close,ok:()=>okFn&&okFn(),print:()=>{document.body.classList.toggle('prr',!!$('#modal .rc'));window.print();setTimeout(()=>document.body.classList.remove('prr'),600)},
 xs:()=>csv('mauzo',['Receipt','Date','Customer','Payment','Status','Total'],D.sales.map(s=>[s.no,s.date,C(s.cust)?.name||'Walk-in customer',pm(s.pay),s.status,s.total])),
-xp:()=>csv('bidhaa',['Jina','Category','Cost','Price','In stock'],D.products.map(p=>[p.name,p.cat,p.cost,p.price,p.stock])),
+xp:()=>csv('bidhaa',['Name','Category','Cost','Price','In stock'],D.products.map(p=>[p.name,p.cat,p.cost,p.price,p.stock])),
 xe:()=>csv('matumizi',['Date','Maelezo','Category','Amount'],D.expenses.map(e=>[e.date,e.title,e.cat,e.amt])),
 wipe:()=>ask('Delete all products, customers, sales and expenses? This cannot be undone.',()=>{D.products=[];D.customers=[];D.sales=[];D.expenses=[];D.next=1;cart={};save();render()},'Delete'),
 add:i=>{const p=P(i);if((cart[i]||0)>=p.stock)return toast('In stock '+p.stock+' tu za '+p.name);cart[i]=(cart[i]||0)+1;$('#cart').innerHTML=cartHtml()},
@@ -627,7 +627,7 @@ const s={id:uid(),no:D.next++,date:new Date().toISOString(),items:Object.entries
 if(pay=='Credit')C(cid).bal+=t.total;D.sales.push(s);save();cart={};disc=0;cash=0;render();$('#modal').innerHTML=receipt(s)},
 rcpt:i=>{$('#modal').innerHTML=receipt(D.sales.find(s=>s.id==i))},
 refund:i=>ask('Refund this sale? Products will be returned to stock.',()=>{const s=D.sales.find(x=>x.id==i);s.items.forEach(l=>{const p=P(l.pid);if(p)p.stock+=l.qty});if(s.pay=='Credit'&&C(s.cust))C(s.cust).bal=Math.max(0,C(s.cust).bal-s.total);s.status='Refunded';save();render();toast('Sales yamerudishwa')},'Refund'),
-addp:()=>form('Add product',PF,{cat:'Total',min:5},o=>{if(!o.name||o.price<=0)return toast('Enter the product name and selling price');D.products.push({id:uid(),...o});save();close();render()}),
+addp:()=>form('Add product',PF,{cat:'General',min:5},o=>{if(!o.name||o.price<=0)return toast('Enter the product name and selling price');D.products.push({id:uid(),...o});save();close();render()}),
 editp:i=>{const p=P(i);form('Edit product',PF,p,o=>{if(!o.name||o.price<=0)return toast('Enter the product name and selling price');Object.assign(p,o);save();close();render()})},
 delp:i=>ask('Delete this product?',()=>{D.products=D.products.filter(p=>p.id!=i);delete cart[i];save();render()},'Delete'),
 restock:i=>{const p=P(i);form('Restock '+esc(p.name),[{k:'n',l:'Quantity received',t:'number'}],{},o=>{p.stock+=o.n;save();close();render();toast('Stock updated')})},
@@ -693,12 +693,12 @@ function agPaint(){const m=$('#agm');if(!m)return;m.innerHTML=AG.msgs.map(x=>{if
 const agAdd=o=>{o.id=++mid;AG.msgs.push(o);agPaint();return o};
 const say=(t,acts,ms=450)=>new Promise(res=>{const ty=agAdd({ty:1});setTimeout(()=>{AG.msgs=AG.msgs.filter(x=>x!==ty);res(agAdd({r:'a',t,acts}))},ms)});
 const step=(t,fn,ms=800,t2)=>{const s=agAdd({st:'run',t});setTimeout(()=>{s.st='ok';if(t2)s.t=t2;agPaint();fn&&fn()},ms)};
-const NO={l:'Cancel',fn:()=>say('Sawa, sijafanya chochote.',null,250)};
+const NO={l:'Cancel',fn:()=>say('Okay, I did not make any changes.',null,250)};
 /* ---- navigation ---- */
 const NAVN=Object.fromEntries(NAV);
 const NAVK=[['rep',/ripoti|ripot/],['plan',/mpango|vifurushi|lipia/],['set',/mipangilio|settings/],['exp',/matumizi/],['cust',/wateja|mteja/],['sales',/mauzo|risiti/],['stock',/bidhaa|stoo|stock/],['pos',/\buza\b|\bpos\b|kuuza|kaunta/],['dash',/dashibodi|nyumbani|mwanzo|home/]];
 const navKey=t=>{const k=NAVK.find(x=>x[1].test(t));return k&&k[0]};
-function goTo(k){return say('Sawa, nakupeleka '+NAVN[k]+'.',null,350).then(()=>{const a=$('nav a[data-i="'+k+'"]');a&&a.classList.add('hl');step('Nafungua '+NAVN[k]+'...',()=>ACT.go(k),900,'Nimefungua '+NAVN[k])})}
+function goTo(k){return say('Okay, taking you to '+NAVN[k]+'.',null,350).then(()=>{const a=$('nav a[data-i="'+k+'"]');a&&a.classList.add('hl');step('Opening '+NAVN[k]+'...',()=>ACT.go(k),900,'Opened '+NAVN[k])})}
 function navI(k,t){if(k=='stock'&&parseSale(t,false).lines.length){const a=answer(t);if(a)return say(a)}
 if(k=='rep'){window.RP=/wiki/.test(t)?7:/miezi mitatu|siku 90/.test(t)?90:/muda wote|zote/.test(t)?0:/mwezi/.test(t)?30:window.RP}
 return goTo(k)}
@@ -709,7 +709,7 @@ function addProdI(t){const g=r=>{const m=t.match(r);return m?+m[1]:undefined};
 const price=g(/\b(?:bei|kuuzia|kuuza)(?: ya kuuzia| ya kuuza)?\s+(\d+)/),cst=g(/\b(?:gharama|kununulia|kununua)(?: ya kununulia)?\s+(\d+)/),stock=g(/\b(?:idadi|zipo|stoo|kiasi|ziko)\s+(\d+)/);
 const m=t.match(/\bbidhaa(?:\s+(?:mpya|ya|inaitwa|iitwayo))*\s+([a-z ]+?)(?=\s+(?:bei|gharama|idadi|zipo|stoo|kiasi|kwa|na)\b|\s+\d|$)/),name=m?cap(m[1].trim()):'';
 const ex=name&&parseSale(name,false).lines[0];
-if(ex){const p=P(ex.id);return say(p.name+' tayari ipo (bei '+money(p.price)+', in stock '+p.stock+'). Niongeze stoo?',[{l:'Restock',p:1,fn:()=>ACT.restock(p.id)},NO])}
+if(ex){const p=P(ex.id);return say(p.name+' tayari ipo (bei '+money(p.price)+', in stock '+p.stock+'). Should I restock?',[{l:'Restock',p:1,fn:()=>ACT.restock(p.id)},NO])}
 return say(name?'Okay, I am preparing the form ya “'+name+'”'+(price?', bei '+money(price):'')+'. Review it, then click Save.':'Okay, enter the details for the new product.').then(()=>{V!='stock'&&ACT.go('stock');step('Opening the product form...',()=>addProd({name,price,cost:cst,stock}),700,'The form is ready')})}
 function addCust(raw,t){const m=t.match(/\bmteja(?:\s+(?:mpya|anaitwa|jina))*\s+([a-z ]+?)(?=\s+(?:simu|namba|nambari|number|phone)\b|\s+\d|$)/),pm_=raw.match(/(\+?\d[\d\s-]{7,}\d)/),name=m?capw(m[1].trim()):'',phone=pm_?pm_[1].replace(/[\s-]/g,''):'';
 if(D.customers.length>=PLANS[eff()].lim.c)return paywall('You have reached the customer limit of '+PLANS[eff()].lim.c);
@@ -718,18 +718,18 @@ return say('Okay, I am preparing the form ya mteja'+(name?' “'+name+'”':'')+
 function offerAdd(r,t,rerun){const nm=cap(r.unk[0]),n=r.nums[0]?r.nums[0].v:1;
 return say('Sijaona “'+nm+'” kwenye stoo yako. Niiongeze kama products.mpya?',[{l:'Add '+nm,p:1,fn:()=>addProd({name:nm,stock:n},rerun?()=>step('Naendelea na mauzo...',()=>route(t),600):null)},NO].concat(amt(t)&&/nimenunua/.test(t)?[{l:'Rekodi kama matumizi',fn:()=>expense(t)}]:[]))}
 function restock(t){const r=parseSale(t,false);
-if(!r.lines.length)return r.unk.length?offerAdd(r,t,false):say('Products gani? Mfano: “nimeleta sukari 20”.');
-if(!r.nums.length)return say('Umeleta ngapi? Mfano: “nimeleta sukari 20”.');
-return say('Niongeze stoo?\n'+r.lines.map(l=>{const p=P(l.id);return'• '+p.name+': +'+l.qty+' ('+p.stock+' → '+(p.stock+l.qty)+')'}).join('\n'),[{l:'Thibitisha',p:1,fn:()=>{r.lines.forEach(l=>P(l.id).stock+=l.qty);save();render();say('Stock updated.',null,300)}},NO])}
+if(!r.lines.length)return r.unk.length?offerAdd(r,t,false):say('Which products? Example: “restock sugar 20”.');
+if(!r.nums.length)return say('How many did you receive? Example: “restock sugar 20”.');
+return say('Should I restock?\n'+r.lines.map(l=>{const p=P(l.id);return'• '+p.name+': +'+l.qty+' ('+p.stock+' → '+(p.stock+l.qty)+')'}).join('\n'),[{l:'Confirm',p:1,fn:()=>{r.lines.forEach(l=>P(l.id).stock+=l.qty);save();render();say('Stock updated.',null,300)}},NO])}
 function expense(t){const a=amt(t);if(!a)return say('Amount gani? Mfano: “matumizi ya umeme 45000”.');
 const IE=new Set(['matumizi','nimelipa','nimetumia','nimegharamia','nimenunua','ya','gharama','kwa','leo','na','malipo','wa','la','za']);
 const title=cap(t.split(' ').filter(x=>x&&!/^\d+$/.test(x)&&!NUMW[x]&&!IE.has(x)).join(' ')||'Expenses');
 const ct=/umeme|maji|intaneti|luku|simu/.test(t)?'Utilities':/kodi|pango/.test(t)?'Rent':/mshahara|mishahara|mfanyakazi/.test(t)?'Salaries':/usafiri|nauli|mizigo|petroli/.test(t)?'Transport':/mifuko|vifaa|karatasi/.test(t)?'Supplies':'Other';
 return say('Record this expense?\n• '+title+' ('+ct+')\n• '+money(a)+'\n• Date: today',[{l:'Rekodi',p:1,fn:()=>{D.expenses.push({id:uid(),title,cat:ct,amt:a,date:dk(new Date())});save();render();say('Recorded an expense of '+money(a)+'.',null,300)}},NO])}
-function custPay(t){const c=matchCust(t.split(' ')).c;if(!c)return say('Sijampata mteja huyo. Sema jina lake kama lilivyo kwenye orodha, au sema “ongeza mteja ...”.');
-if(!c.bal)return say(c.name+' hana deni.');const n=Math.min(amt(t)||c.bal,c.bal);
-return say(c.name+' anadaiwa '+money(c.bal)+'. Nirekodi malipo ya '+money(n)+'?',[{l:'Rekodi malipo',p:1,fn:()=>{c.bal=Math.max(0,c.bal-n);save();render();say('Payment recorded. Remaining balance for '+c.name+': '+money(c.bal)+'.',null,300)}},NO])}
-function delI(t){const tk=t.split(' ');if(/\bmteja\b/.test(t)){const c=matchCust(tk).c;return c?say('Nifute mteja '+c.name+'?',[{l:'Delete',p:1,fn:()=>{D.customers=D.customers.filter(x=>x.id!=c.id);save();render();say('Nimemfuta '+c.name+'.',null,300)}},NO]):say('Which customer? Please say their name.')}
+function custPay(t){const c=matchCust(t.split(' ')).c;if(!c)return say('I could not find that customer. Say their name as it appears in the list, or say “add customer ...”.');
+if(!c.bal)return say(c.name+' has no outstanding balance.');const n=Math.min(amt(t)||c.bal,c.bal);
+return say(c.name+' owes '+money(c.bal)+'. Nirekodi malipo ya '+money(n)+'?',[{l:'Rekodi malipo',p:1,fn:()=>{c.bal=Math.max(0,c.bal-n);save();render();say('Payment recorded. Remaining balance for '+c.name+': '+money(c.bal)+'.',null,300)}},NO])}
+function delI(t){const tk=t.split(' ');if(/\bmteja\b/.test(t)){const c=matchCust(tk).c;return c?say('Delete customer '+c.name+'?',[{l:'Delete',p:1,fn:()=>{D.customers=D.customers.filter(x=>x.id!=c.id);save();render();say('Deleted '+c.name+'.',null,300)}},NO]):say('Which customer? Please say their name.')}
 const l=parseSale(t,false).lines[0];if(!l)return say('Which product should I delete? Example: “delete product sugar”.');const p=P(l.id);
 return say('Delete product '+p.name+'? This cannot be undone.',[{l:'Delete',p:1,fn:()=>{D.products=D.products.filter(x=>x.id!=p.id);delete cart[p.id];save();render();say('Nimefuta '+p.name+'.',null,300)}},NO])}
 function exportI(t){const k=/matumizi/.test(t)?'xe':/bidhaa|stoo/.test(t)?'xp':'xs';return say('Okay, exporting the CSV.',null,300).then(()=>ACT[k]())}
@@ -767,7 +767,23 @@ return null}
 const HELP='Here is what I can do:\n• Sales: “I sold two bags of sugar via M-Pesa”\n• Products mpya: “ongeza products.mchele bei 2800”\n• Inventory: “restock sugar 20”\n• Expenses: “record electricity expense 45000”\n• Customers: “add customer Juma”, “Amina paid 5000”\n• Questions: “today’s sales”, “who owes me?”, “low-stock items”, “rice price”\n• Navigation: “open weekly report”\n• Exports: “export sales CSV”';
 const FALLBACK='Sorry, I did not understand. Try an example:\n• “I sold two bags of sugar”\n• “Add rice as a product”\n• “Open reports”\n• “Who owes me?”\nOr say “help”.';
 const SELLV=/\b(nimeuza|niliuza|nimeuzia|nimemuuzia|nikamuuzia|tumeuza|uza|nimeuziwa)\b/,QRE=/\b(ngapi|gani|nani|je|faida|mapato|madeni|ananidai|wananidai|anadaiwa|inaisha|zinaisha|inayoisha|zinazoisha|zinazokaribia|imeisha|zimeisha|inayouzika|zinazouzika|zimebaki|imebaki|thamani|nini)\b/,ADD=/\b(ongeza|weka|sajili|ingiza|add)\b/;
-function route(raw){const t=norm(raw),has=r=>r.test(t);if(!t)return;
+function toSwahiliCommand(input){
+ let t=String(input||'').toLowerCase();
+ const pairs=[
+ [/\b(i sold|sell|sold)\b/g,'nimeuza'],[/\b(today|this day)\b/g,'leo'],[/\b(this week|weekly|week)\b/g,'wiki'],[/\b(this month|monthly|month)\b/g,'mwezi'],
+ [/\b(sales|sale)\b/g,'mauzo'],[/\b(expenses|expense)\b/g,'matumizi'],[/\b(profit)\b/g,'faida'],[/\b(revenue|income)\b/g,'mapato'],
+ [/\b(customers|customer)\b/g,'mteja'],[/\b(products|product|items|item)\b/g,'bidhaa'],[/\b(add|create|new)\b/g,'ongeza'],[/\b(delete|remove)\b/g,'futa'],
+ [/\b(open|go to|show|view)\b/g,'fungua'],[/\b(reports|report)\b/g,'ripoti'],[/\b(inventory|stock)\b/g,'stoo'],[/\b(restock)\b/g,'ongeza stoo'],
+ [/\b(price|selling price)\b/g,'bei'],[/\b(cost|purchase price)\b/g,'gharama'],[/\b(quantity|how many)\b/g,'idadi'],
+ [/\b(cash)\b/g,'taslimu'],[/\b(credit)\b/g,'deni'],[/\b(payment|paid)\b/g,'malipo'],[/\b(export|download)\b/g,'pakua'],
+ [/\b(low stock|running low|out of stock)\b/g,'zinazoisha'],[/\b(who owes me|owes me|outstanding balance)\b/g,'nani ananidai'],
+ [/\b(rice)\b/g,'mchele'],[/\b(sugar)\b/g,'sukari'],[/\b(bread)\b/g,'mkate'],[/\b(oil)\b/g,'mafuta'],
+ [/\b(via|using|with)\b/g,'kwa'],[/\b(help)\b/g,'msaada']
+ ];
+ for(const [re,v] of pairs)t=t.replace(re,v);
+ return t;
+}
+function route(raw){const t=norm(toSwahiliCommand(raw)),has=r=>r.test(t);if(!t)return;
 const isQ=QRE.test(t)||/\bbei ya [a-z]/.test(t)||/\b(mauzo|matumizi|faida|mapato)\b.*\b(leo|wiki|mwezi|jana)\b/.test(t);
 if(has(/\b(msaada|help|uwezo)\b/)||/^(habari|hi|hello|mambo|salamu|shikamoo)\b/.test(t))return say(HELP);
 if(has(ADD)&&has(/\bmteja\b/))return addCust(raw,t);
@@ -796,7 +812,7 @@ const inp=$('#agin'),b=$('#agmic');b.classList.add('on');inp.placeholder='Inasik
 const fin_=()=>{if(rec===r){rec=null}b.classList.remove('on');inp.placeholder='Andika au sema...'};
 r.onresult=e=>{let fin=null,live='';for(let i=e.resultIndex;i<e.results.length;i++){const x=e.results[i];if(x.isFinal)fin=[...x].map(y=>y.transcript);else live+=x[0].transcript}
 if(fin){stopVoice();inp.value='';agentIn(pickAlt(fin))}else inp.value=live};
-r.onerror=e=>{const c=e.error;fin_();if(c=='language-not-supported'&&AG.lang=='sw-TZ'){AG.lang='sw-KE';return listen()}
+r.onerror=e=>{const c=e.error;fin_();if(c=='language-not-supported'&&AG.lang=='en-US'){AG.lang='en-GB';return listen()}
 say(c=='not-allowed'||c=='service-not-allowed'?'Allow microphone access in your browser and try again.':c=='no-speech'?'I did not hear anything. Tap the microphone and try again.':c=='network'?'No internet connection. Voice input requires an internet connection.':c=='language-not-supported'?'Your browser does not support this language. Type below.':'Voice input failed. Type below.',null,200)};
 r.onend=fin_;
 try{r.start()}catch(_){fin_()}}
