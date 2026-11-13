@@ -689,7 +689,7 @@ const j=await api({action:'init',plan:k,period:x.period,phone:o.phone,name:D.set
 if(!j.success){m.innerHTML=`<h3>Failed</h3><p class="sub">${esc(j.message||'Please try again.')}</p><div class="row"><button class="btn" data-a="close">Close</button></div>`;return}
 payRef=j.reference;const end=Date.now()+18e4;
 while(Date.now()<end&&payRef===j.reference){await new Promise(r=>setTimeout(r,4000));const s=await api({action:'status',reference:j.reference});
-if(s.payment_status==='COMPLETED'){SUB=s.sub||SUB;payRef=null;close();render();toast('Payment received. Thank you!');return}
+if(s.payment_status==='COMPLETED'){SUB=s.sub||SUB;payRef=null;V='dash';close();render();toast('Payment received. Thank you!');return}
 if(s.payment_status==='FAILED'){payRef=null;m.innerHTML=`<h3>Payment was not completed</h3><p class="sub">${s.detail==='cancelled'?'You declined the payment.':s.detail==='expired'?'The payment request expired.':'Payment failed. You have not been charged.'}</p><div class="row"><button class="btn" data-a="close">Close</button></div>`;return}}
 const ps=$('#ps');if(ps)ps.textContent='We are still waiting for confirmation. Your plan will activate automatically once payment is confirmed.'})}
 /* ---------- actions ---------- */
