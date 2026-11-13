@@ -462,11 +462,11 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
 .tabs{border-radius:8px}.tabs button{border-radius:6px}
 .btn{border-radius:7px}.btn.p{background:#0F8B68;border-color:#0F8B68}.btn.p:hover{background:#0A7255;border-color:#0A7255}
 .google-g{font-size:20px;font-weight:700;color:#4285F4}
-.load-simple{display:flex;flex-direction:column;align-items:center;gap:9px;color:#123C35;position:relative;z-index:1}
-.load-mark,.brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:#0F9F78;color:#fff;font-size:24px;font-weight:700}
-.load-simple strong{font-size:18px;letter-spacing:.18em;text-transform:uppercase}
-.load-simple small{color:var(--mut);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
-#load:before{content:"";position:absolute;width:64px;height:64px;border:3px solid #DDEBE3;border-top-color:#0F9F78;border-radius:50%;animation:sp .8s linear infinite}
+.load-simple{display:flex;flex-direction:column;align-items:center;gap:14px;color:var(--ink);position:relative;z-index:1}
+.brand-mark{display:grid;place-items:center;width:32px;height:32px;border-radius:7px;background:#0F9F78;color:#fff;font-size:17px;font-weight:700;flex:none}
+.load-simple strong{font-size:18px;font-weight:600;letter-spacing:-.025em;text-transform:none}
+
+
 .brand-mark{width:32px;height:32px;font-size:17px;border-radius:7px;flex:none}
 .access-gate{max-width:1080px;margin:0 auto}
 .access-gate h1{max-width:760px;font-size:clamp(32px,4.5vw,48px);line-height:1.1;letter-spacing:-.04em;color:#17352D}
@@ -487,7 +487,7 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
 </style></head>
 <body>
 <div class="app" id="app" hidden>
-<aside><div class="brand"><div class="brand-mark">M</div><div><span id="bn">Mauzobora</span><small>Business manager</small></div></div>
+<aside><div class="brand"><div class="brand-mark">M</div><div><span id="bn">Mauzobora</span><small>Shop management</small></div></div>
 <nav id="nav"></nav><div class="foot"><span class="pb" id="pbadge"></span><div id="who" style="word-break:break-all"></div><button class="btn s" data-a="out" style="margin-top:8px">Sign out</button></div></aside>
 <main id="main"></main><div class="sv" id="sv" role="status"></div>
 <div id="ag" hidden role="dialog" aria-label="Mauzobora assistant"><div class="agh"><div><span class="agd"></span><b>Assistant</b><small>Mauzobora AI</small></div><button class="agx" data-a="agx" aria-label="Close">&times;</button></div>
@@ -593,14 +593,6 @@ const PM={Cash:'Cash','Mobile money':'Mobile money (M-Pesa/Tigo/Airtel)',Card:'C
 const IC={dash:'<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>',pos:'<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 6h6M9 11h.01M12 11h.01M15 11h.01M9 15h.01M12 15h.01M15 15h.01"/>',stock:'<path d="M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v9"/>',cust:'<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M17 4a4 4 0 010 8M22 21c0-3-2-5-4-5.5"/>',sales:'<path d="M6 2h12v20l-3-2-3 2-3-2-3 2zM9 7h6M9 11h6"/>',exp:'<path d="M3 7h18v13H3zM3 7l3-4h12l3 4M16 14h2"/>',rep:'<path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/>',plan:'<path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>',set:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>'};
 const NAV=[['dash','Dashboard'],['pos','Point of Sale'],['stock','Products'],['cust','Customers'],['sales','Sales'],['exp','Expenses'],['rep','Reports'],['plan','Plan'],['set','Settings']];
 let D,V='dash',cart={},q='',cat='All',disc=0,pay='Cash',cid='',cash=0,okFn=null;
-function seed(){let r=7;const R=()=>(r=(r*9301+49297)%233280)/233280;
-const P=[['Rice 1kg','Grains',2200,2800,60],['Sugar 1kg','Grains',2600,3200,45],['Wheat flour 2kg','Grains',3400,4200,38],['Cooking oil 1L','Food',4800,5800,24],['Tea leaves 250g','Food',1500,2000,30],['Eggs (tray)','Food',9500,11500,4],['Soda 500ml','Drinks',600,1000,90],['Water 1.5L','Drinks',700,1200,70],['Fresh milk 500ml','Drinks',1100,1500,6],['Bread','Bakery',1500,2000,25],['Bar soap','Household',1200,1800,50],['Airtime voucher 1000','Utilities',950,1000,200]].map(p=>({id:uid(),name:p[0],cat:p[1],cost:p[2],price:p[3],stock:p[4],min:8}));
-const C=[['Amina Juma','0713 555 120'],['Baraka Mushi','0765 210 884'],['Neema Kessy','0622 908 331'],['Joseph Mrema','0754 441 207']].map(c=>({id:uid(),name:c[0],phone:c[1],bal:0}));
-const S=[];let n=1;for(let d=13;d>=0;d--){const c=3+Math.floor(R()*5);for(let i=0;i<c;i++){const it=[];for(let j=0;j<1+Math.floor(R()*3);j++){const p=P[Math.floor(R()*P.length)];it.push({pid:p.id,name:p.name,qty:1+Math.floor(R()*3),price:p.price,cost:p.cost})}
-const sub=it.reduce((a,x)=>a+x.qty*x.price,0),dt=ago(d);dt.setHours(8+Math.floor(R()*10),Math.floor(R()*60));
-S.push({id:uid(),no:n++,date:dt.toISOString(),items:it,sub,disc:0,tax:0,total:sub,pay:['Cash','Mobile money','Cash','Card'][Math.floor(R()*4)],cust:'',status:'Paid'})}}
-const E=[['Rent','Rent',250000,12],['Electricity','Utilities',45000,8],['Freight','Transport',30000,5],['Salaries','Salaries',180000,3],['Packaging bags','Supplies',12000,1]].map(e=>({id:uid(),title:e[0],cat:e[1],amt:e[2],date:dk(ago(e[3]))}));
-return{products:P,customers:C,sales:S,expenses:E,set:{name:'My Shop',phone:'',addr:'',tax:0},next:n}}
 const save=()=>{if(!hasPaidAccess()){paywall('Activate any paid plan to save changes to your shop.');return}clearTimeout(window._t);window._t=setTimeout(()=>window.FB&&FB.save(D),350)};
 addEventListener('unhandledrejection',()=>toast('Something went wrong. Please try again.'));
 const P=id=>D.products.find(p=>p.id==id),C=id=>D.customers.find(c=>c.id==id);
@@ -616,7 +608,7 @@ const close=()=>{$('#modal').innerHTML='';okFn=null};
 function setStat(t){$('#sv').textContent=t}
 function ask(msg,fn,lbl='Confirm'){$('#modal').innerHTML=`<div class="ov"><div class="mod"><h3>${esc(msg)}</h3><div class="row" style="margin-top:18px"><button class="btn" data-a="close">Cancel</button><button class="btn p" data-a="ok">${lbl}</button></div></div></div>`;okFn=()=>{close();fn()}}
 function csv(n,h,r){const t=[h,...r].map(l=>l.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');const u=URL.createObjectURL(new Blob(['\ufeff'+t],{type:'text/csv'})),x=document.createElement('a');x.href=u;x.download='mauzobora-'+n+'-'+dk(new Date())+'.csv';x.click();setTimeout(()=>URL.revokeObjectURL(u),1500)}
-const ONB=`<div class="card" style="margin-bottom:16px;background:var(--hi)"><h3>Let’s set up your shop</h3><p class="sub" style="margin-bottom:12px">Add your first products, then start making sales. It only takes two minutes.</p><div class="row" style="justify-content:flex-start"><button class="btn p" data-a="addp">Add your first product</button><button class="btn" data-a="reset"></div></div>`;
+const ONB=`<div class="card" style="margin-bottom:16px;background:var(--hi)"><h3>Let’s set up your shop</h3><p class="sub" style="margin-bottom:12px">Add your first products, then start making sales. It only takes two minutes.</p><div class="row" style="justify-content:flex-start"><button class="btn p" data-a="addp">Add your first product</button></div></div>`;
 /* ---------- views ---------- */
 const VW={
 dash(){
