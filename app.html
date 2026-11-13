@@ -596,7 +596,7 @@ if(!paid){
 const empty={set:{name:pend||u.displayName||'My Shop',phone:'',addr:'',tax:0},next:1,products:[],customers:[],sales:[],expenses:[]};
 a('#auth').hidden=true;a('#app').hidden=false;await window.boot(empty,u);st('');
 if(hasPaidAccess()){window.location.reload();return}
-if(justRegistered){pend='';pendingPlan='basic';window.openPlanCheckout&&window.openPlanCheckout(chosenPlan)}
+if(justRegistered){pend='';pendingPlan='basic'}
 }else{a('#auth').hidden=false;err('Your plan is active, but access to your shop data was denied. Check your Firestore rules.');await signOut(auth)}
 }else{a('#auth').hidden=false;err('Could not load your data. Check your internet connection.');await signOut(auth)}
 }
@@ -621,7 +621,7 @@ const sub=it.reduce((a,x)=>a+x.qty*x.price,0),dt=ago(d);dt.setHours(8+Math.floor
 S.push({id:uid(),no:n++,date:dt.toISOString(),items:it,sub,disc:0,tax:0,total:sub,pay:['Cash','Mobile money','Cash','Card'][Math.floor(R()*4)],cust:'',status:'Paid'})}}
 const E=[['Rent','Rent',250000,12],['Electricity','Utilities',45000,8],['Freight','Transport',30000,5],['Salaries','Salaries',180000,3],['Packaging bags','Supplies',12000,1]].map(e=>({id:uid(),title:e[0],cat:e[1],amt:e[2],date:dk(ago(e[3]))}));
 return{products:P,customers:C,sales:S,expenses:E,set:{name:'My Shop',phone:'',addr:'',tax:0},next:n}}
-const save=()=>{clearTimeout(window._t);window._t=setTimeout(()=>window.FB&&FB.save(D),350)};
+const save=()=>{if(!hasPaidAccess()){paywall('Activate any paid plan to save changes to your shop.');return}clearTimeout(window._t);window._t=setTimeout(()=>window.FB&&FB.save(D),350)};
 addEventListener('unhandledrejection',()=>toast('Something went wrong. Please try again.'));
 const P=id=>D.products.find(p=>p.id==id),C=id=>D.customers.find(c=>c.id==id);
 const paid=()=>D.sales.filter(s=>s.status=='Paid');
