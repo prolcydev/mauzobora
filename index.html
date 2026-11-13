@@ -455,13 +455,14 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
 #legalConsent{width:16px;height:16px;margin:1px 0 0;accent-color:var(--g7)}
 @media(max-width:700px){#supportDock{left:10px;right:10px;bottom:calc(76px + env(safe-area-inset-bottom,0px));max-width:none;justify-content:center;gap:8px;padding:8px 10px;font-size:11px}#supportDock .sd-contact{gap:5px}#supportDock .sd-links{gap:9px}}
 @media print{#supportDock{display:none!important}}
+/* Keep support details available before sign-in, but hide them in the signed-in dashboard. */
+.app:not([hidden])~#supportDock{display:none!important}
 </style></head>
 <body>
 <div class="app" id="app" hidden>
 <aside><div class="brand"><svg width="34" height="34" viewBox="0 0 40 40"><rect x="9" y="3" width="22" height="34" rx="6" fill="#18B889" transform="rotate(14 20 20)"/><rect x="13" y="8" width="14" height="9" rx="2" fill="#0B5C46" transform="rotate(14 20 20)"/><g fill="#fff" transform="rotate(14 20 20)"><rect x="13" y="21" width="4" height="3" rx="1"/><rect x="18" y="21" width="4" height="3" rx="1"/><rect x="23" y="21" width="4" height="3" rx="1"/><rect x="13" y="27" width="4" height="3" rx="1"/><rect x="18" y="27" width="4" height="3" rx="1"/></g></svg><div><span id="bn">Mauzobora</span><small>Business manager</small></div></div>
 <nav id="nav"></nav><div class="foot"><span class="pb" id="pbadge"></span><div id="who" style="word-break:break-all"></div><button class="btn s" data-a="out" style="margin-top:8px">Sign out</button></div></aside>
 <main id="main"></main><div class="sv" id="sv" role="status"></div>
-<button class="mic" id="mic" data-a="mic" aria-label="Open assistant" title="Voice assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></button>
 <div id="ag" hidden role="dialog" aria-label="Mauzobora assistant"><div class="agh"><div><span class="agd"></span><b>Assistant</b><small>Mauzobora AI</small></div><button class="agx" data-a="agx" aria-label="Close">&times;</button></div>
 <div class="agm" id="agm" role="log" aria-live="polite"></div><div class="agc" id="agc"></div>
 <form class="agi" id="agf" autocomplete="off"><button type="button" class="agb" id="agmic" data-a="agmic" aria-label="Sema"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></button><input id="agin" placeholder="Type or speak..." aria-label="Ujumbe"><button type="submit" class="agb p" aria-label="Tuma"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></form></div>
