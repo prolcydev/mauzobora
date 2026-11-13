@@ -22,9 +22,11 @@ service cloud.firestore {
       allow create, update, delete: if false;
     }
 
-    // Shop records are inaccessible until a paid plan has been verified.
+    // Signed-in users may open and view their own dashboard before activation.
+    // Creating, editing or deleting shop records requires a verified paid plan.
     match /users/{uid}/{document=**} {
-      allow read, write: if hasActivePaidPlan(uid);
+      allow read: if signedInAs(uid);
+      allow create, update, delete: if hasActivePaidPlan(uid);
     }
   }
 }
