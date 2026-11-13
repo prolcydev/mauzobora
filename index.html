@@ -55,7 +55,7 @@ button,input,select{font:inherit;color:inherit}
 @media(prefers-reduced-motion:reduce){.rcp,.st,.hd i{animation:none}.st{opacity:.92}}
 @media(max-width:860px){#auth{grid-template-columns:1fr}.ah{padding:22px}.pv,.ah h2,.ah p{display:none}.af{align-items:start;padding-top:24px}}
 /* ---------- app shell: sidebar ---------- */
-.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}.app.locked{display:block;min-height:100vh}.app.locked aside{display:none}.app.locked main{max-width:1180px;margin:0 auto;padding:clamp(24px,5vw,64px)}
 aside{background:#123C35;color:#fff;padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px;align-self:start}
 .brand{display:flex;gap:10px;align-items:center;padding:4px 8px 22px;font-weight:600;font-size:15px;letter-spacing:.22em;text-transform:uppercase}
 .brand small{display:block;font-weight:400;font-size:10px;letter-spacing:.04em;text-transform:none;opacity:.6;margin-top:2px}
@@ -457,10 +457,57 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
 @media print{#supportDock{display:none!important}}
 /* Keep support details available before sign-in, but hide them in the signed-in dashboard. */
 .app:not([hidden])~#supportDock{display:none!important}
+/* Refined public landing page and paid subscription gate */
+#auth{grid-template-columns:minmax(0,1.08fr) minmax(420px,.92fr);background:#F7FAF8}
+.ah{background:#123C35;padding:clamp(28px,5vw,72px);justify-content:center;gap:clamp(28px,5vw,58px)}
+#alogo{font-size:17px;letter-spacing:.24em}
+.auth-intro{max-width:620px}
+.auth-eyebrow,.gate-eyebrow{display:inline-block;color:#72D7B2;font-size:11px;font-weight:700;letter-spacing:.16em;margin-bottom:16px}
+.ah h2{font-size:clamp(38px,5.2vw,66px);line-height:1.04;max-width:10ch;margin:0 0 18px;font-weight:600;letter-spacing:-.045em}
+.ah p{font-size:16px;line-height:1.75;color:#D2E1DA;max-width:56ch}
+.auth-points{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:16px}
+.auth-points li{display:flex;align-items:flex-start;gap:12px}
+.auth-points li>span{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#1C5B49;color:#9CE8C8;font-weight:700;flex:none}
+.auth-points strong{display:block;color:#fff;font-size:14px}
+.auth-points small{display:block;color:#C2D4CC;font-size:12px;margin-top:3px}
+.auth-audience{margin-top:25px;color:#A8C2B6;font-size:12px}
+.auth-pricing{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+.auth-pricing span{padding:8px 11px;border:1px solid rgba(255,255,255,.2);border-radius:7px;color:#E5F3EC;font-size:11px}
+.auth-pricing b{color:#fff;display:block;font-size:13px;margin-top:2px}
+.auth-spacer{display:none}
+.af{padding:36px;background:#F7FAF8}
+.afc{max-width:410px;padding:34px;background:#fff;border:1px solid #E3ECE6;border-radius:16px;box-shadow:0 18px 55px rgba(13,55,40,.08)}
+.afc h1{font-size:30px;font-weight:650;color:#17352D}
+.auth-form-note{background:#F0F7F3;border:1px solid #E2EEE7;border-radius:8px;padding:12px 14px;color:#53675D;font-size:12px;line-height:1.6;margin-top:14px}
+.tabs{border-radius:8px}.tabs button{border-radius:6px}
+.btn{border-radius:7px}.btn.p{background:#0F8B68;border-color:#0F8B68}.btn.p:hover{background:#0A7255;border-color:#0A7255}
+.google-g{font-size:20px;font-weight:700;color:#4285F4}
+.load-simple{display:flex;flex-direction:column;align-items:center;gap:9px;color:#123C35;position:relative;z-index:1}
+.load-mark,.brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:#0F9F78;color:#fff;font-size:24px;font-weight:700}
+.load-simple strong{font-size:18px;letter-spacing:.18em;text-transform:uppercase}
+.load-simple small{color:var(--mut);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+#load:before{content:"";position:absolute;width:64px;height:64px;border:3px solid #DDEBE3;border-top-color:#0F9F78;border-radius:50%;animation:sp .8s linear infinite}
+.brand-mark{width:32px;height:32px;font-size:17px;border-radius:7px;flex:none}
+.access-gate{max-width:1080px;margin:0 auto}
+.access-gate h1{max-width:760px;font-size:clamp(32px,4.5vw,48px);line-height:1.1;letter-spacing:-.04em;color:#17352D}
+.gate-eyebrow{color:#0F8B68;margin-bottom:12px}
+.gate-sub{max-width:760px;line-height:1.7;margin:12px 0 22px}
+.gate-steps{display:flex;flex-wrap:wrap;gap:12px 24px;margin:22px 0 28px;color:#53675D;font-size:13px}
+.gate-steps span{display:flex;align-items:center;gap:8px}
+.gate-steps b{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#E5F3EC;color:#0F765A}
+.gate-plans{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:18px}
+.gate-plans .pc{background:#fff;border:1px solid #DFE9E2;box-shadow:0 8px 24px rgba(20,60,42,.045);border-radius:12px;padding:24px}
+.gate-plans .pc.pop{border:2px solid #0F8B68}
+.gate-plans .pc h4{font-size:20px}
+.gate-plans .pp{font-size:29px;color:#17352D}
+.gate-plans .pc .btn{width:100%;margin-top:auto;min-height:42px}
+.gate-payment{color:#687A70;font-size:12px;margin-top:20px}
+@media(max-width:900px){#auth{grid-template-columns:1fr}.ah{padding:28px 24px 30px;gap:20px}.ah h2{font-size:clamp(34px,8vw,48px);max-width:14ch}.ah p{font-size:14px}.auth-points{grid-template-columns:1fr 1fr;gap:12px}.af{padding:24px 16px}.afc{padding:26px 22px}.gate-plans{grid-template-columns:1fr}.app.locked main{padding:26px 18px 44px}}
+@media(max-width:520px){.auth-points{grid-template-columns:1fr}.auth-audience{margin-top:16px}.auth-pricing{gap:6px}.auth-pricing span{flex:1;min-width:90px}.afc{padding:22px 18px}.gate-steps{display:grid;gap:9px}}
 </style></head>
 <body>
 <div class="app" id="app" hidden>
-<aside><div class="brand"><svg width="34" height="34" viewBox="0 0 40 40"><rect x="9" y="3" width="22" height="34" rx="6" fill="#18B889" transform="rotate(14 20 20)"/><rect x="13" y="8" width="14" height="9" rx="2" fill="#0B5C46" transform="rotate(14 20 20)"/><g fill="#fff" transform="rotate(14 20 20)"><rect x="13" y="21" width="4" height="3" rx="1"/><rect x="18" y="21" width="4" height="3" rx="1"/><rect x="23" y="21" width="4" height="3" rx="1"/><rect x="13" y="27" width="4" height="3" rx="1"/><rect x="18" y="27" width="4" height="3" rx="1"/></g></svg><div><span id="bn">Mauzobora</span><small>Business manager</small></div></div>
+<aside><div class="brand"><div class="brand-mark">M</div><div><span id="bn">Mauzobora</span><small>Business manager</small></div></div>
 <nav id="nav"></nav><div class="foot"><span class="pb" id="pbadge"></span><div id="who" style="word-break:break-all"></div><button class="btn s" data-a="out" style="margin-top:8px">Sign out</button></div></aside>
 <main id="main"></main><div class="sv" id="sv" role="status"></div>
 <div id="ag" hidden role="dialog" aria-label="Mauzobora assistant"><div class="agh"><div><span class="agd"></span><b>Assistant</b><small>Mauzobora AI</small></div><button class="agx" data-a="agx" aria-label="Close">&times;</button></div>
@@ -468,29 +515,22 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
 <form class="agi" id="agf" autocomplete="off"><button type="button" class="agb" id="agmic" data-a="agmic" aria-label="Sema"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></button><input id="agin" placeholder="Type or speak..." aria-label="Ujumbe"><button type="submit" class="agb p" aria-label="Tuma"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></form></div>
 </div>
 <div id="supportDock" aria-label="Mauzobora customer support and legal links"><div class="sd-contact"><span>Support:</span><a href="tel:+255621658007">+255 621 658 007</a></div><a class="sd-wa" href="https://wa.me/255621658007?text=Hello%20Mauzobora%20Support" target="_blank" rel="noopener" aria-label="Chat with Mauzobora on WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.02 3C8.85 3 3.02 8.82 3.02 15.99c0 2.29.6 4.52 1.74 6.48L3 29l6.7-1.72a13 13 0 0 0 6.31 1.62h.01c7.17 0 13-5.83 13-13S23.19 3 16.02 3Zm0 23.7h-.01a10.7 10.7 0 0 1-5.45-1.49l-.39-.23-3.98 1.02 1.06-3.88-.25-.4a10.68 10.68 0 1 1 9.02 4.98Zm5.87-8.01c-.32-.16-1.88-.93-2.17-1.04-.29-.1-.5-.16-.71.16-.21.32-.82 1.04-1.01 1.25-.18.21-.37.24-.69.08-.32-.16-1.34-.49-2.55-1.57-.94-.84-1.57-1.88-1.75-2.2-.18-.32-.02-.49.14-.65.14-.14.32-.37.48-.55.16-.18.21-.32.32-.53.1-.21.05-.4-.03-.56-.08-.16-.71-1.71-.98-2.34-.26-.61-.52-.53-.71-.54h-.61c-.21 0-.55.08-.84.4-.29.32-1.1 1.07-1.1 2.61s1.13 3.03 1.29 3.24c.16.21 2.22 3.39 5.38 4.75.75.32 1.33.51 1.78.65.75.24 1.43.21 1.97.13.6-.09 1.88-.77 2.15-1.52.26-.75.26-1.39.18-1.52-.08-.13-.29-.21-.61-.37Z"/></svg><span>WhatsApp</span></a><div class="sd-links"><a href="/privacy">Privacy Policy</a><a href="/terms">Terms &amp; Conditions</a></div></div>
-<div id="load" role="status" aria-label="Loading"><div class="lw"><svg class="lg" viewBox="0 0 120 150" aria-hidden="true"><defs><clipPath id="lc"><rect x="0" y="79" width="120" height="71"/></clipPath></defs>
-<rect class="bo" x="28" y="8" width="64" height="70" rx="12" pathLength="1"/>
-<rect class="bf" x="28" y="8" width="64" height="70" rx="12"/>
-<rect class="sc" x="37" y="17" width="46" height="21" rx="4"/>
-<g fill="#0F9F78"><rect class="bar" x="43" y="21" width="7" height="13" rx="1.5" style="animation-delay:1.05s"/><rect class="bar" x="56.5" y="21" width="7" height="13" rx="1.5" style="animation-delay:1.2s"/><rect class="bar" x="70" y="21" width="7" height="13" rx="1.5" style="animation-delay:1.35s"/></g>
-<g class="ks"><rect class="ky" x="38" y="46" width="11" height="6" rx="2" style="animation-delay:1.3s"/><rect class="ky" x="54.5" y="46" width="11" height="6" rx="2" style="animation-delay:1.38s"/><rect class="ky" x="71" y="46" width="11" height="6" rx="2" style="animation-delay:1.46s"/><rect class="ky" x="38" y="57" width="11" height="6" rx="2" style="animation-delay:1.54s"/><rect class="ky" x="54.5" y="57" width="11" height="6" rx="2" style="animation-delay:1.62s"/></g>
-<g clip-path="url(#lc)"><g class="rc"><rect x="40" y="76" width="40" height="62" fill="#fff" stroke="#123C35" stroke-opacity=".14"/><g fill="#123C35" opacity=".5"><rect class="rl" x="46" y="86" width="28" height="3" rx="1.5" style="animation-delay:2.1s"/><rect class="rl" x="46" y="94" width="20" height="3" rx="1.5" style="animation-delay:2.2s"/><rect class="rl" x="46" y="102" width="24" height="3" rx="1.5" style="animation-delay:2.3s"/></g><path class="ck" d="M52 119l6 6 12-13" pathLength="1"/></g></g>
-<rect class="sl" x="33" y="73" width="54" height="7" rx="3.5"/></svg><div class="lt">Mauzobora</div><div class="ls">Business manager</div></div></div>
+<div id="load" role="status" aria-label="Loading"><div class="load-simple"><span class="load-mark">M</span><strong>Mauzobora</strong><small>Business manager</small></div></div>
 <div id="auth" hidden>
 <section class="ah"><div id="alogo"></div>
-<div class="pv"><div class="hd"><i></i><span>Mauzobora</span></div><div class="rw"><div class="rcp"><b>Mama Neema Shop</b><small>Receipt #0148</small><div><span>Rice 2kg</span><span>5,600</span></div><div><span>Sugar 1kg</span><span>3,200</span></div><div><span>Cooking oil 1L</span><span>5,800</span></div><div><span>Soda x3</span><span>3,000</span></div><hr><div class="tt"><span>Total</span><span>TSh 17,600</span></div><small>Paid with M-Pesa. Thank you!</small><em class="st">PAID</em></div></div></div>
-<div class="auth-intro"><span class="auth-eyebrow">YOUR BUSINESS, UNDER CONTROL</span><h2>Run your shop with confidence.</h2><p>Mauzobora is an easy-to-use shop management and point-of-sale platform for small and growing businesses. Record sales, track stock, manage customers and expenses, and understand how your business is performing — all in one place.</p><ul class="auth-points"><li><span>✓</span><div><strong>Sell faster</strong><small>Record daily sales and issue clear receipts.</small></div></li><li><span>✓</span><div><strong>Stay on top of stock</strong><small>Manage products, quantities and low-stock items.</small></div></li><li><span>✓</span><div><strong>Know your numbers</strong><small>Track expenses, customers and business performance.</small></div></li></ul><div class="auth-audience">Made for shops, mini-markets, boutiques and other small businesses.</div></div></section>
+<div class="auth-spacer" aria-hidden="true"></div>
+<div class="auth-intro"><span class="auth-eyebrow">YOUR BUSINESS, UNDER CONTROL</span><h2>Run your shop with confidence.</h2><p>Mauzobora is an easy-to-use shop management and point-of-sale platform for small and growing businesses. Record sales, track stock, manage customers and expenses, and understand how your business is performing — all in one place.</p><ul class="auth-points"><li><span>✓</span><div><strong>Sell faster</strong><small>Record daily sales and issue clear receipts.</small></div></li><li><span>✓</span><div><strong>Stay on top of stock</strong><small>Manage products, quantities and low-stock items.</small></div></li><li><span>✓</span><div><strong>Know your numbers</strong><small>Track expenses, customers and business performance.</small></div></li></ul><div class="auth-audience">Made for shops, mini-markets, boutiques and other small businesses.</div><div class="auth-pricing"><span>Basic<b>TSh 40,000 / month</b></span><span>Premium<b>TSh 60,000 / month</b></span><span>Ultra<b>TSh 600,000 / year</b></span></div></div></section>
 <section class="af"><form class="afc" id="af" novalidate><h1 id="at">Welcome back</h1><p class="sub" id="as" style="margin:0">Sign in to manage your business.</p><div class="auth-form-note" id="authFormNote">Mauzobora brings your sales, inventory, customers and expenses together, so you can spend less time on paperwork and make better business decisions.</div>
 <div class="tabs"><button type="button" data-m="in" class="on">Sign in</button><button type="button" data-m="up">Create account</button></div>
 <div class="fg"><div class="fl" id="nm" hidden><input id="an" autocomplete="organization" placeholder=" "><label for="an">Business name</label></div>
-<div id="signupChoice" hidden><label for="signupPlan">Choose your plan</label><select id="signupPlan"><option value="basic">Basic — TSh 40,000 / month</option><option value="premium">Premium — TSh 60,000 / month</option><option value="ultra">Ultra — TSh 600,000 / year</option></select><small style="display:block;color:var(--mut);margin-top:5px">Choose the plan you want to use. Your account also starts with a 24-hour Premium trial. You can review and pay for your selected plan after creating your account.</small></div><div id="legalConsentWrap" hidden><input id="legalConsent" type="checkbox" required disabled><span>I agree to the <a href="/terms" target="_blank" rel="noopener">Terms and Conditions</a> and acknowledge the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</span></div>
+<div id="signupChoice" hidden><label for="signupPlan">Choose your plan</label><select id="signupPlan"><option value="basic">Basic — TSh 40,000 / month</option><option value="premium">Premium — TSh 60,000 / month</option><option value="ultra">Ultra — TSh 600,000 / year</option></select><small style="display:block;color:var(--mut);margin-top:5px">Choose a paid plan to activate your account. Payment is required before you can access your dashboard.</small></div><div id="legalConsentWrap" hidden><input id="legalConsent" type="checkbox" required disabled><span>I agree to the <a href="/terms" target="_blank" rel="noopener">Terms and Conditions</a> and acknowledge the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.</span></div>
 <div class="fl"><input id="ae" type="email" autocomplete="email" placeholder=" "><label for="ae">Email address</label></div>
 <div class="fl"><input id="ap" type="password" autocomplete="current-password" placeholder=" " style="padding-right:74px"><label for="ap">Password</label><button type="button" class="pe" id="pe">Show</button></div>
 <div id="pm" data-s="0" hidden><i></i><i></i><i></i><i></i></div>
 <div class="fr"><button class="lk" id="fp" type="button">Forgot password?</button></div></div>
 <div class="er" id="ar" role="alert"></div>
 <button class="btn p" id="sb" type="submit">Sign in</button>
-<div class="or">or</div><button class="btn gb" id="gg" type="button"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.7 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 6.9l7.4 5.8c4.3-4 6.9-9.9 6.9-17.2z"/><path fill="#FBBC05" d="M10.5 28.6c-.5-1.4-.8-2.9-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.5 0 12-2.1 16-5.8l-7.4-5.8c-2.1 1.4-4.8 2.3-8.6 2.3-6.3 0-11.6-4.2-13.5-9.9l-7.9 6.2C6.5 42.6 14.6 48 24 48z"/></svg>Continue with Google</button>
+<div class="or">or</div><button class="btn gb" id="gg" type="button"><span class="google-g" aria-hidden="true">G</span>Continue with Google</button>
 <p class="nt">Your records are private and visible only to you.</p></form></section></div>
 <div id="modal"></div><div id="toast"></div>
 <script type="module">
@@ -502,10 +542,10 @@ const app=initializeApp({apiKey:"AIzaSyDtQdHIWjX9xI_IjyAtcWllGo7c2F0cjpo",authDo
 try{getAnalytics(app)}catch(e){}
 const auth=getAuth(app),a=s=>document.querySelector(s);let db;try{db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){db=getFirestore(app)}
 let mode='in',uid=null,pend='',pendingPlan='basic';
-a('#alogo').innerHTML=document.querySelector('.brand svg').outerHTML+'Mauzobora';
+a('#alogo').textContent='Mauzobora';
 const MSG={'auth/invalid-credential':'Email address au nenosiri si sahihi.','auth/user-not-found':'No account exists with that email address.','auth/wrong-password':'Email address au nenosiri si sahihi.','auth/email-already-in-use':'An account already exists with that email address. Please sign in.','auth/weak-password':'Use a password with at least 6 characters.','auth/invalid-email':'Enter a valid email address.','auth/too-many-requests':'Too many attempts. Please wait a moment and try again.','auth/popup-closed-by-user':'You closed the Google sign-in window before finishing.','auth/network-request-failed':'Network error. Check your internet connection and try again.','auth/operation-not-allowed':'This sign-in method is not enabled in Firebase.','auth/unauthorized-domain':'Add this website to the Authorized domains list in Firebase Authentication.'};
 const err=e=>{a('#ar').textContent=typeof e=='string'?e:(MSG[e.code]||'Something went wrong. Please try again.')};
-function setMode(m){mode=m;document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.m==m));a('#nm').hidden=m!='up';a('#signupChoice').hidden=m!='up';a('#fp').hidden=m!='in';a('#pm').hidden=m!='up';a('#legalConsentWrap').hidden=m!='up';a('#legalConsent').disabled=m!='up';if(m!='up')a('#legalConsent').checked=false;a('#sb').textContent=m=='in'?'Sign in':'Create account';a('#at').textContent=m=='in'?'Welcome back':'Set up your shop';a('#as').textContent=m=='in'?'Sign in to manage your business.':'Create your shop account, choose a plan and get started with Mauzobora.';a('#authFormNote').textContent=m=='in'?'Mauzobora brings your sales, inventory, customers and expenses together, so you can spend less time on paperwork and make better business decisions.':'Start with a 24-hour Premium trial. Set up your shop, explore the tools, and choose the subscription plan that fits your business.';a('#ap').autocomplete=m=='in'?'current-password':'new-password';err('')}
+function setMode(m){mode=m;document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.m==m));a('#nm').hidden=m!='up';a('#signupChoice').hidden=m!='up';a('#fp').hidden=m!='in';a('#pm').hidden=m!='up';a('#legalConsentWrap').hidden=m!='up';a('#legalConsent').disabled=m!='up';if(m!='up')a('#legalConsent').checked=false;a('#sb').textContent=m=='in'?'Sign in':'Create account';a('#at').textContent=m=='in'?'Welcome back':'Set up your shop';a('#as').textContent=m=='in'?'Sign in to manage your business.':'Create your account and choose a subscription to unlock Mauzobora.';a('#authFormNote').textContent=m=='in'?'Manage sales, stock, customers, expenses and business performance from one simple workspace.':'Create your account, select Basic, Premium or Ultra, and activate your subscription. Your dashboard unlocks after payment is confirmed.';a('#ap').autocomplete=m=='in'?'current-password':'new-password';err('')}
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
 const busy=v=>{a('#sb').disabled=a('#gg').disabled=v;a('#sb').classList.toggle('ld',v)};
 a('#af').onsubmit=async ev=>{ev.preventDefault();const em=a('#ae').value.trim(),pw=a('#ap').value;if(!em||!pw)return err('Enter your email address and password.');
@@ -629,16 +669,18 @@ basic:{n:'Basic',t:'For a growing shop',price:40000,period:'m',lim:{p:300,c:300}
 premium:{n:'Premium',t:'For a fast-growing business',price:60000,period:'m',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['Unlimited products and customers','All-time reports','Export CSV','Business analytics']},
 ultra:{n:'Ultra',t:'The full power of Mauzobora for a full year',price:600000,period:'y',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['All Premium featurestures','One full year of access','Unlimited products and customers','Priority support']}};let SUB=null,per='m',payRef=null;
 const T0=n=>'TSh '+n.toLocaleString('en-US');
-const eff=()=>{const n=Date.now();if(SUB&&SUB.expiresAtMs>n){const p=({duka:'basic',biashara:'premium'})[SUB.plan]||SUB.plan;return PLANS[p]?p:'bure'}if(SUB&&SUB.trialEndsAtMs>n)return'premium';return'bure'};
-const trial=()=>!!SUB&&!(SUB.expiresAtMs>Date.now())&&SUB.trialEndsAtMs>Date.now();
+const eff=()=>{const n=Date.now();if(SUB&&Number(SUB.expiresAtMs)>n){const p=({duka:'basic',biashara:'premium'})[SUB.plan]||SUB.plan;return PLANS[p]&&p!=='bure'?p:'bure'}return'bure'};
+const trial=()=>false;
+const hasPaidAccess=()=>eff()!=='bure';
 const daysLeft=()=>Math.max(0,Math.ceil(((trial()?SUB.trialEndsAtMs:SUB&&SUB.expiresAtMs||0)-Date.now())/864e5));
 async function api(b){const t=await FB.token(),r=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+t},body:JSON.stringify(b)});let j={};try{j=await r.json()}catch(e){}if(!r.ok&&!j.message)j.message='Hitilafu. Please try again.';return j}
 async function loadSub(){try{const j=await api({action:'me'});SUB=j.sub||null}catch(e){try{SUB=await FB.sub()}catch(_){SUB=null}}render()}
+function lockedPage(){return `<section class="access-gate"><div class="gate-eyebrow">WELCOME TO MAUZOBORA</div><h1>Activate your plan to unlock your shop.</h1><p class="sub gate-sub">Your account is ready. Choose any paid plan below and complete mobile-money payment. Your dashboard and business tools will become available automatically after payment is confirmed.</p><div class="gate-steps"><span><b>1</b> Create account</span><span><b>2</b> Choose a plan</span><span><b>3</b> Activate and start selling</span></div><div class="pcs gate-plans">${cards(eff(),true)}</div><p class="gate-payment">Mobile-money checkout · M-Pesa · Tigo Pesa · Airtel Money · HaloPesa · Mixx by Yas</p></section>`}
 function subBar(){if(!SUB)return'';const p=eff();
 if(trial())return`<div class="card sbn"><b>Free trial: ${daysLeft()} day${daysLeft()===1?'':'s'} remaining</b><span>You have access to all Premium features.</span><button class="btn p s" data-a="plans">Choose a plan</button></div>`;
 if(p==='bure')return`<div class="card sbn w"><b>Free plan</b><span>Your plan includes up to 30 products, 20 customers and 7 days of reports.</span><button class="btn p s" data-a="plans">Choose a paid plan</button></div>`;
 if(daysLeft()<=5)return`<div class="card sbn w"><b>${PLANS[p].n} plan expires in ${daysLeft()} days</b><span>Subscribe now to keep your features.</span><button class="btn p s" data-a="plans">Subscribe</button></div>`;return''}
-function cards(cur){return Object.entries(PLANS).map(([k,x])=>`<div class="pc ${k==cur?'cur':''} ${k=='premium'?'pop':''}">${k=='premium'?'<em>POPULAR</em>':''}<h4>${x.n}</h4><small>${x.t}</small><div class="pp">${x.price?T0(x.price):'Free'}<small>${x.price?(x.period=='m'?' /month':' /year'):''}</small></div><ul>${x.f.map(f=>`<li>${f}</li>`).join('')}</ul>${k=='bure'?`<button class="btn" disabled>${k==cur?'Your plan':'Free plan'}</button>`:`<button class="btn p" data-a="buy" data-i="${k}">${k==cur&&!trial()?'Renew':'Choose '+x.n}</button>`}</div>`).join('')}
+function cards(cur,paidOnly=false){return Object.entries(PLANS).filter(([k])=>!paidOnly||k!=='bure').map(([k,x])=>`<div class="pc ${k==cur?'cur':''} ${k=='premium'?'pop':''}">${k=='premium'?'<em>POPULAR</em>':''}<h4>${x.n}</h4><small>${x.t}</small><div class="pp">${x.price?T0(x.price):'Free'}<small>${x.price?(x.period=='m'?' /month':' /year'):''}</small></div><ul>${x.f.map(f=>`<li>${f}</li>`).join('')}</ul>${k=='bure'?`<button class="btn" disabled>${k==cur?'Your plan':'Free plan'}</button>`:`<button class="btn p" data-a="buy" data-i="${k}">${k==cur&&!trial()?'Renew':'Choose '+x.n}</button>`}</div>`).join('')}
 VW.plan=()=>{const p=eff();return`<div class="top"><div><h1>Your plan</h1><p class="sub">${!SUB?'Loading...':trial()?'Free trial: '+daysLeft()+' day'+(daysLeft()===1?'':'s')+' remaining.':p==='bure'?'You are on the Free plan.':'Your '+PLANS[p].n+' expires on '+new Date(SUB.expiresAtMs).toLocaleDateString('en-TZ')+'.'}</p></div></div><div class="pcs">${cards(p)}</div><p class="nt">Pay with M-Pesa, Tigo Pesa, Airtel Money, HaloPesa or Mixx by Yas. Payments are automatically verified through SplashPay.</p>`};
 function paywall(msg){$('#modal').innerHTML=`<div class="ov"><div class="mod" style="width:min(860px,100%)"><h3>${esc(msg)}</h3><p class="sub">Choose a plan to unlock more features.</p><div class="pcs">${cards(eff())}</div><div class="row" style="margin-top:14px"><button class="btn" data-a="close">Later</button></div></div></div>`}
 function payForm(k){const x=PLANS[k];per=x.period;form('Subscribe to the '+x.n+' ('+T0(x.price)+(x.period=='m'?' per month':' per year')+')',[{k:'phone',l:'Payment phone number',t:'tel'}],{},async o=>{
@@ -654,7 +696,7 @@ const ps=$('#ps');if(ps)ps.textContent='We are still waiting for confirmation. Y
 const PF=[{k:'name',l:'Product name'},{k:'cat',l:'Category'},{k:'cost',l:'Purchase price (TZS)',t:'number'},{k:'price',l:'Selling price (TZS)',t:'number'},{k:'stock',l:'Stock quantity',t:'number'},{k:'min',l:'Low-stock alert at',t:'number'}];
 const CF=[{k:'name',l:'Full name'},{k:'phone',l:'Phone'}];
 const ACT={
-go:i=>{V=i;q='';render()},out:()=>FB.out(),close,ok:()=>okFn&&okFn(),print:()=>{document.body.classList.toggle('prr',!!$('#modal .rc'));window.print();setTimeout(()=>document.body.classList.remove('prr'),600)},
+go:i=>{if(!hasPaidAccess())return;V=i;q='';render()},out:()=>FB.out(),close,ok:()=>okFn&&okFn(),print:()=>{document.body.classList.toggle('prr',!!$('#modal .rc'));window.print();setTimeout(()=>document.body.classList.remove('prr'),600)},
 xs:()=>csv('mauzo',['Receipt','Date','Customer','Payment','Status','Total'],D.sales.map(s=>[s.no,s.date,C(s.cust)?.name||'Walk-in customer',pm(s.pay),s.status,s.total])),
 xp:()=>csv('bidhaa',['Name','Category','Cost','Price','In stock'],D.products.map(p=>[p.name,p.cat,p.cost,p.price,p.stock])),
 xe:()=>csv('matumizi',['Date','Description','Category','Amount'],D.expenses.map(e=>[e.date,e.title,e.cat,e.amt])),
@@ -869,7 +911,7 @@ document.addEventListener('change',e=>{const t=e.target;
 if(t.matches('[data-c]')){cat=t.value;$('#list').innerHTML=posList()}
 else if(t.matches('[data-p]')){pay=t.value;$('#cart').innerHTML=cartHtml()}else if(t.matches('[data-cu]'))cid=t.value;
 else if(t.matches('[data-r]')){window.RP=t.value;render()}});
-function render(){$('#nav').innerHTML=NAV.map(n=>`<a class="${n[0]==V?'on':''}" data-a="go" data-i="${n[0]}" role="button" tabindex="0"><svg viewBox="0 0 24 24">${IC[n[0]]}</svg>${n[1]}</a>`).join('');$('#bn').textContent='Mauzobora';const pb=$('#pbadge');if(pb)pb.textContent=SUB?(trial()?'Trial: '+daysLeft():'Plan: '+PLANS[eff()].n):'';$('#main').innerHTML=subBar()+VW[V]();document.title=D.set.name+' | Mauzobora'}
+function render(){const unlocked=hasPaidAccess();$('#app').classList.toggle('locked',!unlocked);$('#nav').innerHTML=unlocked?NAV.map(n=>`<a class="${n[0]==V?'on':''}" data-a="go" data-i="${n[0]}" role="button" tabindex="0"><svg viewBox="0 0 24 24">${IC[n[0]]}</svg>${n[1]}</a>`).join(''):'';$('#bn').textContent='Mauzobora';const pb=$('#pbadge');if(pb)pb.textContent=unlocked?'Plan: '+PLANS[eff()].n:'';$('#main').innerHTML=unlocked?subBar()+VW[V]():lockedPage();document.title=unlocked?D.set.name+' | Mauzobora':'Activate your plan | Mauzobora'}
 document.addEventListener('keydown',e=>{if(e.key=='Escape')close();if(e.key=='Enter'&&V=='pos'&&e.target.matches('[data-s]')){const p=D.products.find(p=>p.stock>0&&(cat=='All'||p.cat==cat)&&p.name.toLowerCase().includes(q.toLowerCase()));if(p)ACT.add(p.id)}if((e.key=='Enter'||e.key==' ')&&e.target.matches('nav a')){e.preventDefault();e.target.click()}});
 window.boot=(d,u)=>{D=d;SUB=null;cart={};V='dash';AG.msgs=[];agOpen(false);$('#who').textContent=u.email||'';render();return loadSub()};
 window.openPlanCheckout=(plan)=>{V='plan';render();if(PLANS[plan]&&plan!=='bure')payForm(plan)};
