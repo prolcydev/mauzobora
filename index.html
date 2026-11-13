@@ -669,7 +669,7 @@ basic:{n:'Basic',t:'For a growing shop',price:40000,period:'m',lim:{p:300,c:300}
 premium:{n:'Premium',t:'For a fast-growing business',price:60000,period:'m',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['Unlimited products and customers','All-time reports','Export CSV','Business analytics']},
 ultra:{n:'Ultra',t:'The full power of Mauzobora for a full year',price:600000,period:'y',lim:{p:1e9,c:1e9},rep:0,exp:1,f:['All Premium featurestures','One full year of access','Unlimited products and customers','Priority support']}};let SUB=null,per='m',payRef=null;
 const T0=n=>'TSh '+n.toLocaleString('en-US');
-const eff=()=>{const n=Date.now();if(SUB&&Number(SUB.expiresAtMs)>n){const p=({duka:'basic',biashara:'premium'})[SUB.plan]||SUB.plan;return PLANS[p]&&p!=='bure'?p:'bure'}return'bure'};
+const eff=()=>{const n=Date.now();if(SUB&&SUB.status==='active'&&Number(SUB.expiresAtMs)>n){const p=({duka:'basic',biashara:'premium'})[SUB.plan]||SUB.plan;return PLANS[p]&&p!=='bure'?p:'bure'}return'bure'};
 const trial=()=>false;
 const hasPaidAccess=()=>eff()!=='bure';
 const daysLeft=()=>Math.max(0,Math.ceil(((trial()?SUB.trialEndsAtMs:SUB&&SUB.expiresAtMs||0)-Date.now())/864e5));
