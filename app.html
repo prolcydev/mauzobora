@@ -169,21 +169,19 @@ main{padding-top:26px;padding-bottom:110px}
  .bars>div{min-width:0;font-size:11px}
 }
 @media(max-width:640px){
- .sales-list{overflow:visible}
- .sales-list table{width:100%;min-width:0;border-collapse:separate;border-spacing:0 9px}
- .sales-list thead{display:none}
- .sales-list tbody{display:grid;gap:9px}
- .sales-list tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 12px;padding:13px;background:var(--bg);border:1px solid var(--line);border-radius:10px}
- .sales-list td{display:block;padding:0;border:0;min-width:0;text-align:left!important;overflow-wrap:anywhere}
- .sales-list td:before{content:attr(data-label);display:block;margin-bottom:3px;color:var(--mut);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.045em}
- .sales-list td[data-label="Receipt"]{grid-column:1;grid-row:1}
- .sales-list td[data-label="Date"]{grid-column:2;grid-row:1;text-align:right!important;font-size:11px;color:var(--mut)}
- .sales-list td[data-label="Customer"]{grid-column:1;grid-row:2}
- .sales-list td[data-label="Payment"]{grid-column:2;grid-row:2;justify-self:end}
- .sales-list td[data-label="Total"]{grid-column:1;grid-row:3;font-size:16px}
- .sales-list td[data-label="Actions"]{grid-column:2;grid-row:3;align-self:end;justify-self:end;white-space:nowrap}
- .sales-list td[data-label="Actions"]:before{display:none}
- .sales-list .btn{padding:7px 9px;font-size:11px}
+ /* Keep sales as a real horizontal table; scroll the table, never stack its rows. */
+ .sales-list{display:block;width:100%;max-width:100%;overflow-x:auto!important;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+ .sales-list table{width:100%;min-width:790px;border-collapse:collapse;table-layout:auto}
+ .sales-list thead{display:table-header-group}
+ .sales-list tbody{display:table-row-group}
+ .sales-list tr{display:table-row;padding:0;background:transparent;border:0;border-radius:0}
+ .sales-list th,.sales-list td{display:table-cell;padding:11px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle;white-space:nowrap}
+ .sales-list th{font-size:11px;color:var(--mut);font-weight:650;background:var(--bg)}
+ .sales-list td:before{content:none!important;display:none!important}
+ .sales-list td[data-label="Customer"]{min-width:150px;max-width:220px;overflow:hidden;text-overflow:ellipsis}
+ .sales-list td[data-label="Actions"]{min-width:150px}
+ .sales-list .btn{padding:7px 10px;font-size:11px;white-space:nowrap}
+ .sales-list .r{text-align:right!important}
  .card{min-width:0}
  .top h1{font-size:26px}
  .kpis{gap:8px}
