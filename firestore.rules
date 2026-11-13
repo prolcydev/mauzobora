@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedInAs(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function hasActivePaidPlan(uid) {
+      let subscriptionPath = /databases/$(database)/documents/subscriptions/$(uid);
+      return signedInAs(uid)
+        && exists(subscriptionPath)
+        && get(subscriptionPath).data.status == "active"
+        && get(subscriptionPath).data.plan in ["basic", "premium", "ultra", "duka", "biashara"]
+        && get(subscriptionPath).data.expiresAtMs > request.time.toMillis();
+    }
+
+    // Users can view their own subscription status, but only the trusted
+    // server-side payment API can create or update subscription records.
+    match /subscriptions/{uid} {
+      allow read: if signedInAs(uid);
+      allow create, update, delete: if false;
+    }
+
+    // Shop records are inaccessible until a paid plan has been verified.
+    match /users/{uid}/{document=**} {
+      allow read, write: if hasActivePaidPlan(uid);
+    }
+  }
+}
