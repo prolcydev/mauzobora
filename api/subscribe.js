@@ -173,15 +173,11 @@ export default async function handler(req, res) {
       const subRef = adminDb.doc("subscriptions/" + user.uid);
       let snap = await subRef.get();
       if (!snap.exists) {
-        const account = await adminAuth.getUser(user.uid);
-        const createdAtMs = Date.parse(account.metadata.creationTime || "") || Date.now();
-        const trialEndsAtMs = createdAtMs + 24 * 60 * 60 * 1000;
-        const now = Date.now();
         const initialSub = {
-          plan: trialEndsAtMs > now ? "trial" : "bure",
-          status: trialEndsAtMs > now ? "trial" : "free",
-          startedAtMs: createdAtMs,
-          trialEndsAtMs,
+          plan: "bure",
+          status: "free",
+          startedAtMs: Date.now(),
+          trialEndsAtMs: 0,
           expiresAtMs: 0,
           currency: "TZS",
           updatedAt: FieldValue.serverTimestamp()
@@ -189,6 +185,22 @@ export default async function handler(req, res) {
         await subRef.create(initialSub).catch(async error => {
           if (error.code !== 6 && error.code !== "already-exists") throw error;
         });
+        snap = await subRef.get();
+      }
+
+      // Retire legacy trial records: only a verified paid subscription unlocks the app.
+      if (
+        snap.exists &&
+        !(Number(snap.data().expiresAtMs) > Date.now()) &&
+        (snap.data().status === "trial" || Number(snap.data().trialEndsAtMs) > 0)
+      ) {
+        await subRef.set({
+          plan: "bure",
+          status: "free",
+          trialEndsAtMs: 0,
+          expiresAtMs: 0,
+          updatedAt: FieldValue.serverTimestamp()
+        }, { merge: true });
         snap = await subRef.get();
       }
       return res.json({ success: true, sub: snap.exists ? snap.data() : null });
