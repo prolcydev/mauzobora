@@ -366,7 +366,7 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
   .tw td:last-child{border-bottom:0}
   .tw td.r{text-align:right}
   .tw td:before{content:"";display:none}
-  .tw td:nth-child(2):before{content:"Maelezo"}
+  .tw td:nth-child(2):before{content:"Description"}
   .tw td:nth-child(3):before{content:"Amount"}
   .tw td:nth-child(4):before{content:"Date"}
   .tw td:nth-child(5):before{content:"Status"}
@@ -428,7 +428,7 @@ tbody tr:hover{background:color-mix(in srgb,var(--hi) 42%,transparent)}
 <button class="mic" id="mic" data-a="mic" aria-label="Open assistant" title="Voice assistant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></button>
 <div id="ag" hidden role="dialog" aria-label="Mauzobora assistant"><div class="agh"><div><span class="agd"></span><b>Assistant</b><small>Mauzobora AI</small></div><button class="agx" data-a="agx" aria-label="Close">&times;</button></div>
 <div class="agm" id="agm" role="log" aria-live="polite"></div><div class="agc" id="agc"></div>
-<form class="agi" id="agf" autocomplete="off"><button type="button" class="agb" id="agmic" data-a="agmic" aria-label="Sema"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></button><input id="agin" placeholder="Andika au sema..." aria-label="Ujumbe"><button type="submit" class="agb p" aria-label="Tuma"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></form></div>
+<form class="agi" id="agf" autocomplete="off"><button type="button" class="agb" id="agmic" data-a="agmic" aria-label="Sema"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></svg></button><input id="agin" placeholder="Type or speak..." aria-label="Ujumbe"><button type="submit" class="agb p" aria-label="Tuma"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></button></form></div>
 </div>
 <div id="load" role="status" aria-label="Loading"><div class="lw"><svg class="lg" viewBox="0 0 120 150" aria-hidden="true"><defs><clipPath id="lc"><rect x="0" y="79" width="120" height="71"/></clipPath></defs>
 <rect class="bo" x="28" y="8" width="64" height="70" rx="12" pathLength="1"/>
@@ -465,7 +465,7 @@ try{getAnalytics(app)}catch(e){}
 const auth=getAuth(app),a=s=>document.querySelector(s);let db;try{db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch(e){db=getFirestore(app)}
 let mode='in',uid=null,pend='',pendingPlan='basic';
 a('#alogo').innerHTML=document.querySelector('.brand svg').outerHTML+'Mauzobora';
-const MSG={'auth/invalid-credential':'Email address au nenosiri si sahihi.','auth/user-not-found':'No account exists with that email address.','auth/wrong-password':'Email address au nenosiri si sahihi.','auth/email-already-in-use':'Email address hiyo ina akaunti tayari. Jaribu kuingia.','auth/weak-password':'Use a password with at least 6 characters.','auth/invalid-email':'Enter a valid email address.','auth/too-many-requests':'Too many attempts. Please wait a moment and try again.','auth/popup-closed-by-user':'You closed the Google sign-in window before finishing.','auth/network-request-failed':'Network error. Check your internet connection and try again.','auth/operation-not-allowed':'This sign-in method is not enabled in Firebase.','auth/unauthorized-domain':'Add this website to the Authorized domains list in Firebase Authentication.'};
+const MSG={'auth/invalid-credential':'Email address au nenosiri si sahihi.','auth/user-not-found':'No account exists with that email address.','auth/wrong-password':'Email address au nenosiri si sahihi.','auth/email-already-in-use':'An account already exists with that email address. Please sign in.','auth/weak-password':'Use a password with at least 6 characters.','auth/invalid-email':'Enter a valid email address.','auth/too-many-requests':'Too many attempts. Please wait a moment and try again.','auth/popup-closed-by-user':'You closed the Google sign-in window before finishing.','auth/network-request-failed':'Network error. Check your internet connection and try again.','auth/operation-not-allowed':'This sign-in method is not enabled in Firebase.','auth/unauthorized-domain':'Add this website to the Authorized domains list in Firebase Authentication.'};
 const err=e=>{a('#ar').textContent=typeof e=='string'?e:(MSG[e.code]||'Something went wrong. Please try again.')};
 function setMode(m){mode=m;document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.m==m));a('#nm').hidden=m!='up';a('#signupChoice').hidden=m!='up';a('#fp').hidden=m!='in';a('#pm').hidden=m!='up';a('#sb').textContent=m=='in'?'Sign in':'Create account';a('#at').textContent=m=='in'?'Welcome back':'Set up your shop';a('#as').textContent=m=='in'?'Sign in to manage your business.':'Create your business account and choose a plan to get started.';a('#ap').autocomplete=m=='in'?'current-password':'new-password';err('')}
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
@@ -582,7 +582,7 @@ function cartHtml(){const ids=Object.keys(cart),t=totals();return`<h3>Current sa
 <div class="fg"><label>Payment<select data-p>${Object.keys(PM).map(o=>`<option value="${o}" ${o==pay?'selected':''}>${PM[o]}</option>`).join('')}</select></label><label>Customer<select data-cu><option value="">Walk-in customer</option>${D.customers.map(c=>`<option value="${c.id}" ${c.id==cid?'selected':''}>${esc(c.name)}</option>`).join('')}</select></label></div>${pay=='Cash'?`<div class="fg"><label>Amount received<input data-cash type="number" min="0" value="${cash||''}" placeholder="Optional"></label><div id="chg" style="font-weight:700;color:var(--g7)">${cash?(cash>=t.total?'Change '+money(cash-t.total):'Short by '+money(t.total-cash)):''}</div></div>`:''}<button class="btn p" style="width:100%;padding:12px" data-a="charge" ${ids.length?'':'disabled'}>Charge ${money(t.total)}</button>`}
 function stockList(){const l=D.products.filter(p=>p.name.toLowerCase().includes(q.toLowerCase()));return l.length?`<table><tr><th>Products</th><th>Category</th><th class="r">Cost</th><th class="r">Price</th><th class="r">In stock</th><th></th></tr>${l.map(p=>`<tr><td><b>${esc(p.name)}</b></td><td>${esc(p.cat)}</td><td class="r">${money(p.cost)}</td><td class="r">${money(p.price)}</td><td class="r"><span class="tag ${p.stock<=p.min?'w':''}">${p.stock}</span></td><td class="r"><button class="btn s" data-a="restock" data-i="${p.id}">Restock</button> <button class="btn s" data-a="editp" data-i="${p.id}">Edit</button> <button class="btn s d" data-a="delp" data-i="${p.id}">Delete</button></td></tr>`).join('')}</table>`:'<div class="empty">No products yet. Add your first product to start selling.</div>'}
 function custList(){const l=D.customers.filter(c=>c.name.toLowerCase().includes(q.toLowerCase()));return l.length?`<table><tr><th>Name</th><th>Phone</th><th class="r">Total purchased</th><th class="r">Balance due</th><th></th></tr>${l.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${esc(c.phone)}</td><td class="r">${money(sum(paid().filter(s=>s.cust==c.id),s=>s.total))}</td><td class="r">${c.bal?`<span class="tag w">${money(c.bal)}</span>`:'-'}</td><td class="r">${c.bal?`<button class="btn s" data-a="cpay" data-i="${c.id}">Receive payment</button> `:''}<button class="btn s" data-a="editc" data-i="${c.id}">Edit</button> <button class="btn s d" data-a="delc" data-i="${c.id}">Delete</button></td></tr>`).join('')}</table>`:'<div class="empty">No customers yet.</div>'}
-function receipt(s){const c=C(s.cust);return`<div class="ov"><div class="mod rc"><h3 style="text-align:center;margin:0">${esc(D.set.name)}</h3><p style="text-align:center;color:var(--mut);margin:2px 0 12px">${esc(D.set.phone)} ${esc(D.set.addr)}<br>Receipts #${String(s.no).padStart(4,'0')} - ${new Date(s.date).toLocaleString('en-GB')}</p>${s.items.map(i=>`<div class="tot"><span>${i.qty} x ${esc(i.name)}</span><span>${money(i.qty*i.price)}</span></div>`).join('')}<hr style="border:0;border-top:1px dashed var(--line)"><div class="tot"><span>Subtotal</span><span>${money(s.sub)}</span></div>${s.disc?`<div class="tot"><span>Discount</span><span>-${money(s.disc)}</span></div>`:''}${s.tax?`<div class="tot"><span>VAT</span><span>${money(s.tax)}</span></div>`:''}<div class="tot b"><span>Total</span><span>${money(s.total)}</span></div>${s.cash?`<div class="tot"><span>Amount received</span><span>${money(s.cash)}</span></div><div class="tot"><span>Change</span><span>${money(s.cash-s.total)}</span></div>`:''}<p style="text-align:center;color:var(--mut)">${s.status=='Paid'?'Imelipwa kwa '+pm(s.pay):'Refunded'}${c?' - '+esc(c.name):''}<br>Thank you. Come again!</p><div class="row"><button class="btn" data-a="close">Close</button><button class="btn p" data-a="print">Print</button></div></div></div>`}
+function receipt(s){const c=C(s.cust);return`<div class="ov"><div class="mod rc"><h3 style="text-align:center;margin:0">${esc(D.set.name)}</h3><p style="text-align:center;color:var(--mut);margin:2px 0 12px">${esc(D.set.phone)} ${esc(D.set.addr)}<br>Receipts #${String(s.no).padStart(4,'0')} - ${new Date(s.date).toLocaleString('en-GB')}</p>${s.items.map(i=>`<div class="tot"><span>${i.qty} x ${esc(i.name)}</span><span>${money(i.qty*i.price)}</span></div>`).join('')}<hr style="border:0;border-top:1px dashed var(--line)"><div class="tot"><span>Subtotal</span><span>${money(s.sub)}</span></div>${s.disc?`<div class="tot"><span>Discount</span><span>-${money(s.disc)}</span></div>`:''}${s.tax?`<div class="tot"><span>VAT</span><span>${money(s.tax)}</span></div>`:''}<div class="tot b"><span>Total</span><span>${money(s.total)}</span></div>${s.cash?`<div class="tot"><span>Amount received</span><span>${money(s.cash)}</span></div><div class="tot"><span>Change</span><span>${money(s.cash-s.total)}</span></div>`:''}<p style="text-align:center;color:var(--mut)">${s.status=='Paid'?'Paid with '+pm(s.pay):'Refunded'}${c?' - '+esc(c.name):''}<br>Thank you. Come again!</p><div class="row"><button class="btn" data-a="close">Close</button><button class="btn p" data-a="print">Print</button></div></div></div>`}
 /* ---------- mpango / subscription ---------- */
 const PLANS={
 bure:{n:'Free',t:'Get started for free',price:0,period:'m',lim:{p:30,c:20},rep:7,exp:0,f:['Up to 30 products','Up to 20 customers','Unlimited sales and receipts','7 days of reports']},
@@ -618,7 +618,7 @@ const ACT={
 go:i=>{V=i;q='';render()},out:()=>FB.out(),close,ok:()=>okFn&&okFn(),print:()=>{document.body.classList.toggle('prr',!!$('#modal .rc'));window.print();setTimeout(()=>document.body.classList.remove('prr'),600)},
 xs:()=>csv('mauzo',['Receipt','Date','Customer','Payment','Status','Total'],D.sales.map(s=>[s.no,s.date,C(s.cust)?.name||'Walk-in customer',pm(s.pay),s.status,s.total])),
 xp:()=>csv('bidhaa',['Name','Category','Cost','Price','In stock'],D.products.map(p=>[p.name,p.cat,p.cost,p.price,p.stock])),
-xe:()=>csv('matumizi',['Date','Maelezo','Category','Amount'],D.expenses.map(e=>[e.date,e.title,e.cat,e.amt])),
+xe:()=>csv('matumizi',['Date','Description','Category','Amount'],D.expenses.map(e=>[e.date,e.title,e.cat,e.amt])),
 wipe:()=>ask('Delete all products, customers, sales and expenses? This cannot be undone.',()=>{D.products=[];D.customers=[];D.sales=[];D.expenses=[];D.next=1;cart={};save();render()},'Delete'),
 add:i=>{const p=P(i);if((cart[i]||0)>=p.stock)return toast('In stock '+p.stock+' tu za '+p.name);cart[i]=(cart[i]||0)+1;$('#cart').innerHTML=cartHtml()},
 dec:i=>{if(--cart[i]<1)delete cart[i];$('#cart').innerHTML=cartHtml()},
@@ -632,13 +632,13 @@ editp:i=>{const p=P(i);form('Edit product',PF,p,o=>{if(!o.name||o.price<=0)retur
 delp:i=>ask('Delete this product?',()=>{D.products=D.products.filter(p=>p.id!=i);delete cart[i];save();render()},'Delete'),
 restock:i=>{const p=P(i);form('Restock '+esc(p.name),[{k:'n',l:'Quantity received',t:'number'}],{},o=>{p.stock+=o.n;save();close();render();toast('Stock updated')})},
 addc:()=>form('Add customer',CF,{},o=>{if(!o.name)return toast('Enter a name');D.customers.push({id:uid(),bal:0,...o});save();close();render()}),
-editc:i=>{const c=C(i);form('Edit mteja',CF,c,o=>{Object.assign(c,o);save();close();render()})},
-delc:i=>ask('Delete mteja huyu?',()=>{D.customers=D.customers.filter(c=>c.id!=i);save();render()},'Delete'),
+editc:i=>{const c=C(i);form('Edit customer',CF,c,o=>{Object.assign(c,o);save();close();render()})},
+delc:i=>ask('Delete this customer?',()=>{D.customers=D.customers.filter(c=>c.id!=i);save();render()},'Delete'),
 cpay:i=>{const c=C(i);form('Payment from '+esc(c.name),[{k:'n',l:'Amount received (TZS)',t:'number'}],{n:c.bal},o=>{c.bal=Math.max(0,c.bal-o.n);save();close();render();toast('Payment saved')})},
 adde:()=>form('Add expense',[{k:'title',l:'What is this expense for?'},{k:'cat',l:'Category',o:['Rent','Utilities','Salaries','Transport','Supplies','Other']},{k:'amt',l:'Amount (TZS)',t:'number'},{k:'date',l:'Date',t:'date'}],{date:dk(new Date()),cat:'Other'},o=>{if(!o.title||!o.amt)return toast('Enter a description and amount');D.expenses.push({id:uid(),...o});save();close();render()}),
 dele:i=>{D.expenses=D.expenses.filter(e=>e.id!=i);save();render()},
 saveset:()=>{D.set={name:$('#s1').value.trim()||'My Shop',phone:$('#s2').value,addr:$('#s3').value,tax:+$('#s4').value||0};save();render();toast('Settings imehifadhiwa')},
-reset:()=>ask('Replace all your data with sample data?',()=>{const nm=D.set.name;D=seed();D.set.name=nm;cart={};save();render()},'Badilisha'),
+reset:()=>ask('Replace all your data with sample data?',()=>{const nm=D.set.name;D=seed();D.set.name=nm;cart={};save();render()},'Replace'),
 plans:()=>{V='plan';render()},per:i=>{per=i;render()},buy:k=>payForm(k)};
 const wrap=(k,chk)=>{const f=ACT[k];ACT[k]=(...a)=>chk()||f(...a)};
 wrap('addp',()=>D.products.length>=PLANS[eff()].lim.p&&(paywall('You have reached the product limit of '+PLANS[eff()].lim.p),1));
@@ -687,7 +687,7 @@ const unk=[],CON=new Set(['ya','wa','la','za','cha']);let cur=[];
 const flush=()=>{while(cur.length&&CON.has(cur[cur.length-1]))cur.pop();if(cur.length)unk.push(cur.join(' '));cur=[]};
 tk.forEach((w,i)=>{const ok=!used.has(i)&&!taken.has(i)&&!GEN.has(w)&&!IGN.has(w)&&!STOP.has(w)&&w.length>=3;if(ok)cur.push(w);else if(CON.has(w)&&cur.length)cur.push(w);else flush()});flush();
 return{lines,pay,cid:mc.c?mc.c.id:null,unk,nums}}
-function stopVoice(){if(rec){const r=rec;rec=null;try{r.onresult=r.onerror=r.onend=null;r.abort()}catch(_){}}const b=$('#agmic');if(b)b.classList.remove('on');const i=$('#agin');if(i)i.placeholder='Andika au sema...'}
+function stopVoice(){if(rec){const r=rec;rec=null;try{r.onresult=r.onerror=r.onend=null;r.abort()}catch(_){}}const b=$('#agmic');if(b)b.classList.remove('on');const i=$('#agin');if(i)i.placeholder='Type or speak...'}
 /* ---- chat helpers ---- */
 function agPaint(){const m=$('#agm');if(!m)return;m.innerHTML=AG.msgs.map(x=>{if(x.ty)return'<div class="ty"><i></i><i></i><i></i></div>';if(x.st)return`<div class="bs ${x.st=='ok'?'ok':''}"><i></i>${esc(x.t)}</div>`;let h=`<div class="bb ${x.r}">${esc(x.t)}</div>`;if(x.acts&&!x.done)h+=`<div class="ba">${x.acts.map((a,j)=>`<button class="btn s ${a.p?'p':''}" data-a="agdo" data-i="${x.id}.${j}">${esc(a.l)}</button>`).join('')}</div>`;return h}).join('');m.scrollTop=m.scrollHeight}
 const agAdd=o=>{o.id=++mid;AG.msgs.push(o);agPaint();return o};
@@ -704,7 +704,7 @@ if(k=='rep'){window.RP=/wiki/.test(t)?7:/miezi mitatu|siku 90/.test(t)?90:/muda 
 return goTo(k)}
 /* ---- add product / customer ---- */
 function addProd(v,done){const L=PLANS[eff()].lim.p;if(D.products.length>=L)return paywall('You have reached the product limit of '+L);
-form('Add product',PF,{cat:'Total',min:5,...v},o=>{if(!o.name||o.price<=0)return toast('Enter the product name and selling price');D.products.push({id:uid(),...o});save();close();render();say('Nimeongeza '+o.name+' ('+money(o.price)+', in stock '+o.stock+').',null,300);done&&done(o)})}
+form('Add product',PF,{cat:'General',min:5,...v},o=>{if(!o.name||o.price<=0)return toast('Enter the product name and selling price');D.products.push({id:uid(),...o});save();close();render();say('Added '+o.name+' ('+money(o.price)+', in stock '+o.stock+').',null,300);done&&done(o)})}
 function addProdI(t){const g=r=>{const m=t.match(r);return m?+m[1]:undefined};
 const price=g(/\b(?:bei|kuuzia|kuuza)(?: ya kuuzia| ya kuuza)?\s+(\d+)/),cst=g(/\b(?:gharama|kununulia|kununua)(?: ya kununulia)?\s+(\d+)/),stock=g(/\b(?:idadi|zipo|stoo|kiasi|ziko)\s+(\d+)/);
 const m=t.match(/\bbidhaa(?:\s+(?:mpya|ya|inaitwa|iitwayo))*\s+([a-z ]+?)(?=\s+(?:bei|gharama|idadi|zipo|stoo|kiasi|kwa|na)\b|\s+\d|$)/),name=m?cap(m[1].trim()):'';
@@ -713,25 +713,25 @@ if(ex){const p=P(ex.id);return say(p.name+' tayari ipo (bei '+money(p.price)+', 
 return say(name?'Okay, I am preparing the form ya “'+name+'”'+(price?', bei '+money(price):'')+'. Review it, then click Save.':'Okay, enter the details for the new product.').then(()=>{V!='stock'&&ACT.go('stock');step('Opening the product form...',()=>addProd({name,price,cost:cst,stock}),700,'The form is ready')})}
 function addCust(raw,t){const m=t.match(/\bmteja(?:\s+(?:mpya|anaitwa|jina))*\s+([a-z ]+?)(?=\s+(?:simu|namba|nambari|number|phone)\b|\s+\d|$)/),pm_=raw.match(/(\+?\d[\d\s-]{7,}\d)/),name=m?capw(m[1].trim()):'',phone=pm_?pm_[1].replace(/[\s-]/g,''):'';
 if(D.customers.length>=PLANS[eff()].lim.c)return paywall('You have reached the customer limit of '+PLANS[eff()].lim.c);
-return say('Okay, I am preparing the form ya mteja'+(name?' “'+name+'”':'')+'.').then(()=>{V!='cust'&&ACT.go('cust');step('Opening the customer form...',()=>form('Add customer',CF,{name,phone},o=>{if(!o.name)return toast('Enter a name');D.customers.push({id:uid(),bal:0,...o});save();close();render();say('Nimeongeza mteja '+o.name+'.',null,300)}),700,'The form is ready')})}
+return say('Okay, I am preparing the form ya mteja'+(name?' “'+name+'”':'')+'.').then(()=>{V!='cust'&&ACT.go('cust');step('Opening the customer form...',()=>form('Add customer',CF,{name,phone},o=>{if(!o.name)return toast('Enter a name');D.customers.push({id:uid(),bal:0,...o});save();close();render();say('Added customer '+o.name+'.',null,300)}),700,'The form is ready')})}
 /* ---- stock, expenses, payments, delete, export ---- */
 function offerAdd(r,t,rerun){const nm=cap(r.unk[0]),n=r.nums[0]?r.nums[0].v:1;
-return say('Sijaona “'+nm+'” kwenye stoo yako. Niiongeze kama products.mpya?',[{l:'Add '+nm,p:1,fn:()=>addProd({name:nm,stock:n},rerun?()=>step('Naendelea na mauzo...',()=>route(t),600):null)},NO].concat(amt(t)&&/nimenunua/.test(t)?[{l:'Rekodi kama matumizi',fn:()=>expense(t)}]:[]))}
+return say('I could not find “'+nm+'” kwenye stoo yako. Niiongeze kama new product?',[{l:'Add '+nm,p:1,fn:()=>addProd({name:nm,stock:n},rerun?()=>step('Naendelea na mauzo...',()=>route(t),600):null)},NO].concat(amt(t)&&/nimenunua/.test(t)?[{l:'Rekodi kama matumizi',fn:()=>expense(t)}]:[]))}
 function restock(t){const r=parseSale(t,false);
 if(!r.lines.length)return r.unk.length?offerAdd(r,t,false):say('Which products? Example: “restock sugar 20”.');
 if(!r.nums.length)return say('How many did you receive? Example: “restock sugar 20”.');
 return say('Should I restock?\n'+r.lines.map(l=>{const p=P(l.id);return'• '+p.name+': +'+l.qty+' ('+p.stock+' → '+(p.stock+l.qty)+')'}).join('\n'),[{l:'Confirm',p:1,fn:()=>{r.lines.forEach(l=>P(l.id).stock+=l.qty);save();render();say('Stock updated.',null,300)}},NO])}
-function expense(t){const a=amt(t);if(!a)return say('Amount gani? Mfano: “matumizi ya umeme 45000”.');
-const IE=new Set(['matumizi','nimelipa','nimetumia','nimegharamia','nimenunua','ya','gharama','kwa','leo','na','malipo','wa','la','za']);
+function expense(t){const a=amt(t);if(!a)return say('Amount gani? Example: “record electricity expense 45000”.');
+const IE=new Set(['matumizi','nimelipa','nimetumia','nimegharamia','nimenunua','ya','gharama','kwa','leo','na','payments','wa','la','za']);
 const title=cap(t.split(' ').filter(x=>x&&!/^\d+$/.test(x)&&!NUMW[x]&&!IE.has(x)).join(' ')||'Expenses');
 const ct=/umeme|maji|intaneti|luku|simu/.test(t)?'Utilities':/kodi|pango/.test(t)?'Rent':/mshahara|mishahara|mfanyakazi/.test(t)?'Salaries':/usafiri|nauli|mizigo|petroli/.test(t)?'Transport':/mifuko|vifaa|karatasi/.test(t)?'Supplies':'Other';
 return say('Record this expense?\n• '+title+' ('+ct+')\n• '+money(a)+'\n• Date: today',[{l:'Rekodi',p:1,fn:()=>{D.expenses.push({id:uid(),title,cat:ct,amt:a,date:dk(new Date())});save();render();say('Recorded an expense of '+money(a)+'.',null,300)}},NO])}
 function custPay(t){const c=matchCust(t.split(' ')).c;if(!c)return say('I could not find that customer. Say their name as it appears in the list, or say “add customer ...”.');
 if(!c.bal)return say(c.name+' has no outstanding balance.');const n=Math.min(amt(t)||c.bal,c.bal);
-return say(c.name+' owes '+money(c.bal)+'. Nirekodi malipo ya '+money(n)+'?',[{l:'Rekodi malipo',p:1,fn:()=>{c.bal=Math.max(0,c.bal-n);save();render();say('Payment recorded. Remaining balance for '+c.name+': '+money(c.bal)+'.',null,300)}},NO])}
+return say(c.name+' owes '+money(c.bal)+'. Should I record a payment of '+money(n)+'?',[{l:'Record payment',p:1,fn:()=>{c.bal=Math.max(0,c.bal-n);save();render();say('Payment recorded. Remaining balance for '+c.name+': '+money(c.bal)+'.',null,300)}},NO])}
 function delI(t){const tk=t.split(' ');if(/\bmteja\b/.test(t)){const c=matchCust(tk).c;return c?say('Delete customer '+c.name+'?',[{l:'Delete',p:1,fn:()=>{D.customers=D.customers.filter(x=>x.id!=c.id);save();render();say('Deleted '+c.name+'.',null,300)}},NO]):say('Which customer? Please say their name.')}
 const l=parseSale(t,false).lines[0];if(!l)return say('Which product should I delete? Example: “delete product sugar”.');const p=P(l.id);
-return say('Delete product '+p.name+'? This cannot be undone.',[{l:'Delete',p:1,fn:()=>{D.products=D.products.filter(x=>x.id!=p.id);delete cart[p.id];save();render();say('Nimefuta '+p.name+'.',null,300)}},NO])}
+return say('Delete product '+p.name+'? This cannot be undone.',[{l:'Delete',p:1,fn:()=>{D.products=D.products.filter(x=>x.id!=p.id);delete cart[p.id];save();render();say('Deleted '+p.name+'.',null,300)}},NO])}
 function exportI(t){const k=/matumizi/.test(t)?'xe':/bidhaa|stoo/.test(t)?'xp':'xs';return say('Okay, exporting the CSV.',null,300).then(()=>ACT[k]())}
 /* ---- sell ---- */
 function commit(r,ls){const pv={cart,pay,cid,cash,disc},n0=D.next;cart={};ls.forEach(l=>cart[l.id]=l.qty);pay=r.pay||'Cash';cid=r.cid||'';cash=0;disc=0;ACT.charge();
@@ -742,7 +742,7 @@ function sellCard(r){const ls=r.lines.filter(l=>l.qty>0),w=r.lines.filter(l=>l.w
 if(!ls.length)return say('Those products are out of stock. Should I restock them first? Example: “restock sugar 20”.');
 if(r.pay=='Credit'&&!r.cid)return say('A credit sale requires a customer. Which customer?',D.customers.slice(0,4).map(c=>({l:c.name,fn:()=>sellCard({...r,cid:c.id})})).concat([NO]));
 const sub=sum(ls,l=>l.qty*P(l.id).price),tot=sub+Math.round(sub*D.set.tax/100),c=C(r.cid);
-return say('Record this sale?\n'+ls.map(l=>'• '+l.qty+' × '+P(l.id).name+' = '+money(l.qty*P(l.id).price)).join('\n')+(w.length?'\nWarning: '+w.map(l=>P(l.id).name+' in stock '+P(l.id).stock+' tu').join(', '):'')+'\nTotal: '+money(tot)+'\nPayment: '+pm(r.pay||'Cash')+(c?' - '+c.name:''),[{l:'Rekodi mauzo',p:1,fn:()=>commit(r,ls)},NO])}
+return say('Record this sale?\n'+ls.map(l=>'• '+l.qty+' × '+P(l.id).name+' = '+money(l.qty*P(l.id).price)).join('\n')+(w.length?'\nWarning: '+w.map(l=>P(l.id).name+' in stock '+P(l.id).stock+' tu').join(', '):'')+'\nTotal: '+money(tot)+'\nPayment: '+pm(r.pay||'Cash')+(c?' - '+c.name:''),[{l:'Record sale',p:1,fn:()=>commit(r,ls)},NO])}
 function sell(t){const r=parseSale(t);
 if(!r.lines.length&&!r.unk.length)return say(FALLBACK);
 if(!r.lines.length)return offerAdd(r,t,true);
@@ -764,7 +764,7 @@ if(has(/\bwateja\b/))return 'You have '+D.customers.length+'.';
 if(has(/\bbidhaa\b/))return 'Una products.'+D.products.length+', thamani '+money(sum(D.products,p=>p.stock*p.cost))+'.';
 return null}
 /* ---- router ---- */
-const HELP='Here is what I can do:\n• Sales: “I sold two bags of sugar via M-Pesa”\n• Products mpya: “ongeza products.mchele bei 2800”\n• Inventory: “restock sugar 20”\n• Expenses: “record electricity expense 45000”\n• Customers: “add customer Juma”, “Amina paid 5000”\n• Questions: “today’s sales”, “who owes me?”, “low-stock items”, “rice price”\n• Navigation: “open weekly report”\n• Exports: “export sales CSV”';
+const HELP='Here is what I can do:\n• Sales: “I sold two bags of sugar via M-Pesa”\n• New products: “ongeza products.mchele bei 2800”\n• Inventory: “restock sugar 20”\n• Expenses: “record electricity expense 45000”\n• Customers: “add customer Juma”, “Amina paid 5000”\n• Questions: “today’s sales”, “who owes me?”, “low-stock items”, “rice price”\n• Navigation: “open weekly report”\n• Exports: “export sales CSV”';
 const FALLBACK='Sorry, I did not understand. Try an example:\n• “I sold two bags of sugar”\n• “Add rice as a product”\n• “Open reports”\n• “Who owes me?”\nOr say “help”.';
 const SELLV=/\b(nimeuza|niliuza|nimeuzia|nimemuuzia|nikamuuzia|tumeuza|uza|nimeuziwa)\b/,QRE=/\b(ngapi|gani|nani|je|faida|mapato|madeni|ananidai|wananidai|anadaiwa|inaisha|zinaisha|inayoisha|zinazoisha|zinazokaribia|imeisha|zimeisha|inayouzika|zinazouzika|zimebaki|imebaki|thamani|nini)\b/,ADD=/\b(ongeza|weka|sajili|ingiza|add)\b/;
 function toSwahiliCommand(input){
@@ -776,7 +776,7 @@ function toSwahiliCommand(input){
  [/\b(customers|customer)\b/g,'mteja'],[/\b(products|product|items|item)\b/g,'bidhaa'],[/\b(add|create|new)\b/g,'ongeza'],[/\b(delete|remove)\b/g,'futa'],
  [/\b(open|go to|show|view)\b/g,'fungua'],[/\b(reports|report)\b/g,'ripoti'],[/\b(inventory|stock)\b/g,'stoo'],[/\b(restock)\b/g,'ongeza stoo'],
  [/\b(price|selling price)\b/g,'bei'],[/\b(cost|purchase price)\b/g,'gharama'],[/\b(quantity|how many)\b/g,'idadi'],
- [/\b(cash)\b/g,'taslimu'],[/\b(credit)\b/g,'deni'],[/\b(payment|paid)\b/g,'malipo'],[/\b(export|download)\b/g,'pakua'],
+ [/\b(cash)\b/g,'taslimu'],[/\b(credit)\b/g,'deni'],[/\b(payment|paid)\b/g,'payments'],[/\b(export|download)\b/g,'pakua'],
  [/\b(low stock|running low|out of stock)\b/g,'zinazoisha'],[/\b(who owes me|owes me|outstanding balance)\b/g,'nani ananidai'],
  [/\b(rice)\b/g,'mchele'],[/\b(sugar)\b/g,'sukari'],[/\b(bread)\b/g,'mkate'],[/\b(oil)\b/g,'mafuta'],
  [/\b(via|using|with)\b/g,'kwa'],[/\b(help)\b/g,'msaada']
@@ -809,8 +809,8 @@ const pickAlt=a=>{let b=a[0],s=-1;a.forEach(x=>{const n=parseSale(x).lines.lengt
 function listen(){stopVoice();const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(!SR)return say('This browser does not support voice input. Type below or use Chrome.',null,250);
 const r=new SR();rec=r;r.lang=AG.lang;r.interimResults=true;r.maxAlternatives=4;
-const inp=$('#agin'),b=$('#agmic');b.classList.add('on');inp.placeholder='Inasikiliza...';
-const fin_=()=>{if(rec===r){rec=null}b.classList.remove('on');inp.placeholder='Andika au sema...'};
+const inp=$('#agin'),b=$('#agmic');b.classList.add('on');inp.placeholder='Listening...';
+const fin_=()=>{if(rec===r){rec=null}b.classList.remove('on');inp.placeholder='Type or speak...'};
 r.onresult=e=>{let fin=null,live='';for(let i=e.resultIndex;i<e.results.length;i++){const x=e.results[i];if(x.isFinal)fin=[...x].map(y=>y.transcript);else live+=x[0].transcript}
 if(fin){stopVoice();inp.value='';agentIn(pickAlt(fin))}else inp.value=live};
 r.onerror=e=>{const c=e.error;fin_();if(c=='language-not-supported'&&AG.lang=='en-US'){AG.lang='en-GB';return listen()}
