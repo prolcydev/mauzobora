@@ -151,7 +151,7 @@ function App() {
   if(loading||!data)return <div className="loading-screen"><span className="loader-ring"/><b>Mauzobora</b><small>Preparing your workspace…</small></div>;
   const canUse=isPaid;
   const requirePlan=()=>{if(!canUse){setView('plan');notify('Activate a paid plan to use shop tools.');return false}return true};
-  const renderTable=(heads,rows,empty)=>rows.length?<div className="table-scroll"><table><thead><tr>{heads.map(h=><th key={h}>{h}</th>)}</tr></thead><tbody>{rows}</tbody></table></div>:<div className="empty-state">{empty}</div>;
+  const renderTable=(heads,rows,empty)=>rows.length?<div className="table-scroll"><table><thead><tr>{heads.map(h=><th key={h}>{h}</th>)}</tr></thead><tbody>{rows.map(row=>React.cloneElement(row,{},React.Children.map(row.props.children,(cell,index)=>React.isValidElement(cell)?React.cloneElement(cell,{'data-label':heads[index]}):cell)))}</tbody></table></div>:<div className="empty-state">{empty}</div>;
   const recent=[...sales].reverse().slice(0,7);
   const viewTitle=NAV.find(n=>n[0]===view)?.[1]||'Overview';
   const page=()=>{
