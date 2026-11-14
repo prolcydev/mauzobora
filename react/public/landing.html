@@ -5,7 +5,7 @@
 <meta name="description" content="Mauzobora helps shops record sales, track inventory, manage customers and expenses, and see profit in one place.">
 <meta name="theme-color" content="#123C35">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--g9:#123C35;--g7:#0F9F78;--g5:#18B889;--ink:#161513;--mut:#5f6b67;--line:#dfe5e2;--soft:#f5f8f7;--tint:#e8f5ef;--r:6px;--hh:70px}
 *,*:before,*:after{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:86px;-webkit-text-size-adjust:100%}body{margin:0;font:16px/1.6 Inter,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom,0px)}a{color:inherit;text-decoration:none}h1,h2,h3,h4{line-height:1.15;margin:0;letter-spacing:-.02em}p{margin:0}.w{width:min(1200px,100% - 40px);margin:0 auto}
@@ -28,13 +28,59 @@ footer{background:#161513;color:#b9c1be;padding:60px 0 24px;font-size:14px}.fg{d
 @media(max-width:860px){nav{display:none;position:absolute;top:var(--hh);left:0;right:0;height:auto;background:#fff;flex-direction:column;padding:8px 20px 16px;border-bottom:1px solid var(--line);box-shadow:0 20px 30px -20px rgba(0,0,0,.2)}nav.open{display:flex}nav a{height:46px;border:0;margin:0}.mb{display:block}.hc .btn.o{display:none}.ub .r a:not(:last-child){display:none}.tp.on{grid-template-columns:1fr}}
 @media(max-width:600px){section{padding:56px 0}.fgd{grid-template-columns:1fr}.fi{border-right:0!important;border-bottom:1px solid var(--line)!important}.fi:last-child{border-bottom:0!important}.ind{grid-template-columns:1fr 1fr}.ind a:nth-child(4n){border-right:1px solid var(--line)}.ind a:nth-child(2n){border-right:0}.ind a:nth-last-child(-n+4){border-bottom:1px solid var(--line)}.ind a:nth-last-child(-n+2){border-bottom:0}.gl .w{grid-template-columns:1fr}.gl div{border-left:0;padding-left:0;border-top:1px solid var(--line)}.gl div:first-child{border-top:0}.kp{grid-template-columns:1fr 1fr}.kp div:last-child{display:none}.fg{grid-template-columns:1fr 1fr}.ct .btn{flex:1}.hero p.l{font-size:17px}.ub .l{display:none}.ub .w{justify-content:flex-end}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+/* Mauzobora premium visual refresh */
+:root{--g9:#123c35;--g7:#13866b;--g5:#29c49a;--ink:#14211e;--mut:#64736e;--line:#e4ebe7;--soft:#f6f9f7;--tint:#e8f5ef;--r:12px;--hh:76px}
+body{font-family:"DM Sans",Inter,Arial,sans-serif;color:var(--ink)}
+h1,h2,h3,h4,.lg,.pn2{font-family:Manrope,"DM Sans",sans-serif}
+.w{width:min(1240px,100% - 56px)}
+.btn{border-radius:10px;padding:14px 24px;box-shadow:0 3px 10px rgba(18,60,53,.06)}
+.btn.p{background:#123c35;box-shadow:0 8px 20px rgba(18,60,53,.16)}
+.btn.p:hover{background:#0b2b25;transform:translateY(-1px);box-shadow:0 12px 24px rgba(18,60,53,.2)}
+.btn.o{border-color:#d5e1db;background:rgba(255,255,255,.85)}
+.ub{background:#102b26;color:#dce9e3}
+header{box-shadow:0 4px 22px rgba(16,43,38,.035);border-bottom-color:#edf1ee}
+.lg{font-size:16px;letter-spacing:.08em}
+.lg i{width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,#174f43,#0d3029);color:#76f0c5;box-shadow:0 7px 16px rgba(18,60,53,.18)}
+nav{gap:4px}nav a{font-size:14px;padding:0 12px}
+.hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 82% 45%,rgba(191,235,216,.55),transparent 42%),linear-gradient(115deg,#fbfdfb 0%,#f7fbf8 52%,#eaf6ef 100%);border-bottom:1px solid #e3eee7}
+.hero:before{content:"";position:absolute;width:420px;height:420px;border:1px solid rgba(19,134,107,.12);border-radius:50%;right:-140px;top:-220px;box-shadow:0 0 0 45px rgba(19,134,107,.025),0 0 0 95px rgba(19,134,107,.02);pointer-events:none}
+.hero .w{position:relative;z-index:1;padding:92px 0 88px;gap:54px}
+.hero h1{font-size:clamp(42px,5.2vw,68px);line-height:1.04;letter-spacing:-.055em;font-weight:800;margin-bottom:22px}
+.hero p.l{font-size:18px;line-height:1.75;color:#596b64;margin-bottom:32px}
+.hero .ct{gap:14px}.hero .btn{padding:16px 25px}
+.hero .dash{border:1px solid #dce9e1;border-radius:18px;box-shadow:0 35px 80px -34px rgba(14,58,45,.35),0 8px 24px rgba(14,58,45,.06);transform:rotate(1deg);background:rgba(255,255,255,.94)}
+.db{padding:14px 18px;background:#f7faf8}.dc{padding:24px}.kp{gap:12px}.kp div{border-radius:12px;padding:15px;background:#fbfdfb}.kp div:first-child{background:linear-gradient(145deg,#174d40,#10352e);box-shadow:0 8px 18px rgba(18,60,53,.14)}.kp b{font-family:Manrope,sans-serif;font-size:18px}.ch{height:142px;gap:12px;padding:0 4px}.ch i{border-radius:6px 6px 2px 2px;opacity:.9}.rw{font-size:13px;padding:12px 2px}
+.gl div{padding:28px 22px;gap:14px}.gl i{font-size:23px;color:#13866b;background:#eaf6f0;width:46px;height:46px;border-radius:13px;display:grid;place-items:center}.gl b{font-family:Manrope,sans-serif;font-size:14px}.gl small{font-size:12.5px}
+section{padding:96px 0;border-bottom-color:#edf1ee}.alt{background:#f7faf8}
+.no{font-size:11px;letter-spacing:.15em;color:#118568}.no span{width:36px;height:36px;border-radius:12px;background:#e8f5ef;border:0;color:#0e765d;font-family:Manrope,sans-serif}
+.hd h2{font-size:clamp(30px,3.4vw,43px);letter-spacing:-.045em;line-height:1.12}.hd p{font-size:16px;line-height:1.75;color:#65746e}
+.fgd{border:0;border-radius:0;background:transparent;gap:14px;overflow:visible}
+.fi,.fi:nth-child(2n),.fi:nth-last-child(-n+2){border:1px solid #e4ece7;border-radius:15px;background:#fff;padding:24px;box-shadow:0 5px 18px rgba(18,60,53,.035);min-height:150px}
+.fi:hover{background:#fff;border-color:#b9d9c9;transform:translateY(-3px);box-shadow:0 14px 30px rgba(18,60,53,.08)}
+.ic{width:48px;height:48px;border-radius:14px;background:#eaf6f0;color:#128267}.fi h3{font-family:Manrope,sans-serif;font-size:16px}.fi p{line-height:1.65}
+.tb{gap:10px;border-bottom:1px solid #e0e9e3}.tb button{border-radius:10px 10px 0 0;padding:14px 18px}
+.tp{gap:42px}.tp h3{font-family:Manrope,sans-serif;font-size:25px;letter-spacing:-.035em}
+.pn{border:1px solid #e2ebe5;border-radius:16px;padding:20px;box-shadow:0 12px 32px rgba(18,60,53,.05)}.pr2{border-radius:10px;padding:15px 16px;border-color:#edf1ee}.pr2.k{background:linear-gradient(120deg,#174d40,#10352e)}
+.tl:before{background:#dce9e1}.tl .dot{border-radius:15px;background:linear-gradient(145deg,#174d40,#10352e);box-shadow:0 0 0 6px #f7faf8}.tl h3{font-family:Manrope,sans-serif;font-size:20px}
+.ind{border:0;background:transparent;gap:12px;overflow:visible}
+.ind a,.ind a:nth-child(4n),.ind a:nth-last-child(-n+4){border:1px solid #e4ece7;border-radius:14px;background:#fff;padding:24px 12px;box-shadow:0 5px 18px rgba(18,60,53,.035)}
+.ind a:hover{background:#f0f8f3;border-color:#b9d9c9;transform:translateY(-3px)}.ind i{background:#eaf6f0;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;font-size:22px}
+.ptw{border:1px solid #e2ebe5;border-radius:16px;box-shadow:0 12px 32px rgba(18,60,53,.045)}table{font-size:14px}th,td{padding:17px 14px}thead th{padding:24px 14px}thead th.ft{background:linear-gradient(160deg,#174d40,#10352e)}thead .pc{font-family:Manrope,sans-serif;font-size:24px}td.ft{background:#edf7f1}
+.fq details{padding:23px 0}.fq summary{font-family:Manrope,sans-serif;font-size:16px}
+.cta{background:radial-gradient(ellipse at 85% 20%,rgba(45,151,112,.3),transparent 42%),linear-gradient(115deg,#123c35,#0d2c26);padding:76px 0}.cta h2{font-family:Manrope,sans-serif;letter-spacing:-.04em;font-size:clamp(28px,3.5vw,40px)}.cta p{line-height:1.7}
+footer{background:#10231f;padding:66px 0 26px}footer .lg i{background:#1b5143}footer h4{font-family:Manrope,sans-serif}
+@media(max-width:1000px){.hero .w{gap:42px;padding:70px 0}.row{gap:24px 34px}}
+@media(max-width:860px){.hero .w{grid-template-columns:1fr;padding:70px 0}.hero .tx,.hero .vis{grid-column:1}.hero .vis{max-width:650px}.hero .dash{transform:none}}
+@media(max-width:600px){.w{width:min(100% - 36px,1240px)}.hero .w{padding:58px 0 54px;gap:38px}.hero h1{font-size:clamp(39px,11vw,52px)}.hero p.l{font-size:16px;line-height:1.7}.hero .ct .btn{flex:1;padding:14px 13px;font-size:13px}.dc{padding:14px}.kp{gap:7px}.kp div{padding:10px}.kp b{font-size:14px}.kp small{font-size:10px}.ch{height:100px;gap:7px}.gl div{padding:18px 0}.gl i{width:42px;height:42px;font-size:20px}.gl small{font-size:12px}section{padding:66px 0}.hd h2{font-size:32px}.fgd{gap:10px}.fi,.fi:nth-child(2n),.fi:nth-last-child(-n+2){padding:18px;min-height:0}.ic{width:42px;height:42px;font-size:18px}.ind{gap:9px}.ind a,.ind a:nth-child(4n),.ind a:nth-last-child(-n+4){padding:19px 8px;font-size:13px}.ind i{width:46px;height:46px}.cta{padding:58px 0}.cta .w{align-items:flex-start}.cta .ct{width:100%}.cta .ct .btn{flex:1;padding:13px 10px;font-size:13px}.fg{gap:24px 16px}}
+@media(prefers-reduced-motion:no-preference){.fi,.ind a,.btn{transition:transform .2s ease,box-shadow .2s ease,background .2s ease,border-color .2s ease}}
+
 </style></head><body>
 <div class="ub"><div class="w"><span class="l"><i class="fa-solid fa-store"></i>Point of sale for growing shops</span><div class="r"><a href="tel:+255621658007"><i class="fa-solid fa-phone"></i>+255 621 658 007</a><a href="https://wa.me/255621658007"><i class="fa-brands fa-whatsapp"></i>WhatsApp</a><a href="/app"><i class="fa-regular fa-user"></i>Sign in</a></div></div></div>
 <header><div class="w"><a class="lg" href="#top"><i class="fa-solid fa-cash-register"></i>Mauzobora</a><nav id="nv"><a href="#features">Features</a><a href="#solutions">Solutions</a><a href="#how">How it works</a><a href="#industries">Industries</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></nav><div class="hc"><a class="btn o sm" href="/app">Sign in</a><a class="btn p sm" href="/app">Create account</a></div><button class="mb" id="mb" aria-label="Menu"><i class="fa-solid fa-bars"></i></button></div></header>
 <main id="top">
 <div class="hero"><div class="w"><div class="tx"><div class="ey">Shop management platform</div><h1>Run your shop. Know your profit.</h1><p class="l">Mauzobora brings sales, inventory, customers and expenses together in one easy system, so you spend less time on paperwork and make better decisions.</p><div class="ct"><a class="btn p" href="/app">Create your account <i class="fa-solid fa-arrow-right"></i></a><a class="btn o" href="#features">Explore features</a></div></div>
 <div class="vis"><div class="dash" aria-hidden="true"><div class="db"><i></i><i></i><i></i></div><div class="dc"><div class="kp"><div><small>Today’s sales</small><b>TSh 482,500</b></div><div><small>Profit</small><b>TSh 96,300</b></div><div><small>Orders</small><b>128</b></div></div><div class="ch"><i style="height:40%"></i><i style="height:60%"></i><i style="height:48%"></i><i style="height:78%"></i><i style="height:58%"></i><i style="height:92%"></i><i style="height:70%"></i></div><div class="rw"><span>Rice 2kg</span><span>TSh 5,600</span></div><div class="rw"><span>Cooking oil 1L</span><span>TSh 5,800</span></div></div></div></div></div></div>
-<div class="gl"><div class="w"><div><i class="fa-solid fa-receipt"></i><span><b>Point of sale</b><small>Fast checkout, receipts</small></span></div><div><i class="fa-solid fa-boxes-stacked"></i><span><b>Inventory</b><small>Real-time stock</small></span></div><div><i class="fa-solid fa-chart-line"></i><span><b>Reports</b><small>Sales and profit</small></span></div><div><i class="fa-solid fa-microphone"></i><span><b>Voice assistant</b><small>English and Swahili</small></span></div></div></div>
+<div class="gl"><div class="w"><div><i class="fa-solid fa-receipt"></i><span><b>Point of sale</b><small>Fast checkout, receipts</small></span></div><div><i class="fa-solid fa-boxes-stacked"></i><span><b>Inventory</b><small>Real-time stock</small></span></div><div><i class="fa-solid fa-chart-line"></i><span><b>Reports</b><small>Sales and profit</small></span></div><div><i class="fa-solid fa-wand-magic-sparkles"></i><span><b>Business assistant</b><small>Ask in English or Swahili</small></span></div></div></div>
 <section id="features"><div class="w row"><div class="hd"><div class="no"><span>01</span>FEATURES</div><h2>Everything to run your business</h2><p>One platform replaces notebooks, calculators and spreadsheets.</p><a class="lk" href="#pricing">Compare plans <i class="fa-solid fa-arrow-right"></i></a></div><div class="bd"><div class="fgd">
 <div class="fi"><div class="ic"><i class="fa-solid fa-cash-register"></i></div><div><h3>Point of sale</h3><p>Record sales in seconds and print a receipt for every customer.</p></div></div>
 <div class="fi"><div class="ic"><i class="fa-solid fa-boxes-stacked"></i></div><div><h3>Inventory management</h3><p>Track every product and get warned before items run out.</p></div></div>
