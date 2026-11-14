@@ -146,6 +146,9 @@ main{padding-top:26px;padding-bottom:110px}
 }
 @media print{aside,.tools,.btn,.top button{display:none!important}.app{display:block}main{padding:0}body{background:#fff}}
 
+/* The More control belongs only in compact navigation. */
+.mobile-menu-trigger{display:none}
+
 /* Mobile dashboard and navigation refinement */
 @media(max-width:1000px){
  #nav a[data-i="stock"],#nav a[data-i="cust"],#nav a[data-i="exp"],#nav a[data-i="rep"],#nav a[data-i="plan"],#nav a[data-i="set"]{display:none}
@@ -876,7 +879,7 @@ const ps=$('#ps');if(ps)ps.textContent='We are still waiting for confirmation. Y
 const PF=[{k:'name',l:'Product name'},{k:'cat',l:'Category'},{k:'cost',l:'Purchase price (TZS)',t:'number'},{k:'price',l:'Selling price (TZS)',t:'number'},{k:'stock',l:'Stock quantity',t:'number'},{k:'min',l:'Low-stock alert at',t:'number'}];
 const CF=[{k:'name',l:'Full name'},{k:'phone',l:'Phone'}];
 const ACT={
-go:i=>{V=i;q='';$('#mobileMenu').hidden=true;render()},menutoggle:()=>{const m=$('#mobileMenu');m.hidden=!m.hidden},out:()=>FB.out(),close,ok:()=>okFn&&okFn(),print:()=>{document.body.classList.toggle('prr',!!$('#modal .rc'));window.print();setTimeout(()=>document.body.classList.remove('prr'),600)},
+go:i=>{V=i;q='';$('#mobileMenu').hidden=true;const b=$('.mobile-menu-trigger');if(b)b.setAttribute('aria-expanded','false');render()},menutoggle:()=>{const m=$('#mobileMenu'),b=$('.mobile-menu-trigger');m.hidden=!m.hidden;if(b)b.setAttribute('aria-expanded',String(!m.hidden))},out:()=>FB.out(),close,ok:()=>okFn&&okFn(),print:()=>{document.body.classList.toggle('prr',!!$('#modal .rc'));window.print();setTimeout(()=>document.body.classList.remove('prr'),600)},
 xs:()=>csv('mauzo',['Receipt','Date','Customer','Payment','Status','Total'],D.sales.map(s=>[s.no,s.date,C(s.cust)?.name||'Walk-in customer',pm(s.pay),s.status,s.total])),
 xp:()=>csv('bidhaa',['Name','Category','Cost','Price','In stock'],D.products.map(p=>[p.name,p.cat,p.cost,p.price,p.stock])),
 xe:()=>csv('matumizi',['Date','Description','Category','Amount'],D.expenses.map(e=>[e.date,e.title,e.cat,e.amt])),
