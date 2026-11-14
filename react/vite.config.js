@@ -10,9 +10,7 @@ export default defineConfig({
     outDir: resolve(process.cwd(), 'dist'),
     emptyOutDir: true,
     rollupOptions: {
-      input: {
-        app: resolve(process.cwd(), 'react/index.html')
-      }
+      input: resolve(process.cwd(), 'react/app.html')
     }
   }
 });
