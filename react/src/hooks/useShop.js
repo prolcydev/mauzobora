@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../lib/firebase.js';
-import { loadShopData, saveShopData, getSubscription, emptyShop } from '../lib/shopData.js';
+import { loadShopData, saveShopData, getSubscription, subscriptionRequest, emptyShop } from '../lib/shopData.js';
 
 const copy = value => JSON.parse(JSON.stringify(value));
 
@@ -33,7 +33,9 @@ export function useShop() {
       }
       setLoading(true);
       try {
-        const sub = await getSubscription(nextUser.uid).catch(() => null);
+        let sub = null;
+        try { const token = await nextUser.getIdToken(); const response = await subscriptionRequest(token, { action: 'me' }); sub = response.sub || null; }
+        catch { sub = await getSubscription(nextUser.uid).catch(() => null); }
         let shop;
         try { shop = await loadShopData(nextUser.uid, nextUser.displayName || 'My Shop'); }
         catch (cause) { if (cause?.code !== 'permission-denied' || (sub?.status === 'active' && Number(sub?.expiresAtMs) > Date.now())) throw cause; shop = emptyShop(nextUser.displayName || 'My Shop'); }
