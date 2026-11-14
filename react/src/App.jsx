@@ -80,14 +80,14 @@ function AuthInput({label,type='text',value,onChange,placeholder,autoComplete,re
   </label>;
 }
 function AuthScreen() {
-  const [mode,setMode]=useState('in'),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[business,setBusiness]=useState(''),[plan,setPlan]=useState('basic'),[consent,setConsent]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState(''),[showPassword,setShowPassword]=useState(false);
+  const [mode,setMode]=useState('in'),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[business,setBusiness]=useState(''),[consent,setConsent]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState(''),[showPassword,setShowPassword]=useState(false);
   const friendly = e => ({'auth/invalid-credential':'Email or password is incorrect.','auth/email-already-in-use':'An account already exists with this email. Sign in instead.','auth/weak-password':'Use a password with at least 6 characters.','auth/invalid-email':'Enter a valid email address.','auth/too-many-requests':'Too many attempts. Please wait and try again.','auth/unauthorized-domain':'Add this website to Firebase Authentication authorized domains.','auth/popup-closed-by-user':'Google sign-in was cancelled.'}[e.code]||e.message||'Something went wrong. Please try again.');
   async function submit(e){e.preventDefault();setError('');setNotice('');if(mode==='up'&&!consent){setError('Please accept the Terms and Conditions and acknowledge the Privacy Policy.');return}setBusy(true);try{if(mode==='in')await signInWithEmailAndPassword(auth,email.trim(),password);else{if(!business.trim())throw new Error('Enter your business name.');const result=await createUserWithEmailAndPassword(auth,email.trim(),password);await updateProfile(result.user,{displayName:business.trim()});}}catch(e){setError(friendly(e))}finally{setBusy(false)}}
   async function google(){setError('');if(mode==='up'&&!consent){setError('Please accept the Terms and Conditions and acknowledge the Privacy Policy.');return}setBusy(true);try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){setError(friendly(e))}finally{setBusy(false)}}
   async function reset(){if(!email.trim()){setError('Enter your email address first.');return}try{await sendPasswordResetEmail(auth,email.trim());setNotice('Password reset instructions have been sent to your email.');setError('')}catch(e){setError(friendly(e))}}
   return <main className="auth-layout">
     <section className="auth-story">
-      <a className="brand brand-light auth-brand" href="/"><span className="brand-mark">M</span><span>Mauzobora<small>Shop management</small></span></a>
+      <a className="brand brand-light auth-brand" href="/"><span className="brand-mark auth-brand-mark"><AuthIcon name="store"/></span><span>Mauzobora<small>Shop management</small></span></a>
       <div className="auth-story-content">
         <span className="auth-kicker"><span className="auth-kicker-dot"/> SIMPLE TOOLS. BETTER BUSINESS.</span>
         <h1>Everything in your shop, <em>in one place.</em></h1>
@@ -106,7 +106,7 @@ function AuthScreen() {
         <div className="auth-heading">
           <span className="eyebrow">{mode==='in'?'YOUR WORKSPACE AWAITS':'GET STARTED WITH MAUZOBORA'}</span>
           <h2>{mode==='in'?'Welcome back':'Create your shop account'}</h2>
-          <p>{mode==='in'?'Sign in to pick up where you left off.':'Set up your account and choose the plan for your business.'}</p>
+          <p>{mode==='in'?'Sign in to pick up where you left off.':'Create your account. You can choose and activate a plan after signing in.'}</p>
         </div>
         <div className="auth-tabs" role="tablist" aria-label="Account access">
           <button type="button" role="tab" aria-selected={mode==='in'} className={mode==='in'?'selected':''} onClick={()=>{setMode('in');setError('');setNotice('')}}>Sign in</button>
@@ -114,8 +114,7 @@ function AuthScreen() {
         </div>
         {mode==='up'&&<div className="auth-registration-fields">
           <AuthInput label="Business name" value={business} onChange={setBusiness} placeholder="e.g. Amani Mini Market" autoComplete="organization"/>
-          <label className="auth-field"><span className="auth-field-label">Choose your plan</span><span className="auth-select-wrap"><select value={plan} onChange={e=>setPlan(e.target.value)}>{Object.entries(PLANS).map(([k,p])=><option value={k} key={k}>{p.name} · {money(p.price)} / {p.period}</option>)}</select></span></label>
-          <p className="auth-plan-note">You can review your plan and activate it after creating your account. No payment is taken during registration.</p>
+          <p className="auth-plan-note">No payment is required to create an account. Choose your subscription from your workspace when you're ready.</p>
         </div>}
         <div className="auth-fields">
           <AuthInput label="Email address" type="email" value={email} onChange={setEmail} placeholder="you@example.com" autoComplete="email"/>
