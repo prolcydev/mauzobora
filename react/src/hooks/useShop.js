@@ -54,7 +54,9 @@ export function useShop() {
   }, []);
 
   useEffect(() => {
-    if (!user || !data || !hydrated.current) return;
+    const paid = subscription?.status === 'active' && Number(subscription?.expiresAtMs) > Date.now() && ['basic', 'premium', 'ultra', 'duka', 'biashara'].includes(subscription?.plan);
+    if (!user || !data || !hydrated.current || !paid) return;
+    if (JSON.stringify(data) === JSON.stringify(previous.current)) return;
     clearTimeout(saveTimer.current);
     setStatus(navigator.onLine ? 'Changes pending' : 'Offline');
     saveTimer.current = setTimeout(async () => {
@@ -70,7 +72,7 @@ export function useShop() {
       }
     }, 350);
     return () => clearTimeout(saveTimer.current);
-  }, [user, data]);
+  }, [user, data, subscription]);
 
   return { user, data, setData, subscription, setSubscription, loading, status, error, setError };
 }
