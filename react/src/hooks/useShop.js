@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../lib/firebase.js';
-import { loadShopData, saveShopData, getSubscription } from '../lib/shopData.js';
+import { loadShopData, saveShopData, getSubscription, emptyShop } from '../lib/shopData.js';
 
 const copy = value => JSON.parse(JSON.stringify(value));
 
@@ -33,10 +33,10 @@ export function useShop() {
       }
       setLoading(true);
       try {
-        const [shop, sub] = await Promise.all([
-          loadShopData(nextUser.uid, nextUser.displayName || 'My Shop'),
-          getSubscription(nextUser.uid).catch(() => null)
-        ]);
+        const sub = await getSubscription(nextUser.uid).catch(() => null);
+        let shop;
+        try { shop = await loadShopData(nextUser.uid, nextUser.displayName || 'My Shop'); }
+        catch (cause) { if (cause?.code !== 'permission-denied' || (sub?.status === 'active' && Number(sub?.expiresAtMs) > Date.now())) throw cause; shop = emptyShop(nextUser.displayName || 'My Shop'); }
         if (!active) return;
         previous.current = copy(shop);
         setData(shop);
