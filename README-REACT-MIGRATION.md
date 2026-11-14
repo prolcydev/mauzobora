@@ -11,6 +11,7 @@ This branch replaces the iframe compatibility shell with a native React 19 + Vit
 - Product CRUD, restocking, customer CRUD, customer balance collection, sales history/refunds and expense recording.
 - Reports, product ranking, payment-method summaries, CSV exports and shop settings.
 - Responsive desktop/mobile navigation and compact mobile table cards.
+- Native shop assistant for sales/profit questions, stock alerts, customer balances, inventory value and quick navigation.
 - Existing landing page, Terms, Privacy and serverless subscription API remain in place.
 
 ## Data and compatibility
