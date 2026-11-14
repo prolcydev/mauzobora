@@ -54,14 +54,90 @@ function Field({label,value,onChange,type='text',required=false,placeholder=''})
 function Modal({title,children,onClose,wide=false}) {
   return <div className="modal-backdrop" onMouseDown={e=>e.target===e.currentTarget&&onClose()}><section className={'modal '+(wide?'modal-wide':'')}><header><h2>{title}</h2><button className="icon-btn" onClick={onClose} aria-label="Close">×</button></header>{children}</section></div>;
 }
+function AuthIcon({name,className=''}) {
+  const paths = {
+    mail:<><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></>,
+    lock:<><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></>,
+    store:<><path d="M3 10h18l-1.5-6h-15L3 10Z"/><path d="M5 10v10h14V10M9 20v-6h6v6M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></>,
+    chart:<><path d="M4 19V5m0 14h17"/><path d="m7 15 4-4 3 2 6-7"/></>,
+    box:<><path d="m12 3 9 5v8l-9 5-9-5V8l9-5Z"/><path d="m3 8 9 5 9-5m-9 5v8"/></>,
+    receipt:<><path d="M5 3h14v18l-3-2-4 2-4-2-3 2V3Z"/><path d="M8 8h8M8 12h8M8 16h4"/></>,
+    shield:<><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></>,
+    check:<path d="m5 12 4 4L19 6"/>,
+    arrow:<><path d="M5 12h14m-6-6 6 6-6 6"/></>,
+    alert:<><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></>
+  };
+  return <svg className={className} viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]||paths.check}</svg>;
+}
+function AuthInput({label,type='text',value,onChange,placeholder,autoComplete,required=true,showToggle=false,onToggle,visible=false}) {
+  return <label className="auth-field">
+    <span className="auth-field-label">{label}</span>
+    <span className="auth-input-wrap">
+      <AuthIcon name={type==='email'?'mail':type==='password'?'lock':'store'} />
+      <input type={showToggle?(visible?'text':'password'):type} value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder} autoComplete={autoComplete} required={required}/>
+      {showToggle&&<button className="auth-password-toggle" type="button" onClick={onToggle} aria-label={visible?'Hide password':'Show password'}>{visible?'Hide':'Show'}</button>}
+    </span>
+  </label>;
+}
 function AuthScreen() {
-  const [mode,setMode]=useState('in'),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[business,setBusiness]=useState(''),[plan,setPlan]=useState('basic'),[consent,setConsent]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState('');
+  const [mode,setMode]=useState('in'),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[business,setBusiness]=useState(''),[plan,setPlan]=useState('basic'),[consent,setConsent]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState(''),[showPassword,setShowPassword]=useState(false);
   const friendly = e => ({'auth/invalid-credential':'Email or password is incorrect.','auth/email-already-in-use':'An account already exists with this email. Sign in instead.','auth/weak-password':'Use a password with at least 6 characters.','auth/invalid-email':'Enter a valid email address.','auth/too-many-requests':'Too many attempts. Please wait and try again.','auth/unauthorized-domain':'Add this website to Firebase Authentication authorized domains.','auth/popup-closed-by-user':'Google sign-in was cancelled.'}[e.code]||e.message||'Something went wrong. Please try again.');
   async function submit(e){e.preventDefault();setError('');setNotice('');if(mode==='up'&&!consent){setError('Please accept the Terms and Conditions and acknowledge the Privacy Policy.');return}setBusy(true);try{if(mode==='in')await signInWithEmailAndPassword(auth,email.trim(),password);else{if(!business.trim())throw new Error('Enter your business name.');const result=await createUserWithEmailAndPassword(auth,email.trim(),password);await updateProfile(result.user,{displayName:business.trim()});}}catch(e){setError(friendly(e))}finally{setBusy(false)}}
   async function google(){setError('');if(mode==='up'&&!consent){setError('Please accept the Terms and Conditions and acknowledge the Privacy Policy.');return}setBusy(true);try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){setError(friendly(e))}finally{setBusy(false)}}
   async function reset(){if(!email.trim()){setError('Enter your email address first.');return}try{await sendPasswordResetEmail(auth,email.trim());setNotice('Password reset instructions have been sent to your email.');setError('')}catch(e){setError(friendly(e))}}
-  return <main className="auth-layout"><section className="auth-story"><a className="brand brand-light" href="/"><span className="brand-mark">M</span><span>Mauzobora<small>Shop management</small></span></a><div className="story-copy"><span className="eyebrow">YOUR BUSINESS, UNDER CONTROL</span><h1>Run your shop with confidence.</h1><p>Record sales, track stock, manage customers and expenses, and understand how your business is performing — all in one place.</p><ul><li><b>✓</b><span><strong>Sell faster</strong><small>Record daily sales and issue clear receipts.</small></span></li><li><b>✓</b><span><strong>Stay on top of stock</strong><small>Manage products, quantities and low-stock items.</small></span></li><li><b>✓</b><span><strong>Know your numbers</strong><small>Track expenses, customers and business performance.</small></span></li></ul></div><small className="story-foot">Made for shops, mini-markets, boutiques and growing businesses.</small></section><section className="auth-panel"><form className="auth-card" onSubmit={submit}><a className="brand brand-mobile" href="/"><span className="brand-mark">M</span><span>Mauzobora<small>Shop management</small></span></a><span className="eyebrow">WELCOME TO MAUZOBORA</span><h2>{mode==='in'?'Welcome back':'Set up your shop'}</h2><p>{mode==='in'?'Sign in to manage your business.':'Create your account and choose a plan to activate your shop.'}</p><div className="auth-tabs"><button type="button" className={mode==='in'?'selected':''} onClick={()=>{setMode('in');setError('')}}>Sign in</button><button type="button" className={mode==='up'?'selected':''} onClick={()=>{setMode('up');setError('')}}>Create account</button></div>{mode==='up'&&<><Field label="Business name" value={business} onChange={setBusiness} required/><label className="field"><span>Choose a plan</span><select value={plan} onChange={e=>setPlan(e.target.value)}>{Object.entries(PLANS).map(([k,p])=><option value={k} key={k}>{p.name} — {money(p.price)} / {p.period}</option>)}</select></label><label className="consent"><input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)}/><span>I agree to the <a href="/terms" target="_blank">Terms and Conditions</a> and acknowledge the <a href="/privacy" target="_blank">Privacy Policy</a>.</span></label></>}<Field label="Email address" type="email" value={email} onChange={setEmail} required/><Field label="Password" type="password" value={password} onChange={setPassword} required/><div className="auth-tools">{mode==='in'&&<button type="button" className="text-btn" onClick={reset}>Forgot password?</button>}</div>{error&&<div className="alert alert-error">{error}</div>}{notice&&<div className="alert alert-success">{notice}</div>}<button className="btn btn-primary btn-full" disabled={busy}>{busy?'Please wait…':mode==='in'?'Sign in':'Create account'}</button><div className="or-divider"><span>or</span></div><button type="button" className="btn btn-google btn-full" disabled={busy} onClick={google}><b className="google-g">G</b> Continue with Google</button><small className="privacy-note">Your records are private and visible only to you.</small></form></section></main>;
+  return <main className="auth-layout">
+    <section className="auth-story">
+      <a className="brand brand-light auth-brand" href="/"><span className="brand-mark">M</span><span>Mauzobora<small>Shop management</small></span></a>
+      <div className="auth-story-content">
+        <span className="auth-kicker"><span className="auth-kicker-dot"/> SIMPLE TOOLS. BETTER BUSINESS.</span>
+        <h1>Everything in your shop, <em>in one place.</em></h1>
+        <p className="auth-story-intro">Spend less time managing records and more time growing your business. Keep sales, stock and customers organised with one simple workspace.</p>
+        <div className="auth-benefits">
+          <article><span className="auth-benefit-icon"><AuthIcon name="receipt"/></span><span><b>Sales made simple</b><small>Fast checkout and clear customer receipts.</small></span></article>
+          <article><span className="auth-benefit-icon"><AuthIcon name="box"/></span><span><b>Stock under control</b><small>Know what is available and what needs restocking.</small></span></article>
+          <article><span className="auth-benefit-icon"><AuthIcon name="chart"/></span><span><b>Understand your business</b><small>See your revenue, expenses and performance.</small></span></article>
+        </div>
+      </div>
+      <div className="auth-story-bottom"><span><AuthIcon name="shield"/> Your business records stay private.</span><small>Made for shops and growing businesses in Tanzania.</small></div>
+    </section>
+    <section className="auth-panel">
+      <form className="auth-card" onSubmit={submit}>
+        <a className="brand brand-mobile" href="/"><span className="brand-mark">M</span><span>Mauzobora<small>Shop management</small></span></a>
+        <div className="auth-heading">
+          <span className="eyebrow">{mode==='in'?'YOUR WORKSPACE AWAITS':'GET STARTED WITH MAUZOBORA'}</span>
+          <h2>{mode==='in'?'Welcome back':'Create your shop account'}</h2>
+          <p>{mode==='in'?'Sign in to pick up where you left off.':'Set up your account and choose the plan for your business.'}</p>
+        </div>
+        <div className="auth-tabs" role="tablist" aria-label="Account access">
+          <button type="button" role="tab" aria-selected={mode==='in'} className={mode==='in'?'selected':''} onClick={()=>{setMode('in');setError('');setNotice('')}}>Sign in</button>
+          <button type="button" role="tab" aria-selected={mode==='up'} className={mode==='up'?'selected':''} onClick={()=>{setMode('up');setError('');setNotice('')}}>Create account</button>
+        </div>
+        {mode==='up'&&<div className="auth-registration-fields">
+          <AuthInput label="Business name" value={business} onChange={setBusiness} placeholder="e.g. Amani Mini Market" autoComplete="organization"/>
+          <label className="auth-field"><span className="auth-field-label">Choose your plan</span><span className="auth-select-wrap"><select value={plan} onChange={e=>setPlan(e.target.value)}>{Object.entries(PLANS).map(([k,p])=><option value={k} key={k}>{p.name} · {money(p.price)} / {p.period}</option>)}</select></span></label>
+          <p className="auth-plan-note">You can review your plan and activate it after creating your account. No payment is taken during registration.</p>
+        </div>}
+        <div className="auth-fields">
+          <AuthInput label="Email address" type="email" value={email} onChange={setEmail} placeholder="you@example.com" autoComplete="email"/>
+          <AuthInput label="Password" type="password" value={password} onChange={setPassword} placeholder="Enter your password" autoComplete={mode==='in'?'current-password':'new-password'} showToggle onToggle={()=>setShowPassword(v=>!v)} visible={showPassword}/>
+        </div>
+        {mode==='up'&&<label className="auth-consent"><input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)}/><span>I agree to the <a href="/terms" target="_blank" rel="noreferrer">Terms and Conditions</a> and acknowledge the <a href="/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.</span></label>}
+        {mode==='in'&&<div className="auth-tools"><button type="button" className="text-btn" onClick={reset}>Forgot password?</button></div>}
+        {error&&<div className="auth-feedback auth-feedback-error" role="alert"><AuthIcon name="alert"/><span>{error}</span></div>}
+        {notice&&<div className="auth-feedback auth-feedback-success" role="status"><AuthIcon name="check"/><span>{notice}</span></div>}
+        <button className="btn btn-primary btn-full auth-submit" disabled={busy}>{busy?<><span className="auth-spinner"/>Please wait…</>:<>{mode==='in'?'Sign in to Mauzobora':'Create account'}<AuthIcon name="arrow"/></>}</button>
+        <div className="auth-divider"><span>or continue with</span></div>
+        <button type="button" className="btn btn-google btn-full auth-google" disabled={busy} onClick={google}>
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.7c3.9-3.6 6-8.8 6-15Z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.7-5.1c-1.8 1.2-4 1.9-6.8 1.9-5.2 0-9.7-3.5-11.3-8.2H5.8v5.2A20 20 0 0 0 24 44Z"/><path fill="#FBBC05" d="M12.7 27.7a12 12 0 0 1 0-7.4v-5.2H5.8a20 20 0 0 0 0 17.8l6.9-5.2Z"/><path fill="#EA4335" d="M24 12.1c3 0 5.7 1 7.8 3l5.8-5.8A19.4 19.4 0 0 0 24 4 20 20 0 0 0 5.8 15.1l6.9 5.2c1.6-4.7 6.1-8.2 11.3-8.2Z"/></svg>
+          Continue with Google
+        </button>
+        <div className="auth-trust"><AuthIcon name="shield"/><span>Your records are private and visible only to you.</span></div>
+      </form>
+      <div className="auth-panel-footer"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="tel:+255621658007">Need help? Contact support</a></div>
+    </section>
+  </main>;
 }
+
 function WorkspaceApp() {
   const shop=useShop();
   const {user,data,setData,subscription,setSubscription,loading,status,error,setError}=shop;
