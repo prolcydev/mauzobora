@@ -11,3 +11,44 @@
 @media(max-width:900px){.mz-hero-grid{gap:30px}.mz-tools-grid{grid-template-columns:repeat(2,1fr)}.mz-tool-card:nth-child(3){border-left:1px solid var(--line)}.mz-tool-card:nth-child(-n+2){border-bottom:1px solid var(--line)}.mz-plans{gap:10px}.mz-plan{padding:18px}.mz-plan-featured{padding:17px}.mz-footer-main{grid-template-columns:1.5fr 1fr 1fr}.mz-footer-main>div:last-child{grid-column:2/4}}
 @media(max-width:650px){.mz-container{width:calc(100% - 34px)}.mz-utility .mz-container{min-height:32px;font-size:10px}.mz-header-inner{min-height:66px;position:relative}.mz-brand-mark{width:35px;height:35px;font-size:20px}.mz-brand-name{font-size:17px}.mz-menu-toggle{display:grid;place-items:center;width:38px;height:36px;border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:3px;font-size:17px}.mz-nav{display:none;position:absolute;z-index:30;top:65px;left:-17px;right:-17px;background:#fff;padding:12px 17px 17px;border-bottom:1px solid var(--line);box-shadow:0 12px 18px #10283d12;align-items:stretch;gap:0}.mz-nav-open{display:flex;flex-direction:column}.mz-nav>a{padding:11px 4px;border-bottom:1px solid #edf1f3}.mz-nav .mz-nav-login{margin-left:0}.mz-nav .mz-nav-start{text-align:center;margin-top:10px;padding:11px}.mz-hero-inner{padding:18px 0 34px}.mz-breadcrumb{margin-bottom:20px}.mz-hero-grid{grid-template-columns:1fr;gap:27px}.mz-hero h1{font-size:40px;letter-spacing:-1.5px}.mz-hero-copy>p{font-size:13px;line-height:1.75}.mz-hero-actions{gap:18px;margin-top:21px}.mz-primary-button{padding:12px 15px;font-size:12px}.mz-assurance{font-size:10px;margin-top:17px}.mz-panel-heading{padding:15px 16px 12px}.mz-panel-heading h2{font-size:17px}.mz-quick-panel>a{padding:10px 15px;min-height:61px}.mz-tools-section,.mz-pricing-section{padding:42px 0 45px}.mz-section-heading{display:block;margin-bottom:19px}.mz-section-heading h2{font-size:25px}.mz-section-heading>p{margin-top:9px;font-size:11px}.mz-tools-grid{grid-template-columns:1fr 1fr}.mz-tool-card{padding:17px 12px 15px;min-height:174px}.mz-tool-card h3{font-size:13px;margin-top:12px}.mz-tool-card p{font-size:10px}.mz-tool-number{right:10px;top:13px}.mz-card-link{margin-top:11px}.mz-plans{grid-template-columns:1fr;gap:10px}.mz-plan,.mz-plan-featured{min-height:unset;padding:18px}.mz-plan-label{top:12px}.mz-plan ul{gap:7px;margin:12px 0}.mz-support-inner{align-items:flex-start;flex-direction:column;gap:17px}.mz-support-inner h2{font-size:21px}.mz-support-actions{gap:13px}.mz-footer-main{grid-template-columns:1fr 1fr;gap:22px 14px}.mz-footer-about{grid-column:1/-1}.mz-footer-main>div:last-child{grid-column:auto}.mz-footer-bottom{font-size:8px}}
 @media(max-width:370px){.mz-hero h1{font-size:35px}.mz-tools-grid{grid-template-columns:1fr}.mz-tool-card,.mz-tool-card:nth-child(3){border-left:1px solid var(--line);border-bottom:1px solid var(--line)}.mz-tool-card:last-child{border-bottom:0}}
+
+
+/* Marketing pages: align typography with the larger workspace scale */
+.mz-site{font-size:16px;line-height:1.65}
+.mz-utility{font-size:13px}
+.mz-nav>a{font-size:14px}
+.mz-hero-copy>p{font-size:17px}
+.mz-assurance{font-size:12px}
+.mz-panel-heading>span{font-size:10px}
+.mz-panel-heading h2{font-size:20px}
+.mz-quick-panel>a b{font-size:14px}
+.mz-quick-panel>a small{font-size:12px}
+.mz-eyebrow{font-size:11px}
+.mz-section-heading>p{font-size:14px}
+.mz-tool-card h3{font-size:16px}
+.mz-tool-card p{font-size:13px}
+.mz-card-link{font-size:12px}
+.mz-plan-description,.mz-plan-period{font-size:12px}
+.mz-plan li{font-size:13px}
+.mz-plan-button{font-size:13px}
+.mz-pricing-note{font-size:12px}
+.mz-support-inner p{font-size:13px}
+.mz-support-phone{font-size:14px}
+.mz-footer-about p{font-size:12px}
+.mz-footer-main>div>b{font-size:13px}
+.mz-footer-main>div>a:not(.mz-brand){font-size:12px}
+.mz-footer-bottom{font-size:11px}
+@media(max-width:650px){
+ .mz-utility .mz-container{font-size:11px}
+ .mz-nav>a{font-size:14px}
+ .mz-hero-copy>p{font-size:15px}
+ .mz-assurance{font-size:11px}
+ .mz-panel-heading h2{font-size:18px}
+ .mz-quick-panel>a b{font-size:13px}
+ .mz-quick-panel>a small{font-size:11px}
+ .mz-section-heading>p{font-size:12px}
+ .mz-tool-card h3{font-size:14px}
+ .mz-tool-card p{font-size:11px}
+ .mz-plan li{font-size:12px}
+ .mz-footer-bottom{font-size:10px}
+}
