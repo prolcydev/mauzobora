@@ -1,4 +1,6 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "functions": {
     "api/subscribe.js": {
       "maxDuration": 30
@@ -13,8 +15,12 @@
   ],
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/landing.html"
+    },
+    {
       "source": "/app",
-      "destination": "/app.html"
+      "destination": "/index.html"
     },
     {
       "source": "/terms",
