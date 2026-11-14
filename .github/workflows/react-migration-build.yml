@@ -1,7 +1,7 @@
 name: React migration build
 on:
   push:
-    branches: [react-migration]
+    branches: [react-migration, fix-landing-page-routing]
   pull_request:
     branches: [main]
 jobs:
@@ -15,4 +15,4 @@ jobs:
       - run: npm install
       - run: npm run build
       - name: Verify application output
-        run: test -s dist/index.html && test -s dist/legacy-app.html && test -s dist/landing.html
+        run: test -s dist/index.html && test -s dist/legacy-app.html && test -s dist/terms.html && test -s dist/privacy.html
