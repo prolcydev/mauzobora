@@ -235,3 +235,79 @@ td,th{padding:13px 12px;font-size:13px}
 .workspace>.sidebar>nav::-webkit-scrollbar{width:6px;}
 .workspace>.sidebar>nav::-webkit-scrollbar-track{background:transparent;}
 .workspace>.sidebar>nav::-webkit-scrollbar-thumb{background:#cbd8d0;border-radius:8px;}
+
+/* Purpose-built Point of Sale checkout */
+.pos-page-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}
+.pos-page-heading h1{font-size:28px;letter-spacing:-1px;margin:6px 0 4px;color:#142d25}
+.pos-page-heading p{margin:0;color:var(--muted);font-size:13px}
+.pos-session-chip{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:30px;padding:9px 13px;color:#607168;font-size:11px}
+.pos-session-chip>span{width:7px;height:7px;border-radius:50%;background:#21966a;box-shadow:0 0 0 3px #e4f4eb}
+.pos-session-chip b{color:var(--ink);font-weight:700}
+.pos-workspace{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:18px;align-items:start}
+.pos-catalog{padding:21px}
+.pos-catalog-head,.pos-order-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pos-catalog-head h2,.pos-order-head h2{font-size:17px;letter-spacing:-.4px;margin:0 0 5px;color:#18352a}
+.pos-catalog-head p{margin:0;color:var(--muted);font-size:11px}
+.pos-product-count,.pos-cart-count{background:#edf5f0;color:#27684f;border-radius:30px;padding:6px 10px;font-size:10px;font-weight:800;white-space:nowrap}
+.pos-search-wrap{height:43px;display:flex;align-items:center;gap:10px;margin:19px 0 15px;border:1px solid var(--line);border-radius:9px;padding:0 12px;background:#fbfcfb}
+.pos-search-wrap>span{font-size:21px;color:#6d8276}
+.pos-search-wrap .search-input{width:100%;border:0;background:transparent;outline:0;box-shadow:none;padding:9px 0;font-size:12px}
+.pos-search-wrap kbd{color:#95a39b;font-size:11px}
+.pos-product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pos-product-card{position:relative;display:grid;grid-template-columns:38px minmax(0,1fr) auto;grid-template-rows:auto auto;align-items:center;column-gap:10px;row-gap:4px;min-width:0;padding:13px;text-align:left;background:#fff;border:1px solid #e7eee9;border-radius:10px;color:var(--ink);transition:.15s}
+.pos-product-card:hover:not(:disabled){border-color:#83b79b;background:#f8fcf9;box-shadow:0 3px 12px #163e2a0a}
+.pos-product-card:disabled{opacity:.48}
+.pos-product-symbol,.pos-cart-symbol{grid-row:1/3;width:38px;height:38px;border-radius:9px;background:#edf5f0;color:#27684f;display:grid;place-items:center;font-weight:800;font-size:14px}
+.pos-product-info{display:grid;gap:4px;min-width:0}
+.pos-product-info b{font-size:12px;overflow-wrap:anywhere}
+.pos-product-info small{font-size:10px;color:var(--muted)}
+.pos-product-price{grid-column:2;grid-row:2;font-size:12px;font-weight:800;color:var(--green)}
+.pos-add-product{grid-column:3;grid-row:1/3;width:27px;height:27px;border-radius:8px;background:#eaf4ee;color:#176b50;display:grid;place-items:center;font-size:18px}
+.pos-order{position:sticky;top:82px;padding:20px;display:flex;flex-direction:column;min-height:570px}
+.pos-order-head{padding-bottom:16px;border-bottom:1px solid var(--line)}
+.pos-order-head .eyebrow{font-size:9px}
+.pos-order-head h2{margin-top:5px}
+.pos-cart-items{flex:1;min-height:120px}
+.pos-cart-item{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:9px;padding:13px 0;border-bottom:1px solid #edf1ee}
+.pos-cart-symbol{width:34px;height:34px;font-size:12px}
+.pos-cart-detail{display:grid;gap:3px;min-width:0}
+.pos-cart-detail b{font-size:11px;overflow-wrap:anywhere}
+.pos-cart-detail small{font-size:9px;color:var(--muted)}
+.pos-cart-detail strong{font-size:11px;color:var(--green)}
+.pos-quantity{display:flex;align-items:center;gap:7px}
+.pos-quantity button{width:25px;height:25px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--green);font-size:15px}
+.pos-quantity b{font-size:11px;min-width:10px;text-align:center}
+.pos-empty-cart{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:180px;color:#74857b}
+.pos-empty-cart>span{font-size:27px;margin-bottom:10px}
+.pos-empty-cart b{font-size:12px;color:#40564a}
+.pos-empty-cart p{max-width:200px;font-size:10px;line-height:1.6;margin:5px 0}
+.pos-order-bottom{margin-top:14px}
+.pos-totals{border-top:1px solid var(--line);padding-top:9px}
+.pos-totals>div{display:flex;align-items:center;justify-content:space-between;padding:7px 0;font-size:11px;color:#607168}
+.pos-totals>div b{color:#273e32}
+.pos-discount-row input{width:100px;border:1px solid var(--line);border-radius:7px;padding:7px;text-align:right;font-size:11px}
+.pos-grand-total{border-top:1px solid var(--line);margin-top:6px;padding:13px 0!important;color:#213a2d!important;font-weight:800;font-size:13px!important}
+.pos-grand-total b{font-size:19px!important;color:var(--green)!important}
+.pos-payment-fields{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.pos-payment-fields .field{margin:9px 0}
+.pos-payment-fields .field:last-child:nth-child(3){grid-column:1/-1}
+.pos-payment-fields .field span{font-size:10px}
+.pos-payment-fields .field select,.pos-payment-fields .field input{padding:9px;font-size:11px}
+.pos-complete-sale{width:100%;display:flex;justify-content:space-between;padding:14px 15px;margin-top:8px;font-size:12px}
+.pos-complete-sale span{font-size:13px}
+.pos-plan-note{text-align:center;color:#9a6a24;font-size:10px;margin-top:10px}
+@media(max-width:1120px){.pos-workspace{grid-template-columns:minmax(0,1fr) 350px}.pos-product-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.pos-workspace{grid-template-columns:1fr}.pos-order{position:static;min-height:0}.pos-product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){
+ .pos-page-heading{align-items:flex-start;flex-direction:column;margin-bottom:15px}
+ .pos-page-heading h1{font-size:24px}
+ .pos-session-chip{font-size:10px}
+ .pos-catalog{padding:14px}
+ .pos-catalog-head h2,.pos-order-head h2{font-size:15px}
+ .pos-product-grid{grid-template-columns:1fr;gap:8px}
+ .pos-product-card{padding:11px}
+ .pos-order{padding:15px}
+ .pos-payment-fields{grid-template-columns:1fr}
+ .pos-payment-fields .field:last-child:nth-child(3){grid-column:auto}
+ .pos-complete-sale{position:sticky;bottom:8px;z-index:5;box-shadow:0 5px 18px #123c3530}
+}
