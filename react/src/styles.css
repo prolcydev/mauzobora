@@ -396,3 +396,65 @@ td,th{padding:13px 12px;font-size:13px}
   .report-document .report-transactions{break-before:auto}
   .report-toolbar,.no-print,.sidebar,.topbar,.app-footer,.assistant-launcher,.assistant-panel{display:none!important}
 }
+
+
+/* Simplified financial reports — restrained, clear and document-like */
+.report-toolbar{align-items:center;margin-bottom:18px}
+.report-toolbar .eyebrow{display:none}
+.report-toolbar h1{font-size:25px;letter-spacing:-.6px;font-weight:700}
+.report-toolbar p{font-size:13px}
+.report-actions .btn,.report-actions .period-select{border-radius:6px;box-shadow:none}
+.report-document{padding:24px;background:#fff;border:1px solid #e4e9e5;border-radius:8px;box-shadow:none;color:#26362d}
+.report-letterhead{padding-bottom:14px;border-bottom:1px solid #e7ece8}
+.report-brand-mark{display:none}
+.report-letterhead>div:first-child{gap:0}
+.report-letterhead b{font-size:15px;letter-spacing:0}
+.report-letterhead small{font-size:9px;letter-spacing:.7px}
+.report-meta{gap:2px}
+.report-meta span{font-size:8px;letter-spacing:.6px}
+.report-meta b{font-size:12px}
+.report-rule{display:none}
+.report-section-heading{margin:18px 0 14px}
+.report-section-heading .eyebrow{display:none}
+.report-section-heading h2{font-size:19px;letter-spacing:-.25px;font-weight:700}
+.report-section-heading p{font-size:10px}
+.report-status{border:0;border-radius:0;padding:0;color:#718078;font-size:8px;letter-spacing:.5px}
+.report-kpi-grid{gap:0;border:1px solid #e7ece8;border-radius:6px;margin-bottom:14px}
+.report-kpi,.report-kpi-primary{padding:12px 14px;border:0;border-right:1px solid #e7ece8;border-radius:0;background:#fff}
+.report-kpi:last-child{border-right:0}
+.report-kpi>span{font-size:10px;font-weight:600}
+.report-kpi>strong{font-size:17px;font-weight:700;letter-spacing:-.2px}
+.report-kpi>small{font-size:9px}
+.report-two-column{gap:12px;margin-bottom:12px}
+.report-card{padding:14px;border:1px solid #e7ece8;border-radius:6px;box-shadow:none}
+.report-card-heading{margin-bottom:10px}
+.report-card-heading h3{font-size:12px;font-weight:700}
+.report-card-heading p{font-size:9px}
+.report-card-heading>b{font-size:11px}
+.report-bars{height:145px;gap:6px}
+.report-bar-column>i{background:#f5f7f5;border-radius:2px}
+.report-bar-column>i>span{background:#547d67;border-radius:2px 2px 0 0}
+.report-ledger-row{padding:8px 0;font-size:10px}
+.report-ledger-row b{font-size:10px;font-weight:600}
+.report-ledger-total{border-top:1px solid #dce4de}
+.report-ledger-total b{font-size:13px}
+.report-micro-metrics>div{background:transparent;border:1px solid #e8ede9;border-radius:4px}
+.report-rank{background:#f5f7f5;border-radius:3px}
+.report-payment-row>i span{background:#547d67}
+.report-transactions{padding:14px}
+.report-transactions th{background:#f7f9f7;color:#68776f;font-weight:700}
+.report-transactions td,.report-transactions th{font-size:9px;padding:9px 8px}
+.report-footer{border-top:1px solid #e7ece8;margin-top:12px;padding-top:10px}
+@media(max-width:760px){
+ .report-document{padding:13px;border-radius:6px}
+ .report-kpi-grid{grid-template-columns:1fr 1fr}
+ .report-kpi,.report-kpi-primary{border-right:1px solid #e7ece8;border-bottom:1px solid #e7ece8;padding:10px}
+ .report-kpi:nth-child(2n){border-right:0}
+ .report-kpi:nth-last-child(-n+2){border-bottom:0}
+ .report-kpi>strong{font-size:15px}
+ .report-section-heading h2{font-size:17px}
+ .report-actions{gap:6px}
+ .report-actions .btn{font-size:11px;padding:9px 10px}
+ .report-letterhead{gap:8px}
+ .report-meta{text-align:right}
+}
