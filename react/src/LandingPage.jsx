@@ -15,7 +15,7 @@ const plans = [
 ];
 
 function Brand() {
-  return <a className="mz-brand" href="/" aria-label="Mauzobora home"><span className="mz-brand-mark">M</span><span className="mz-brand-name">mauzobora<small>SHOP MANAGEMENT</small></span></a>;
+  return <a className="mz-brand" href="/" aria-label="Mauzobora home"><img className="mz-brand-logo" src="/mauzobora-logo.svg" alt="" /><span className="mz-brand-name">mauzobora<small>SHOP MANAGEMENT</small></span></a>;
 }
 
 function ArrowLink({ href = '/app', children }) {
