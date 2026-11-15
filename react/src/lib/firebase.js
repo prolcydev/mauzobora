@@ -10,7 +10,7 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyDtQdHIWjX9xI_IjyAtcWllGo7c2F0cjpo",
-  authDomain: "mauzobora-a1684.firebaseapp.com",
+  authDomain: "auth.mauzobora.co.tz",
   projectId: "mauzobora-a1684",
   storageBucket: "mauzobora-a1684.firebasestorage.app",
   messagingSenderId: "852679949307",
