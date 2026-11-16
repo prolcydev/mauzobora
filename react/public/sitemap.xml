@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://mauzobora.co.tz/</loc>
+    <xhtml:link rel="alternate" hreflang="en-TZ" href="https://mauzobora.co.tz/"/>
+    <xhtml:link rel="alternate" hreflang="sw-TZ" href="https://mauzobora.co.tz/sw/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mauzobora.co.tz/"/>
+  </url>
+  <url>
+    <loc>https://mauzobora.co.tz/sw/</loc>
+    <xhtml:link rel="alternate" hreflang="sw-TZ" href="https://mauzobora.co.tz/sw/"/>
+    <xhtml:link rel="alternate" hreflang="en-TZ" href="https://mauzobora.co.tz/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mauzobora.co.tz/"/>
+  </url>
+</urlset>
