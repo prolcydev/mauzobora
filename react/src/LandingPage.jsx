@@ -37,6 +37,7 @@ export default function LandingPage() {
           <a href="#tools" onClick={closeMenu}>Tools</a>
           <a href="#pricing" onClick={closeMenu}>Pricing</a>
           <a href="#support" onClick={closeMenu}>Support</a>
+          <a href="/blog/" onClick={closeMenu}>Guides</a>
           <a href="/sw/" onClick={closeMenu} lang="sw">Kiswahili</a>
           <a className="mz-nav-login" href="/app" onClick={closeMenu}>Sign in</a>
           <a className="mz-nav-start" href="/app" onClick={closeMenu}>Create account</a>
@@ -98,7 +99,7 @@ export default function LandingPage() {
           <div className="mz-footer-about"><Brand /><p>Sales, inventory and business management in one place.</p></div>
           <div><b>Explore</b><a href="#overview">Overview</a><a href="#tools">Shop tools</a><a href="#pricing">Pricing</a></div>
           <div><b>Account</b><a href="/app">Sign in</a><a href="/app">Create account</a></div>
-          <div><b>Information</b><a href="/terms">Terms and conditions</a><a href="/privacy">Privacy policy</a><a href="mailto:support@mauzobora.co.tz">Email support</a></div>
+          <div><b>Information</b><a href="/blog/">Business guides</a><a href="/terms">Terms and conditions</a><a href="/privacy">Privacy policy</a><a href="mailto:support@mauzobora.co.tz">Email support</a></div>
         </div>
         <div className="mz-footer-bottom"><span>© {new Date().getFullYear()} Mauzobora. All rights reserved.</span><span>Made for businesses in Tanzania</span></div>
       </div>
