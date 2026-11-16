@@ -75,7 +75,7 @@ export default function LandingPage() {
 
       <section className="mz-pricing-section" id="pricing">
         <div className="mz-container">
-          <div className="mz-section-heading"><div><span className="mz-eyebrow">PLANS AND PRICING</span><h2>Simple, clear pricing</h2></div><p>Start with a free account. Choose a paid plan when you are ready to use Mauzobora for your business.</p></div>
+          <div className="mz-section-heading"><div><span className="mz-eyebrow">PLANS AND PRICING</span><h2>Pricing</h2></div><p>Choose the plan that fits your business. All prices are shown in Tanzanian Shillings.</p></div>
           <div className="mz-plans">{plans.map(plan => <article className={plan.featured ? 'mz-plan mz-plan-featured' : 'mz-plan'} key={plan.name}>
             {plan.featured && <span className="mz-plan-label">POPULAR PLAN</span>}
             <h3>{plan.name}</h3><p className="mz-plan-description">{plan.description}</p>
