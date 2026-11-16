@@ -74,3 +74,9 @@
 .mz-dashboard-caption>a i{font-size:9px;margin-left:5px}
 @media(max-width:900px){.mz-dashboard-window{border-radius:9px}.mz-dashboard-caption{font-size:10px}}
 @media(max-width:650px){.mz-dashboard-showcase{width:100%}.mz-dashboard-window-bar{height:32px;padding:0 10px;gap:9px}.mz-window-address{font-size:8px}.mz-dashboard-caption{padding-top:10px;font-size:10px}}
+
+
+/* Landing hero: use the uploaded original high-resolution campaign image */
+.mz-dashboard-showcase{min-width:0;width:100%;position:relative}
+.mz-hero-image{display:block;width:100%;height:auto;max-width:100%;object-fit:contain;border:1px solid #e1e9e4;border-radius:10px;box-shadow:0 18px 42px rgba(16,40,61,.12)}
+@media(max-width:650px){.mz-hero-image{border-radius:7px;box-shadow:0 10px 24px rgba(16,40,61,.1)}}
