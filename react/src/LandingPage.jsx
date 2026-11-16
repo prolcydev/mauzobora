@@ -56,7 +56,10 @@ export default function LandingPage() {
               <div className="mz-assurance"><i className="fa-solid fa-circle-check" /> Create an account and preview your dashboard for free.</div>
             </div>
             <aside className="mz-dashboard-showcase" aria-label="Mauzobora shop management">
-              <img className="mz-hero-image" src="/mauzobora-hero.png" alt="Shop owners using Mauzobora shop management on a laptop in their store" fetchPriority="high" />
+              <picture>
+                <source media="(max-width: 650px)" srcSet="/mauzobora-hero-mobile.webp" type="image/webp" />
+                <img className="mz-hero-image" src="/mauzobora-hero.webp" alt="Shop owners using Mauzobora shop management on a laptop in their store" fetchPriority="high" decoding="async" />
+              </picture>
             </aside>
           </div>
         </div>
