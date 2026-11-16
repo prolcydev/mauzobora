@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   createUserWithEmailAndPassword, GoogleAuthProvider, sendPasswordResetEmail,
-  signInWithEmailAndPassword, signInWithRedirect, signOut, updateProfile
+  signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile
 } from 'firebase/auth';
 import { auth } from './lib/firebase.js';
 import { subscriptionRequest, emptyShop } from './lib/shopData.js';
@@ -83,7 +83,7 @@ function AuthScreen() {
   const [mode,setMode]=useState('in'),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[business,setBusiness]=useState(''),[consent,setConsent]=useState(false),[busy,setBusy]=useState(false),[googleBusy,setGoogleBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState(''),[showPassword,setShowPassword]=useState(false);
   const friendly = e => ({'auth/invalid-credential':'Email or password is incorrect.','auth/email-already-in-use':'An account already exists with this email. Sign in instead.','auth/weak-password':'Use a password with at least 6 characters.','auth/invalid-email':'Enter a valid email address.','auth/too-many-requests':'Too many attempts. Please wait and try again.','auth/unauthorized-domain':'Add this website to Firebase Authentication authorized domains.','auth/popup-closed-by-user':'Google sign-in was cancelled.'}[e.code]||e.message||'Something went wrong. Please try again.');
   async function submit(e){e.preventDefault();setError('');setNotice('');if(mode==='up'&&!consent){setError('Please accept the Terms and Conditions and acknowledge the Privacy Policy.');return}setBusy(true);try{if(mode==='in')await signInWithEmailAndPassword(auth,email.trim(),password);else{if(!business.trim())throw new Error('Enter your business name.');const result=await createUserWithEmailAndPassword(auth,email.trim(),password);await updateProfile(result.user,{displayName:business.trim()});}}catch(e){setError(friendly(e))}finally{setBusy(false)}}
-  async function google(){setError('');setNotice('');if(mode==='up'&&!consent){setError('Please accept the Terms and Conditions and acknowledge the Privacy Policy.');return}setBusy(true);setGoogleBusy(true);try{const provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:'select_account'});await signInWithRedirect(auth,provider)}catch(e){setError(friendly(e));setGoogleBusy(false);setBusy(false)}}
+  async function google(){setError('');setNotice('');if(mode==='up'&&!consent){setError('Please accept the Terms and Conditions and acknowledge the Privacy Policy.');return}setBusy(true);setGoogleBusy(true);try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){setError(friendly(e))}finally{setGoogleBusy(false);setBusy(false)}}
   async function reset(){if(!email.trim()){setError('Enter your email address first.');return}try{await sendPasswordResetEmail(auth,email.trim());setNotice('Password reset instructions have been sent to your email.');setError('')}catch(e){setError(friendly(e))}}
   return <main className="auth-layout">
     <section className="auth-story">
@@ -133,6 +133,7 @@ function AuthScreen() {
       </form>
       <div className="auth-panel-footer"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="tel:+255621658007">Need help? Contact support</a></div>
     </section>
+    {googleBusy&&<div className="google-connect-screen" role="status" aria-live="polite"><div className="google-connect-flow"><img src="/mauzobora-logo.svg" alt="Mauzobora" className="google-connect-logo"/><span className="google-connect-spinner" aria-hidden="true"/><svg className="google-connect-g" viewBox="0 0 48 48" aria-label="Google"><path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.7c3.9-3.6 6-8.8 6-15Z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.7-5.1c-1.8 1.2-4 1.9-6.8 1.9-5.2 0-9.7-3.5-11.3-8.2H5.8v5.2A20 20 0 0 0 24 44Z"/><path fill="#FBBC05" d="M12.7 27.7a12 12 0 0 1 0-7.4v-5.2H5.8a20 20 0 0 0 0 17.8l6.9-5.2Z"/><path fill="#EA4335" d="M24 12.1c3 0 5.7 1 7.8 3l5.8-5.8A19.4 19.4 0 0 0 24 4 20 20 0 0 0 5.8 15.1l6.9 5.2c1.6-4.7 6.1-8.2 11.3-8.2Z"/></svg></div><p>Connecting to Google</p></div>}
   </main>;
 }
 
