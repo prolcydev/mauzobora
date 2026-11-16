@@ -37,6 +37,7 @@ export default function LandingPage() {
           <a href="#tools" onClick={closeMenu}>Tools</a>
           <a href="#pricing" onClick={closeMenu}>Pricing</a>
           <a href="#support" onClick={closeMenu}>Support</a>
+          <a href="/sw/" onClick={closeMenu} lang="sw">Kiswahili</a>
           <a className="mz-nav-login" href="/app" onClick={closeMenu}>Sign in</a>
           <a className="mz-nav-start" href="/app" onClick={closeMenu}>Create account</a>
         </nav>
