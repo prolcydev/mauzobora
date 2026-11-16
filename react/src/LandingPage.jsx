@@ -55,12 +55,12 @@ export default function LandingPage() {
               <div className="mz-hero-actions"><a className="mz-primary-button" href="/app">Get started <i className="fa-solid fa-arrow-right" /></a><a className="mz-text-link" href="#tools">Explore features</a></div>
               <div className="mz-assurance"><i className="fa-solid fa-circle-check" /> Create an account and preview your dashboard for free.</div>
             </div>
-            <aside className="mz-quick-panel" aria-label="Quick access">
-              <div className="mz-panel-heading"><span>QUICK ACCESS</span><h2>What would you like to do?</h2></div>
-              <a href="/app"><span className="mz-quick-icon"><i className="fa-solid fa-cart-shopping" /></span><span><b>Open your workspace</b><small>Go to your shop dashboard</small></span><i className="fa-solid fa-arrow-up-right-from-square mz-quick-arrow" /></a>
-              <a href="#tools"><span className="mz-quick-icon"><i className="fa-solid fa-list-check" /></span><span><b>Explore shop tools</b><small>See what you can manage</small></span><i className="fa-solid fa-chevron-right mz-quick-arrow" /></a>
-              <a href="#pricing"><span className="mz-quick-icon"><i className="fa-solid fa-tags" /></span><span><b>View plans and pricing</b><small>Find the right plan for your shop</small></span><i className="fa-solid fa-chevron-right mz-quick-arrow" /></a>
-              <a href="https://wa.me/255621658007" target="_blank" rel="noreferrer"><span className="mz-quick-icon"><i className="fa-regular fa-circle-question" /></span><span><b>Get help</b><small>Talk to our support team</small></span><i className="fa-solid fa-arrow-up-right-from-square mz-quick-arrow" /></a>
+            <aside className="mz-dashboard-showcase" aria-label="Mauzobora dashboard preview">
+              <div className="mz-dashboard-window">
+                <div className="mz-dashboard-window-bar"><span className="mz-window-dots"><i /><i /><i /></span><span className="mz-window-address">mauzobora.co.tz/app</span><span className="mz-window-status"><i className="fa-solid fa-lock" /> Secure</span></div>
+                <img src="/mauzobora-dashboard-preview.webp" alt="Actual Mauzobora shop management dashboard showing sales, revenue, profit and stock overview" loading="eager" />
+              </div>
+              <div className="mz-dashboard-caption"><span><i className="fa-solid fa-circle-check" /> Your shop, clearly organised</span><a href="/app">Open dashboard <i className="fa-solid fa-arrow-up-right-from-square" /></a></div>
             </aside>
           </div>
         </div>
