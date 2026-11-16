@@ -55,12 +55,8 @@ export default function LandingPage() {
               <div className="mz-hero-actions"><a className="mz-primary-button" href="/app">Get started <i className="fa-solid fa-arrow-right" /></a><a className="mz-text-link" href="#tools">Explore features</a></div>
               <div className="mz-assurance"><i className="fa-solid fa-circle-check" /> Create an account and preview your dashboard for free.</div>
             </div>
-            <aside className="mz-dashboard-showcase" aria-label="Mauzobora dashboard preview">
-              <div className="mz-dashboard-window">
-                <div className="mz-dashboard-window-bar"><span className="mz-window-dots"><i /><i /><i /></span><span className="mz-window-address">mauzobora.co.tz/app</span><span className="mz-window-status"><i className="fa-solid fa-lock" /> Secure</span></div>
-                <img src="/mauzobora-dashboard-preview.webp" alt="Actual Mauzobora shop management dashboard showing sales, revenue, profit and stock overview" loading="eager" />
-              </div>
-              <div className="mz-dashboard-caption"><span><i className="fa-solid fa-circle-check" /> Your shop, clearly organised</span><a href="/app">Open dashboard <i className="fa-solid fa-arrow-up-right-from-square" /></a></div>
+            <aside className="mz-dashboard-showcase" aria-label="Mauzobora shop management">
+              <img className="mz-hero-image" src="/mauzobora-hero.png" alt="Shop owners using Mauzobora shop management on a laptop in their store" fetchPriority="high" />
             </aside>
           </div>
         </div>
