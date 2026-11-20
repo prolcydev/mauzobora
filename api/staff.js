@@ -53,6 +53,9 @@ export default async function handler(req,res){
    return res.json({success:true,staff:snap.docs.map(d=>({id:d.id,...d.data()})),invites:invites.docs.map(d=>({id:d.id,email:d.data().email,role:d.data().role,expiresAtMs:d.data().expiresAtMs}))});
   }
   if(action==="invite"){
+   const planSnap=await adminDb.doc("subscriptions/"+user.uid).get();
+   const plan=planSnap.exists?planSnap.data():{};
+   if(plan.status!=="active"||Number(plan.expiresAtMs)<=Date.now())return res.status(403).json({success:false,message:"Activate a paid Mauzobora plan before inviting staff."});
    const email=String(body.email||"").trim().toLowerCase(),role=String(body.role||"cashier");
    if(!/^\\S+@\\S+\\.\\S+$/.test(email))return res.status(400).json({success:false,message:"Enter a valid staff email address."});
    if(!ROLES[role])return res.status(400).json({success:false,message:"Choose a valid staff role."});
