@@ -53,7 +53,7 @@ export async function saveShopData(uid, data, previous = null) {
     const current = new Map((data[name] || []).map(item => [String(item.id), item]));
     const old = new Map((previous?.[name] || []).map(item => [String(item.id), item]));
     for (const [id, item] of current) {
-      operations.push({ type: 'set', ref: doc(db, 'users', uid, name, id), value: item });
+      if (JSON.stringify(item) !== JSON.stringify(old.get(id))) operations.push({ type: 'set', ref: doc(db, 'users', uid, name, id), value: item });
     }
     for (const id of old.keys()) {
       if (!current.has(id)) operations.push({ type: 'delete', ref: doc(db, 'users', uid, name, id) });
@@ -61,11 +61,7 @@ export async function saveShopData(uid, data, previous = null) {
   }
 
   const metaRef = doc(db, 'users', uid, 'data', 'meta');
-  operations.push({
-    type: 'set',
-    ref: metaRef,
-    value: { set: data.set, next: data.next }
-  });
+  if (!previous || JSON.stringify({ set: data.set, next: data.next }) !== JSON.stringify({ set: previous.set, next: previous.next })) operations.push({ type: 'set', ref: metaRef, value: { set: data.set, next: data.next } });
 
   for (let offset = 0; offset < operations.length; offset += 400) {
     const batch = writeBatch(db);
