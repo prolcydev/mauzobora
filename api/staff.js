@@ -9,7 +9,7 @@ const ROLES = {
 };
 const VALID = new Set(["overview","pos","products","customers","sales","expenses","reports"]);
 async function verifiedUser(req,res) {
-  const token=String(req.headers.authorization||"").replace(/^Bearer\\s+/i,"");
+  const token=String(req.headers.authorization||"").replace(/^Bearer\s+/i,"");
   if(!token){res.status(401).json({success:false,message:"Please sign in again."});return null;}
   try{return await adminAuth.verifyIdToken(token);}catch{res.status(401).json({success:false,message:"Your session has expired. Please sign in again."});return null;}
 }
