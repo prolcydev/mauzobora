@@ -1,32 +1,59 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function signedInAs(uid) {
-      return request.auth != null && request.auth.uid == uid;
+    function signedIn() { return request.auth != null; }
+    function owner(uid) { return signedIn() && request.auth.uid == uid; }
+    function paidOwner(uid) {
+      let path = /databases/$(database)/documents/subscriptions/$(uid);
+      return owner(uid) && exists(path)
+        && get(path).data.status == "active"
+        && get(path).data.plan in ["basic", "premium", "ultra", "duka", "biashara"]
+        && get(path).data.expiresAt is timestamp
+        && get(path).data.expiresAt > request.time;
     }
-
-    function hasActivePaidPlan(uid) {
-      let subscriptionPath = /databases/$(database)/documents/subscriptions/$(uid);
-      return signedInAs(uid)
-        && exists(subscriptionPath)
-        && get(subscriptionPath).data.status == "active"
-        && get(subscriptionPath).data.plan in ["basic", "premium", "ultra", "duka", "biashara"]
-        && get(subscriptionPath).data.expiresAt is timestamp
-        && get(subscriptionPath).data.expiresAt > request.time;
+    function member(uid) {
+      let path = /databases/$(database)/documents/businesses/$(uid)/members/$(request.auth.uid);
+      return signedIn() && exists(path) && get(path).data.status == "active";
     }
+    function allowed(uid, permission) {
+      return member(uid) && permission in get(/databases/$(database)/documents/businesses/$(uid)/members/$(request.auth.uid)).data.permissions;
+    }
+    function canRead(uid, permission) { return owner(uid) || allowed(uid, permission); }
+    function canWrite(uid, permission) { return paidOwner(uid) || (allowed(uid, permission) && paidOwner(uid)); }
 
-    // Users can view their own subscription status, but only the trusted
-    // server-side payment API can create or update subscription records.
     match /subscriptions/{uid} {
-      allow read: if signedInAs(uid);
+      allow read: if owner(uid);
       allow create, update, delete: if false;
     }
-
-    // Signed-in users may open and view their own dashboard before activation.
-    // Creating, editing or deleting shop records requires a verified paid plan.
-    match /users/{uid}/{document=**} {
-      allow read: if signedInAs(uid);
-      allow create, update, delete: if hasActivePaidPlan(uid);
+    // Shop records remain in their original owner-scoped paths. Staff access is
+    // granted through server-managed business membership and per-module rights.
+    match /users/{uid}/products/{doc} {
+      allow read: if canRead(uid, "products");
+      allow create, update, delete: if canWrite(uid, "products");
     }
+    match /users/{uid}/customers/{doc} {
+      allow read: if canRead(uid, "customers");
+      allow create, update, delete: if canWrite(uid, "customers");
+    }
+    match /users/{uid}/sales/{doc} {
+      allow read: if canRead(uid, "sales");
+      allow create, update, delete: if canWrite(uid, "sales");
+    }
+    match /users/{uid}/expenses/{doc} {
+      allow read: if canRead(uid, "expenses");
+      allow create, update, delete: if canWrite(uid, "expenses");
+    }
+    match /users/{uid}/data/{doc} {
+      allow read: if canRead(uid, "overview");
+      allow create, update, delete: if canWrite(uid, "overview");
+    }
+    // Membership and invitation records are written only by the trusted API.
+    match /businesses/{uid}/members/{memberUid} {
+      allow read, write: if false;
+    }
+    match /staffInvites/{token} {
+      allow read, write: if false;
+    }
+    match /{document=**} { allow read, write: if false; }
   }
 }
