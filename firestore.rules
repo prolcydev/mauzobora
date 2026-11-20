@@ -27,15 +27,15 @@ service cloud.firestore {
     }
     match /users/{uid}/products/{doc} {
       allow read: if canRead(uid, "products") || allowed(uid, "pos");
-      allow create, update, delete: if canWrite(uid, "products");
+      allow create, update, delete: if canWrite(uid, "products") || canWrite(uid, "pos");
     }
     match /users/{uid}/customers/{doc} {
       allow read: if canRead(uid, "customers") || allowed(uid, "pos");
-      allow create, update, delete: if canWrite(uid, "customers");
+      allow create, update, delete: if canWrite(uid, "customers") || canWrite(uid, "pos");
     }
     match /users/{uid}/sales/{doc} {
       allow read: if canRead(uid, "sales") || allowed(uid, "pos");
-      allow create, update, delete: if canWrite(uid, "sales");
+      allow create, update, delete: if canWrite(uid, "sales") || canWrite(uid, "pos");
     }
     match /users/{uid}/expenses/{doc} {
       allow read: if canRead(uid, "expenses");
