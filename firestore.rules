@@ -27,11 +27,15 @@ service cloud.firestore {
     }
     match /users/{uid}/products/{doc} {
       allow read: if canRead(uid, "products") || allowed(uid, "pos");
-      allow create, update, delete: if canWrite(uid, "products") || canWrite(uid, "pos");
+      allow create, delete: if canWrite(uid, "products");
+      allow update: if canWrite(uid, "products")
+        || (canWrite(uid, "pos") && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["stock"]));
     }
     match /users/{uid}/customers/{doc} {
       allow read: if canRead(uid, "customers") || allowed(uid, "pos");
-      allow create, update, delete: if canWrite(uid, "customers") || canWrite(uid, "pos");
+      allow create, delete: if canWrite(uid, "customers");
+      allow update: if canWrite(uid, "customers")
+        || (canWrite(uid, "pos") && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["bal"]));
     }
     match /users/{uid}/sales/{doc} {
       allow read: if canRead(uid, "sales") || allowed(uid, "pos");
@@ -43,7 +47,9 @@ service cloud.firestore {
     }
     match /users/{uid}/data/{doc} {
       allow read: if canRead(uid, "overview") || allowed(uid, "pos");
-      allow create, update, delete: if canWrite(uid, "overview") || canWrite(uid, "pos");
+      allow create, delete: if canWrite(uid, "overview");
+      allow update: if canWrite(uid, "overview")
+        || (canWrite(uid, "pos") && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["next"]));
     }
     match /businesses/{uid}/members/{memberUid} { allow read, write: if false; }
     match /staffInvites/{token} { allow read, write: if false; }
