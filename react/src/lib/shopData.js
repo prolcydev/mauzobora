@@ -17,7 +17,7 @@ export async function loadShopData(uid, displayName = 'My Shop', permissions = [
   const userDoc = (...parts) => doc(db, 'users', uid, ...parts);
   const [meta, ...snapshots] = await Promise.all([
     getDoc(userDoc('data', 'meta')),
-    ...COLLECTIONS.map(name => permissions.includes(name) || permissions.includes('pos') ? getDocs(collection(db, 'users', uid, name)) : Promise.resolve(null))
+    ...COLLECTIONS.map(name => (permissions.includes(name) || (permissions.includes('pos') && ['products','customers','sales'].includes(name))) ? getDocs(collection(db, 'users', uid, name)) : Promise.resolve(null))
   ]);
 
   let data;
