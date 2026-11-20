@@ -17,7 +17,7 @@ const memberRef=(owner,uid)=>adminDb.doc(`businesses/${owner}/members/${uid}`);
 const inviteRef=token=>adminDb.doc("staffInvites/"+token);
 async function ownerFor(uid) {
   const snap=await adminDb.collectionGroup("members").where("uid","==",uid).limit(1).get();
-  if(!snap.empty){const member=snap.docs[0];if(member.data().status==="active")return {ownerUid:member.ref.parent.parent.id,member:member.data()};}
+  if(!snap.empty){const member=snap.docs[0];return {ownerUid:member.ref.parent.parent.id,member:member.data()};}
   return {ownerUid:uid,member:{role:"owner",permissions:[...VALID],status:"active"}};
 }
 export default async function handler(req,res){
