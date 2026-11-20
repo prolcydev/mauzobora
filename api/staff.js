@@ -27,7 +27,8 @@ export default async function handler(req,res){
   const body=req.body||{},action=body.action;
   if(action==="context"){
    const ctx=await ownerFor(user.uid);
-   return res.json({success:true,...ctx});
+   const subSnap=await adminDb.doc("subscriptions/"+ctx.ownerUid).get();
+   return res.json({success:true,...ctx,subscription:subSnap.exists?subSnap.data():null});
   }
   if(action==="accept"){
    const token=String(body.token||"").trim();
