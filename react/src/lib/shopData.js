@@ -13,18 +13,18 @@ const emptyShop = name => ({
   expenses: []
 });
 
-export async function loadShopData(uid, displayName = 'My Shop') {
+export async function loadShopData(uid, displayName = 'My Shop', permissions = ['overview','products','customers','sales','expenses']) {
   const userDoc = (...parts) => doc(db, 'users', uid, ...parts);
   const [meta, ...snapshots] = await Promise.all([
     getDoc(userDoc('data', 'meta')),
-    ...COLLECTIONS.map(name => getDocs(collection(db, 'users', uid, name)))
+    ...COLLECTIONS.map(name => permissions.includes(name) || permissions.includes('pos') ? getDocs(collection(db, 'users', uid, name)) : Promise.resolve(null))
   ]);
 
   let data;
   if (meta.exists()) {
     data = { ...meta.data() };
     COLLECTIONS.forEach((name, index) => {
-      data[name] = snapshots[index].docs.map(item => item.data());
+      data[name] = snapshots[index]?.docs.map(item => item.data()) || [];
     });
   } else {
     const [main, oldSales] = await Promise.all([
@@ -99,3 +99,10 @@ export async function subscriptionRequest(idToken, payload) {
 }
 
 export { emptyShop };
+
+export async function staffRequest(idToken, payload) {
+  const response = await fetch('/api/staff', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + idToken }, body: JSON.stringify(payload) });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || result.success === false) throw new Error(result.message || 'The staff request could not be completed.');
+  return result;
+}
