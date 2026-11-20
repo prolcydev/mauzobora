@@ -3,9 +3,9 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
     function owner(uid) { return signedIn() && request.auth.uid == uid; }
-    function paidOwner(uid) {
+    function activePaid(uid) {
       let path = /databases/$(database)/documents/subscriptions/$(uid);
-      return owner(uid) && exists(path)
+      return exists(path)
         && get(path).data.status == "active"
         && get(path).data.plan in ["basic", "premium", "ultra", "duka", "biashara"]
         && get(path).data.expiresAt is timestamp
@@ -19,24 +19,22 @@ service cloud.firestore {
       return member(uid) && permission in get(/databases/$(database)/documents/businesses/$(uid)/members/$(request.auth.uid)).data.permissions;
     }
     function canRead(uid, permission) { return owner(uid) || allowed(uid, permission); }
-    function canWrite(uid, permission) { return paidOwner(uid) || (allowed(uid, permission) && paidOwner(uid)); }
+    function canWrite(uid, permission) { return (owner(uid) || allowed(uid, permission)) && activePaid(uid); }
 
     match /subscriptions/{uid} {
       allow read: if owner(uid);
       allow create, update, delete: if false;
     }
-    // Shop records remain in their original owner-scoped paths. Staff access is
-    // granted through server-managed business membership and per-module rights.
     match /users/{uid}/products/{doc} {
-      allow read: if canRead(uid, "products");
+      allow read: if canRead(uid, "products") || allowed(uid, "pos");
       allow create, update, delete: if canWrite(uid, "products");
     }
     match /users/{uid}/customers/{doc} {
-      allow read: if canRead(uid, "customers");
+      allow read: if canRead(uid, "customers") || allowed(uid, "pos");
       allow create, update, delete: if canWrite(uid, "customers");
     }
     match /users/{uid}/sales/{doc} {
-      allow read: if canRead(uid, "sales");
+      allow read: if canRead(uid, "sales") || allowed(uid, "pos");
       allow create, update, delete: if canWrite(uid, "sales");
     }
     match /users/{uid}/expenses/{doc} {
@@ -44,16 +42,11 @@ service cloud.firestore {
       allow create, update, delete: if canWrite(uid, "expenses");
     }
     match /users/{uid}/data/{doc} {
-      allow read: if canRead(uid, "overview");
-      allow create, update, delete: if canWrite(uid, "overview");
+      allow read: if canRead(uid, "overview") || allowed(uid, "pos");
+      allow create, update, delete: if canWrite(uid, "overview") || canWrite(uid, "pos");
     }
-    // Membership and invitation records are written only by the trusted API.
-    match /businesses/{uid}/members/{memberUid} {
-      allow read, write: if false;
-    }
-    match /staffInvites/{token} {
-      allow read, write: if false;
-    }
+    match /businesses/{uid}/members/{memberUid} { allow read, write: if false; }
+    match /staffInvites/{token} { allow read, write: if false; }
     match /{document=**} { allow read, write: if false; }
   }
 }
